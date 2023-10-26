@@ -1,68 +1,103 @@
 <template>
+
   <div class="holly-main">
-    <div id="static" class="common-container">
-      <div class="banner lite">
-        <section class="section">
-          <!-- title -->
-          <div class="banner-title">
-            <h1 class="banner-title-text">视觉可解释与人机交互平台</h1>
-            <div class="alink-grounp alink-grounp-center">
-              <el-button type="primary"
-                         style="margin-left: 0px; width: 128px; height: 45px; letter-spacing: 1px; font-size: 18px; font-weight: 500;"
-                         @click="handleClickJump('task')" plain>立即体验</el-button>
-              <a href=""
-                 target="_blank">
-                <el-button type="success"
-                           style="margin-left: 20px; width: 128px; height: 45px; letter-spacing: 1px; font-size: 18px; font-weight: 500;" plain>使用文档</el-button>
-              </a>
-            </div>
-          </div>
-          <!-- banner -->
-<!--          <div class="banner-main">-->
-            <!-- swiper -->
-            <div class="banner-main-swiper">
-              <div class="swiper-container">
-                <el-carousel height="350px" type="card">
-                  <el-carousel-item>
-                    <img src="./assets/dataset.jpg"
-                         style="height:100%;width:100%;"
-                         alt="上传数据集"
-                         title="上传数据集" />
-                  </el-carousel-item>
-                  <el-carousel-item>
-                    <img src="./assets/task.jpg"
-                         style="height:100%;width:100%;"
-                         alt="创建任务"
-                         title="创建任务" />
-                  </el-carousel-item>
-                  <el-carousel-item>
-                    <img src="./assets/train.jpg"
-                         style="height:100%;width:100%;"
-                         alt="训练"
-                         title="训练" />
-                  </el-carousel-item>
-                  <el-carousel-item>
-                    <img src="./assets/generate.jpg"
-                         style="height:100%;width:100%;"
-                         alt="本地部署"
-                         title="本地部署" />
-                  </el-carousel-item>
-                </el-carousel>
-              </div>
-            </div>
-<!--          </div>-->
-        </section>
+    <router-view></router-view>
+    <div class="video-container">
+<!--      <div>-->
+<!--        <h2>分类视频页</h2>-->
+<!--        <p>接收的参数: {{ $route.params.category }}</p>-->
+<!--      </div>-->
+      <div v-for="(video, index) in videos" :key="index" @click="clickvideo" class="video-item">
+        <router-link :to="`/videopage/${video.id}`">
+          <video :src="video.src" controls width="300" height="480"></video>
+        </router-link>
       </div>
     </div>
-    <div class="holly">
-      <div class="section-title_container">
-        <div class="section-title">数据选择式入口</div>
-      </div>
-      <div id="tree-container"></div>
-    </div>
+    <!--    <div class="video-grid">-->
+    <!--      <div v-for="(video, index) in videos" :key="index" @click="toggleFullscreen" class="video-container">-->
+    <!--        <video controls width="300" height="200">-->
+    <!--          <source :src="video.src" :type="video.type">-->
+    <!--        </video>-->
+    <!--      </div>-->
+    <!--    </div>-->
+    <!--    <div id="static" class="common-container">-->
+    <!--      <div class="banner lite">-->
+    <!--        <section class="section">-->
+    <!--          &lt;!&ndash; title &ndash;&gt;-->
+    <!--          <div class="banner-title">-->
+    <!--            <h1 class="banner-title-text">视觉可解释与人机交互平台</h1>-->
+    <!--            <div class="alink-grounp alink-grounp-center">-->
+    <!--              <el-button type="primary"-->
+    <!--                         style="margin-left: 0px; width: 128px; height: 45px; letter-spacing: 1px; font-size: 18px; font-weight: 500;"-->
+    <!--                         @click="handleClickJump('task')" plain>立即体验</el-button>-->
+    <!--              <a href=""-->
+    <!--                 target="_blank">-->
+    <!--                <el-button type="success"-->
+    <!--                           style="margin-left: 20px; width: 128px; height: 45px; letter-spacing: 1px; font-size: 18px; font-weight: 500;" plain>使用文档</el-button>-->
+    <!--              </a>-->
+    <!--            </div>-->
+    <!--          </div>-->
+    <!--          &lt;!&ndash; banner &ndash;&gt;-->
+    <!--&lt;!&ndash;          <div class="banner-main">&ndash;&gt;-->
+    <!--            &lt;!&ndash; swiper &ndash;&gt;-->
+    <!--            <div class="banner-main-swiper">-->
+    <!--              <div class="swiper-container">-->
+    <!--                <el-carousel height="350px" type="card">-->
+    <!--                  <el-carousel-item>-->
+    <!--                    <img src="./assets/dataset.jpg"-->
+    <!--                         style="height:100%;width:100%;"-->
+    <!--                         alt="上传数据集"-->
+    <!--                         title="上传数据集" />-->
+    <!--                  </el-carousel-item>-->
+    <!--                  <el-carousel-item>-->
+    <!--                    <img src="./assets/task.jpg"-->
+    <!--                         style="height:100%;width:100%;"-->
+    <!--                         alt="创建任务"-->
+    <!--                         title="创建任务" />-->
+    <!--                  </el-carousel-item>-->
+    <!--                  <el-carousel-item>-->
+    <!--                    <img src="./assets/train.jpg"-->
+    <!--                         style="height:100%;width:100%;"-->
+    <!--                         alt="训练"-->
+    <!--                         title="训练" />-->
+    <!--                  </el-carousel-item>-->
+    <!--                  <el-carousel-item>-->
+    <!--                    <img src="./assets/generate.jpg"-->
+    <!--                         style="height:100%;width:100%;"-->
+    <!--                         alt="本地部署"-->
+    <!--                         title="本地部署" />-->
+    <!--                  </el-carousel-item>-->
+    <!--                </el-carousel>-->
+    <!--              </div>-->
+    <!--            </div>-->
+    <!--&lt;!&ndash;          </div>&ndash;&gt;-->
+    <!--        </section>-->
+    <!--      </div>-->
+    <!--    </div>-->
+    <!--    <div class="holly">-->
+    <!--      <div class="section-title_container">-->
+    <!--        <div class="section-title">数据选择式入口</div>-->
+    <!--      </div>-->
+    <!--      <div id="tree-container"></div>-->
+    <!--    </div>-->
   </div>
 </template>
 
+<style scoped>
+.video-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between; /* 水平排列，四列 */
+  border-radius: 10px;
+  /*margin: 0px; !* 为了填充每个video-item之间的空间，-8px 是 margin 的负值 *!*/
+}
+
+.video-item {
+  flex: 0 1 calc(25%); /* 四个一行，每个占 25% 的宽度，16px 是 margin 的值 */
+  /*margin: 0px;*/
+  border-radius: 10px;
+}
+</style>
 <script setup>
 
 // import $ from 'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js'
@@ -74,7 +109,20 @@ import { useRouter } from 'vue-router'
 
 const router = useRouter()
 import '@fortawesome/fontawesome-free/css/all.css'
-
+const videos = [
+  { id: 1, src: require('../../assets/WeChat_20231025161539.mp4'), type: 'video/mp4' },
+  { id: 2, src: require('../../assets/WeChat_20231025161539.mp4'), type: 'video/mp4' },
+  { id: 3, src: require('../../assets/WeChat_20231025161539.mp4'), type: 'video/mp4' },
+  { id: 4, src: require('../../assets/WeChat_20231025161539.mp4'), type: 'video/mp4' },
+  { id: 5, src: require('../../assets/WeChat_20231025161539.mp4'), type: 'video/mp4' },
+  { id: 6, src: require('../../assets/WeChat_20231025161539.mp4'), type: 'video/mp4' },
+  // 添加更多视频数据...
+];
+const activeMenu = ref('/');
+const clickvideo = (index) => {
+  activeMenu.value = index;
+  router.push(index);
+};
 var nodes;
 var dragStarted;
 var domNode;
@@ -371,7 +419,7 @@ onMounted(() => {
       .attr("width", 1250)
       .attr("height", viewerHeight)
       .attr("class", "overlay")
-      // .call(zoomListener)
+  // .call(zoomListener)
 //
 //   // 添加提示信息
 //   baseSvg.append("text")
@@ -1016,7 +1064,7 @@ onMounted(() => {
           return "translate(" + source.y0 + "," + source.x0 + ")";
         })
         .on('click', contextmenu)
-        // .on('contextmenu', contextmenu);
+    // .on('contextmenu', contextmenu);
     // .on('dblclick', dblclick);
 
     // console.log("nodeEnter",nodeEnter)
@@ -1066,7 +1114,7 @@ onMounted(() => {
         .style("fill-opacity", 0)
         .style("font-size", "16px")
         .style("fill", "black");
-        // .style("color", "black");
+    // .style("color", "black");
 
     // phantom node to give us mouseover in a radius around it
     nodeEnter.append("circle")
@@ -1705,8 +1753,8 @@ html {
   width: 100%;
   /* min-width: 1200px; */
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, Helvetica, Arial,
-    sans-serif;
+  Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, Helvetica, Arial,
+  sans-serif;
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -1870,8 +1918,8 @@ ul {
 }
 
 .ai-home-section-industry
-  .ai-layout-b-item:not(:last-child):hover
-  .ai-layout-b-item-title {
+.ai-layout-b-item:not(:last-child):hover
+.ai-layout-b-item-title {
   font-weight: 700;
   /* color: #1a73e8; */
 }

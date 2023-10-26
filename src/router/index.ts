@@ -1,5 +1,7 @@
 import {createRouter,createWebHashHistory }from 'vue-router'
 import homepage from '@/pages/homepage/App.vue'
+import details from '@/pages/homepage/details.vue'
+import videopage from '@/pages/homepage/videopage.vue'
 import history from '@/pages/history/App.vue'
 import docDescription from '@/pages/doc/docDescription.vue'
 import damModel from '@/pages/dam3d/damModel.vue'
@@ -25,11 +27,23 @@ import Cookies from "js-cookie";
 const routes = [
     {
         path: '/',
-        redirect: 'homepage'
+        redirect: '/homepage'
     },
     {
         path: '/homepage',
         component: homepage
+    },
+    {
+        path: '/homepage/:category',
+        component: homepage
+    },
+    {
+        path: '/details/:id',
+        component: details
+    },
+    {
+        path: '/videopage/:videoid',
+        component: videopage
     },
     {
         path: '/history',
@@ -137,20 +151,20 @@ const router1 = createRouter({
 
 // 导航守卫
 // 使用 router.beforeEach 注册一个全局前置守卫，判断用户是否登陆
-router1.beforeEach(
-    (to, from, next) => {
-        if (to.path === '/signin') {
-            next();
-        } else {
-            const token = Cookies.get('userTicket')
-            console.log("-> token", token);
-            if (token === undefined || token === '' || token === null) {
-                next('/signin');
-            } else {
-                next();
-            }
-        }
-    });
+// router1.beforeEach(
+//     (to, from, next) => {
+//         if (to.path === '/homepage') {
+//             next();
+//         } else {
+//             const token = Cookies.get('userTicket')
+//             console.log("-> token", token);
+//             if (token === undefined || token === '' || token === null) {
+//                 next('/signin');
+//             } else {
+//                 next();
+//             }
+//         }
+//     });
 export const router = router1;
 
 
