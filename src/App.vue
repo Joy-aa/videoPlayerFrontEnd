@@ -1,4 +1,4 @@
-<template>
+<template xmlns:el-row="http://www.w3.org/1999/html">
   <div class="common-layout" style="background-color: #2c3e50">
     <el-container>
       <el-aside class="el-aside" style="width:120px;">
@@ -94,20 +94,23 @@
         <el-header>
           <div class="container" style="margin-top: 20px">
             <el-row>
-              <el-col :span="18">
-                <div class="search-bar" style="margin-left: 40%">
+              <el-col :span="4">
+                <div class="search-bar">
                   <el-input type="text" class="search-input" style="display: inline" placeholder="搜索..."/>
                   <el-button class="search-button" :icon="Search" style="display: inline" @click="searchbuttonclick">搜索</el-button>
                 </div>
               </el-col>
 
-              <el-col :span="6">
+              <el-col :span="4">
                 <div>
                   <el-button class="upload-button" :icon="Upload" style="display: inline" @click="uploadbuttonclick">发布</el-button>
+                </div>
+              </el-col>
 
 <!--                  <el-button v-if="!store.state.isAut" index="/signin" style="font-size: 15px;">登录 / 注册</el-button>-->
 <!--                  <el-button v-if="store.state.isAut" index="user" style="font-size: 15px;">{{store.state.username}}</el-button>-->
-
+              <el-col :span="4">
+                <div>
                   <el-menu
                       mode="horizontal"
                       :ellipsis="false"
@@ -231,9 +234,18 @@ login_init()
 .el-aside {
   overflow: hidden;
 }
+.container{
+  background: whitesmoke;
+  /*position: relative;*/
+}
 .search-bar {
-  width: 80%;
-  /*display: flex;*/
+  /*width: 80%;*/
+  /*position: absolute;*/
+  /*top: 50%;*/
+  /*!*bottom: 0;*!*/
+  /*left: 50%;*/
+  /*right: 0;*/
+  /*margin: auto;*/
 }
 
 .search-input {

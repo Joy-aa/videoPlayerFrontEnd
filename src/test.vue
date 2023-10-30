@@ -7,7 +7,7 @@
     <!-- 如果第一层有子菜单，则继续循环 -->
     <template v-if="item.subs">
       <el-submenu :index="item.index" :key="item.index">
-        <template slot="title">
+        <template v-slot:title>
           <i :class="item.icon"></i>
           <span slot="title">{{ item.title }}</span>
         </template>
@@ -16,7 +16,7 @@
           <!-- 如果第二层有子菜单，则继续循环 -->
           <template v-if="subItem.subs">
             <el-submenu :index="subItem.index" :key="subItem.index">
-              <template slot="title">
+              <template v-slot:title>
                 <i :class="item.icon"></i>
                 <span slot="title">{{ subItem.title }}</span>
               </template>
@@ -26,7 +26,7 @@
                 <!-- 如果第三层有子菜单，则继续循环 -->
                 <template v-if="subItem2.subs">
                   <el-submenu :index="subItem2.index" :key="subItem2.index">
-                    <template slot="title">
+                    <template v-slot:title>
                       <i :class="item.icon"></i>
                       <span slot="title">{{ subItem2.title }}</span>
                     </template>
@@ -36,7 +36,7 @@
                       <!-- 如果第四层有子菜单，则继续循环 -->
                       <template v-if="subItem3.subs">
                         <el-submenu :index="subItem3.index" :key="subItem3.index">
-                          <template slot="title">
+                          <template v-slot:title>
                             <!-- <i :class="item.icon"></i> -->
                             <!-- <span slot="title">{{ subItem2.title }}</span> -->
                             {{ subItem3.title }}

@@ -1,6 +1,6 @@
 
-# OIPDL-Frontend
-深度学习分类模型可解释平台-前端
+# videoPlayerFrontEnd
+短视频播放平台-前端
 
 # 分支管理
 请大家新建分支后，在自己的分支上进行开发功能，功能完成之后再提交pull request进行合并。
@@ -46,4 +46,3 @@ npm run lint
 ### Customize configuration
 
 See [Configuration Reference](https://cli.vuejs.org/config/).
-# videoPlayerFrontEnd
