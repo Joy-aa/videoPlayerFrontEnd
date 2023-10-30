@@ -16,7 +16,7 @@ module.exports = defineConfig({
   pages: {
     index: {
       entry: 'src/main.ts',
-      title: '视觉可解释平台'
+      title: '视频播放平台'
     }
   },
 })

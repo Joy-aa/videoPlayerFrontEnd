@@ -121,7 +121,7 @@ const videos = [
 const activeMenu = ref('/');
 const clickvideo = (index) => {
   activeMenu.value = index;
-  router.push(index);
+  router.go(index);
 };
 var nodes;
 var dragStarted;
