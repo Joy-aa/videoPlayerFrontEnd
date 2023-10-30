@@ -234,10 +234,6 @@ login_init()
 .el-aside {
   overflow: hidden;
 }
-.container{
-  background: whitesmoke;
-  /*position: relative;*/
-}
 .search-bar {
   /*width: 80%;*/
   /*position: absolute;*/
