@@ -18,70 +18,53 @@
                 text-color="#fff"
                 active-text-color="#ffd04b">
 
-              <el-menu-item index="/homepage/首页">
+              <el-menu-item index="/homepage">
                 <i class="el-icon-menu"></i>
                 <span>首页</span>
               </el-menu-item>
-              <el-menu-item index="/homepage/推荐">
+              <el-menu-item index="/homepage">
                 <i class="el-icon-document"></i>
                 <span>推荐</span>
               </el-menu-item>
-              <el-menu-item index="/homepage/本地">
+              <el-menu-item index="/homepage">
                 <i class="el-icon-document"></i>
                 <span>本地</span>
               </el-menu-item>
-              <el-menu-item index="/homepage/知识">
+              <el-menu-item index="/homepage">
                 <i class="el-icon-setting"></i>
                 <span>知识</span>
               </el-menu-item>
 
-              <el-menu-item index="/homepage/娱乐">
+              <el-menu-item index="/homepage">
                 <i class="el-icon-menu"></i>
                 <span>娱乐</span>
               </el-menu-item>
-              <el-menu-item index="/details/游戏">
+              <el-menu-item index="/homepage">
                 <i class="el-icon-document"></i>
                 <span>游戏</span>
               </el-menu-item>
-              <el-menu-item index="/details/二次元">
+              <el-menu-item index="/homepage">
                 <i class="el-icon-document"></i>
                 <span>二次元</span>
               </el-menu-item>
-              <el-menu-item index="/details/美食">
+              <el-menu-item index="/homepage">
                 <i class="el-icon-setting"></i>
                 <span>美食</span>
               </el-menu-item>
 
-              <el-menu-item index="/details/体育">
+              <el-menu-item index="/homepage">
                 <i class="el-icon-menu"></i>
                 <span>体育</span>
               </el-menu-item>
-              <el-menu-item index="/details/时尚">
+              <el-menu-item index="/homepage">
                 <i class="el-icon-document"></i>
                 <span>时尚</span>
               </el-menu-item>
-              <el-menu-item index="/details/财经">
+              <el-menu-item index="/homepage">
                 <i class="el-icon-document"></i>
                 <span>财经</span>
               </el-menu-item>
-              <el-menu-item index="/details/健康">
-                <i class="el-icon-setting"></i>
-                <span>健康</span>
-              </el-menu-item>
-
-              <el-menu-item index="/details/体育">
-                <i class="el-icon-menu"></i>
-                <span>体育</span>
-              </el-menu-item>
-              <el-menu-item index="/details/时尚">
-                <i class="el-icon-document"></i>
-                <span>时尚</span>
-              </el-menu-item>
-              <el-menu-item index="/details/财经">
-                <i class="el-icon-document"></i>
-                <span>财经</span>
-              </el-menu-item>
-              <el-menu-item index="/details/健康">
+              <el-menu-item index="/homepage">
                 <i class="el-icon-setting"></i>
                 <span>健康</span>
               </el-menu-item>
@@ -95,8 +78,8 @@
           <div class="container" style="margin-top: 20px">
             <el-row align="middle">
               <div class="search-bar">
-                <el-input type="text" class="search-input" style="display: inline" placeholder="搜索..."/>
-                <el-button class="search-button" :icon="Search" style="display: inline" @click="searchbuttonclick">搜索</el-button>
+                <el-input v-model="searchcontent" type="text" class="search-input" style="display: inline" placeholder="搜索..."/>
+                <el-button router="router" class="search-button" :icon="Search" style="display: inline" @click="searchbuttonclick">搜索</el-button>
               </div>
 
               <el-button class="upload-button" :icon="Upload" @click="uploadbuttonclick">发布</el-button>
@@ -148,10 +131,11 @@ import request from "@/api";
 import Cookies from 'js-cookie'
 import { Delete, Edit, Search, Share, Upload } from '@element-plus/icons-vue'
 import avatar_url from '@/assets/img.png'
-
+// const searchcontent = ""
 function searchbuttonclick() {
-// 处理按钮点击事件
+  router.push("/searchpage")
 }
+
 function uploadbuttonclick() {
 // 处理按钮点击事件
 }
@@ -236,9 +220,17 @@ login_init()
 .search-input {
   margin-left: 60%;
 }
+
 .upload-button {
   /*margin-left: 3%;*/
-  margin-left: 6%;
+  margin-left: 3%;
+}
+.login-button {
+  /*width: 50px;*/
+  /*height: 50px;*/
+  border-radius: 50%;
+  margin-left: 2%;
+  /*background-color: red;*/
 }
 .avatar {
   width: 50px;
