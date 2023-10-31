@@ -1,7 +1,7 @@
 <template>
   <div>
     <button @click="showDialog">展示Cifar数据集介绍</button>
-    <el-dialog :visible.sync="dialogVisible" width="80%" title="Cifar数据集介绍">
+    <el-dialog v-model:visible="dialogVisible" width="80%" title="Cifar数据集介绍">
       <div class="dialog-container">
         <div class="language-switch">
           <el-tabs v-model="activeTab">
