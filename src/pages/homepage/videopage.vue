@@ -298,19 +298,37 @@
         <!-- <div class="disturb-login-panel"></div> -->
       </div>
     </div>
-    <div class="slide-bar" :style="{width:(test.fold?'30%':'0'), transition: '0.3s'}">
-      <div class="side-pane-top" v-if="test.fold">
-        <p style="letter-spacing: 5px">评论</p>
+    <div class="slide-bar" :style="{width:(test.fold?'30%':'0'), transition: '0.3s'}" v-if="test.fold">
+      <div class="slide-bra-wrapper">
+
+      </div>
+      <div class="side-pane-top">
+        <p style="letter-spacing: 5px;">评论</p>
         <div class="ALZRQqX4"></div>
         <div class="ALZRQqX5"></div>
       </div>
-      <div class="commentlist" v-if="test.fold">
+      <div class="commentlist">
         <div v-for="(comment, index) in comments" :key="index">
           <div class="V3cGkKvu comment-item-avatar">
-            <img src='${comment.head}'>
+            <img :src="comment.head">
           </div>
           <div class="commentbar">
-            <div class="commentitem">
+            <div class="commentitem">{{comment.name}}</div>
+            <div class="commentcontent">{{comment.content}}</div>
+            <div class="commenttime">{{comment.createTime}}</div>
+            <div class="commentlikebutton">
+              <svg width="20" height="20" fill="none" xmlns="http://www.w3.org/2000/svg" class="UGHpJg4D"
+                   viewBox="0 0 20 20">
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                      d="M7.646 4.168c-2.238 0-4.035 1.919-4.035 4.152l.002.13a.834.834 0 00-.001.073c.006.3.075.66.15.962.074.294.178.622.294.86.467 1.004 1.284 1.979 2.071 2.78a23.69 23.69 0 002.646 2.323l.015.012.012.01c.174.175.543.54 1.2.54h.019c.186 0 .63 0 1.028-.387l.033-.027c.033-.029.08-.067.14-.117l.003-.003c.436-.359 1.456-1.2 2.462-2.214.644-.646 1.312-1.396 1.822-2.17a7.94 7.94 0 00.2-.318.84.84 0 00.063-.13.956.956 0 01.11-.214.835.835 0 00.074-.144c.029-.073.05-.121.066-.154l.003-.007a.832.832 0 00.147-.29c.125-.444.21-.835.219-1.316a.82.82 0 00-.002-.067 5.39 5.39 0 00.002-.16c-.015-2.22-1.807-4.124-4.035-4.124-.845 0-1.667.262-2.316.789a4.029 4.029 0 00-2.392-.789zm7.076 4.153V8.424l-.002.07c0 .008 0 .022.002.039a3.065 3.065 0 01-.121.721 1.9 1.9 0 00-.078.144 3.297 3.297 0 00-.089.2c-.083.135-.137.24-.193.38a6.64 6.64 0 01-.124.195v.001c-.425.644-1.007 1.305-1.613 1.912l-.002.001a31.607 31.607 0 01-2.342 2.106l-.032.026-.12.1-.048-.046c-.05-.05-.119-.105-.152-.131l-.006-.005A22.003 22.003 0 017.32 11.96l-.003-.003c-.747-.76-1.408-1.577-1.753-2.323a3.149 3.149 0 01-.185-.555 3.468 3.468 0 01-.1-.553.964.964 0 000-.104V8.42a3.56 3.56 0 01-.001-.099c0-1.373 1.11-2.485 2.368-2.485.662 0 1.288.269 1.848.85a.833.833 0 001.282-.099c.33-.47.892-.751 1.578-.751 1.258 0 2.368 1.113 2.368 2.485z"
+                      fill="#fff" fill-opacity="0.7" opacity="0.9"></path>
+              </svg>
+              <svg width="20" height="20" fill="none" xmlns="http://www.w3.org/2000/svg" class="UGHpJg4D"
+                   viewBox="0 0 20 20">
+                <path
+                    d="M15.58 8.58c0 .1 0 .21-.01.31v.13l-.01.06c-.04.44-.13.8-.27 1.22-.02.08-.06.15-.12.21h.01c-.04.07-.07.13-.1.19a.37.37 0 01-.05.11c-.07.11-.09.14-.13.23-.01.04-.03.07-.05.1-.67 1.09-1.71 2.14-2.56 2.91-.43.39-.83.72-1.12.97-.13.1-.25.19-.33.26l-.03.03-.11.08h-.01l-.01.02h-.01c-.1.11-.33.33-.67.41h-.01c-.09.04-.19.07-.29.08-.58.08-.95-.23-1.11-.37l-.03-.03c-.64-.45-1.27-.93-1.87-1.43-.98-.83-2.16-1.95-2.84-3.13-.14-.24-.26-.5-.36-.77-.11-.29-.2-.59-.25-.89h-.01v-.06l-.02-.14c-.29-2.05.92-4.16 2.92-4.45.15-.02.29-.03.43-.03.88 0 1.7.36 2.41.99.14.13.23.31.23.5l.02 1.29 1.3.96c.14.1.23.26.26.44.03.17-.01.35-.12.5l-.94 1.32.63 1.34c.07.17.08.35.02.51a.69.69 0 01-.35.38c-.16.08-.34.09-.51.03a.67.67 0 01-.38-.34l-.81-1.7a.702.702 0 01-.06-.35c.01-.12.05-.23.12-.33l.79-1.11-1.02-.76a.55.55 0 01-.2-.23.641.641 0 01-.08-.3l-.02-1.31c-.43-.32-.86-.47-1.28-.47-.08 0-.17 0-.25.02-1.07.15-1.98 1.39-1.77 2.92l.02.1v.02s.01.05.01.08c.03.14.09.36.18.59.09.26.19.46.24.55h.01c.57.98 1.6 1.98 2.55 2.79.54.45 1.09.87 1.66 1.28l.03.02c.07.06.16.12.2.15.03.03.06.05.09.07.03-.01.07-.02.11-.03l.09-.09c.05-.04.13-.11.2-.16l.02-.02.03-.03.32-.26c.36-.29.72-.6 1.07-.91.81-.74 1.72-1.67 2.29-2.58.06-.13.11-.23.19-.36.03-.06.06-.13.09-.19.02-.04.05-.09.09-.14.09-.31.14-.53.17-.78v-.2c.12-1.49-.85-2.63-1.89-2.7h-.12c-.57 0-1.19.26-1.49.68-.05.07-.11.14-.19.18a.55.55 0 01-.25.1c-.09.02-.18.02-.27 0a.545.545 0 01-.24-.12.54.54 0 01-.18-.19.825.825 0 01-.1-.26.576.576 0 01.02-.26c.02-.09.06-.17.11-.24.6-.84 1.67-1.25 2.59-1.25.08 0 .15 0 .22.01 1.87.12 3.16 1.92 3.16 3.83z"
+                    fill="#fff" fill-opacity="0.5"></path>
+              </svg>
             </div>
           </div>
         </div>
@@ -323,6 +341,7 @@
 
 <style>
 .main{
+  overflow: auto;
   position: fixed;
   top: 0;
   left: 0;
@@ -347,11 +366,30 @@
   left: 0;
   width: 100%;
   height: 100%;
+  /*z-index: 101;*/
 }
 .slide-bar{
+  color:white;
   height: 100%;
-  background: linear-gradient(to top, rgba(30,30,30,0.4), rgba(30,30,30,0.4));
+}
+.slide-bra-wrapper{
+  position: fixed;
+  top :0;
+  width: inherit;
+  height: inherit;
+  background: rgb(30,30,30);
   border: .5px solid hsla(0,0%,100%,.15);
+}
+.commentlist{
+  padding: 0 7px 0 16px;
+  -ms-overflow-style: none;
+  overflow: hidden scroll;
+  scrollbar-width: none;
+  outline: none;
+  flex-direction: column;
+  flex-grow: 1;
+  position: relative;
+  margin-top: 10px;
 }
 .side-pane-top{
   font-family: PingFang SC,DFPKingGothicGB-Medium,sans-serif;
@@ -359,6 +397,10 @@
   color: white;
   margin-left: 5%;
   font-size: 25px;
+  width: 100%;
+  display: block;
+  z-index: 13;
+  position: relative;
 }
 .ALZRQqX4 {
   width: 50px;
@@ -370,7 +412,7 @@
   display: block;
 }
 .ALZRQqX5 {
-  width: calc(100% + 32px);
+  width: calc(100% );
   height: 1px;
   min-height: 1px;
   opacity: .06;
@@ -383,7 +425,7 @@
 .ZCHTRJzJ {
   cursor: pointer;
   height: 64px;
-  left: 120px;
+  left: 31%;
   position: fixed;
   top: 15px;
   width: 64px;
@@ -573,12 +615,33 @@ const changeFold=()=> {
   console.log(test.fold)
 }
 const comments = [
-  {name: "用户1", head: require("../../assets/img.png"), content:"我儿子问我：“妈妈，你怎么不找个男朋友？” 我说找了男朋友爸爸怎么办， 他说“爸爸在家带我们，你和男朋友出去玩啊！”[微笑][微笑][微笑]", likenum: 201},
-  {name: "用户2", head: require("../../assets/img.png"), content:"不是…我疑惑很久了，你们胡建人晚上都不碎觉的吗？为什么都是夜半三更在做饭？？？", likenum: 2001},
-  {name: "用户3", head: require("../../assets/img.png"), content:"豆沙小馒头是谁的童年不说了", likenum: 411},
-  {name: "用户4", head: require("../../assets/img.png"), content:"jgflkajhgkljglkajlkgjald", likenum: 201},
-  {name: "用户5", head: require("../../assets/img.png"), content:"感觉姐妹两个一起偷偷搞这些会很有趣，独生子女这种情况下 ，会有点羡慕", likenum: 4831},
-  {name: "用户6", head: require("../../assets/img.png"), content:"油的广告商什么时候才能看到", likenum: 436},
+  {name: "用户1", head: require("../../assets/img.png"),
+    content:"我儿子问我：“妈妈，你怎么不找个男朋友？” 我说找了男朋友爸爸怎么办， 他说“爸爸在家带我们，你和男朋友出去玩啊！”[微笑][微笑][微笑]",
+    createTime:"2023-10-1", likenum: 201},
+  {name: "用户2", head: require("../../assets/img.png"),
+    content:"不是…我疑惑很久了，你们胡建人晚上都不碎觉的吗？为什么都是夜半三更在做饭？？？",
+    createTime:"2023-10-1", likenum: 2001},
+  {name: "用户3", head: require("../../assets/img.png"),
+    content:"豆沙小馒头是谁的童年不说了",
+    createTime:"2023-10-1", likenum: 411},
+  {name: "用户4", head: require("../../assets/img.png"),
+    content:"jgflkajhgkljglkajlkgjald",
+    createTime:"2023-10-1", likenum: 201},
+  {name: "用户5", head: require("../../assets/img.png"),
+    content:"感觉姐妹两个一起偷偷搞这些会很有趣，独生子女这种情况下 ，会有点羡慕",
+    createTime:"2023-10-1", likenum: 4831},
+  {name: "用户6", head: require("../../assets/img.png"),
+    content:"油的广告商什么时候才能看到",
+    createTime:"2023-10-1", likenum: 436},
+  {name: "用户4", head: require("../../assets/img.png"),
+    content:"jgflkajhgkljglkajlkgjald",
+    createTime:"2023-10-1", likenum: 201},
+  {name: "用户5", head: require("../../assets/img.png"),
+    content:"感觉姐妹两个一起偷偷搞这些会很有趣，独生子女这种情况下 ，会有点羡慕",
+    createTime:"2023-10-1", likenum: 4831},
+  {name: "用户6", head: require("../../assets/img.png"),
+    content:"油的广告商什么时候才能看到",
+    createTime:"2023-10-1", likenum: 436},
 ]
 
 </script>
