@@ -93,46 +93,44 @@
       <el-container>
         <el-header>
           <div class="container" style="margin-top: 20px">
-            <el-row>
-              <el-col :span="18">
-                <div class="search-bar" style="margin-left: 40%">
-                  <el-input type="text" class="search-input" style="display: inline" placeholder="搜索..."/>
-                  <el-button class="search-button" :icon="Search" style="display: inline" @click="searchbuttonclick">搜索</el-button>
-                </div>
-              </el-col>
+            <el-row align="middle">
+              <div class="search-bar">
+                <el-input type="text" class="search-input" style="display: inline" placeholder="搜索..."/>
+                <el-button class="search-button" :icon="Search" style="display: inline" @click="searchbuttonclick">搜索</el-button>
+              </div>
 
-              <el-col :span="6">
-                <div>
-                  <el-button class="upload-button" :icon="Upload" style="display: inline" @click="uploadbuttonclick">发布</el-button>
-
+              <el-button class="upload-button" :icon="Upload" @click="uploadbuttonclick">发布</el-button>
 <!--                  <el-button v-if="!store.state.isAut" index="/signin" style="font-size: 15px;">登录 / 注册</el-button>-->
 <!--                  <el-button v-if="store.state.isAut" index="user" style="font-size: 15px;">{{store.state.username}}</el-button>-->
 
-                  <el-menu
-                      mode="horizontal"
-                      :ellipsis="false"
-                      router="router"
-                      default-active="1"
-                      class="el-menu-vertical-demo"
-                      @open="handleOpen"
-                      @close="handleClose"
-                      background-color="#2c3e50"
-                      text-color="#fff"
-                      active-text-color="#ffd04b">
-                    <el-menu-item v-if="!store.state.isAut" class="right" index="/signin" style="font-size: 15px;">登录 / 注册</el-menu-item>
-                    <el-sub-menu v-else class="right">
-                      <template #title>{{store.state.username}}</template>
-                      <el-menu-item index="user" style="font-size: 15px">个人信息</el-menu-item>
-                      <el-menu-item index="" @click="login_out" style="font-size: 15px">退出登陆</el-menu-item>
-                    </el-sub-menu>
-                  </el-menu>
-                </div>
-              </el-col>
+              <el-button
+                  router="router" v-if="!store.state.isAut" class="login-button" @click="login_signin" style="font-size: 15px;">登录 / 注册
+              </el-button>
+              <el-image v-else :src="avatar_url" class="avatar" ></el-image>
+<!--                <el-menu-->
+<!--                    mode="horizontal"-->
+<!--                    :ellipsis="false"-->
+<!--                    router="router"-->
+<!--                    default-active="1"-->
+<!--                    class="el-menu-vertical-demo"-->
+<!--                    @open="handleOpen"-->
+<!--                    @close="handleClose"-->
+<!--                    background-color="#2c3e50"-->
+<!--                    text-color="#fff"-->
+<!--                    active-text-color="#ffd04b">-->
+<!--                  <el-menu-item v-if="!store.state.isAut" class="right" index="/signin" style="font-size: 15px;">登录 / 注册</el-menu-item>-->
+<!--                  <el-menu-item v-else class="right">-->
+<!--                    <template #title>{{store.state.username}}</template>-->
+<!--&lt;!&ndash;                    <el-menu-item index="user" style="font-size: 15px">个人信息</el-menu-item>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <el-menu-item index="" @click="login_out" style="font-size: 15px">退出登陆</el-menu-item>&ndash;&gt;-->
+<!--                  </el-menu-item>-->
+<!--                </el-menu>-->
             </el-row>
           </div>
 
         </el-header>
         <el-main>
+
           <router-view></router-view>
 
         </el-main>
@@ -149,12 +147,19 @@ import store from './store'
 import request from "@/api";
 import Cookies from 'js-cookie'
 import { Delete, Edit, Search, Share, Upload } from '@element-plus/icons-vue'
+import avatar_url from '@/assets/img.png'
 
 function searchbuttonclick() {
 // 处理按钮点击事件
 }
 function uploadbuttonclick() {
 // 处理按钮点击事件
+}
+function login_signin() {
+  if (!store.state.isAut)
+    router.push("/signin")
+  // else
+  //   router.push("/userinfo")
 }
 import { useRoute, useRouter } from 'vue-router';
 const activeMenu = ref('/');
@@ -165,7 +170,7 @@ const handleMenuSelect = (index) => {
   activeMenu.value = index;
   router.push(index);
 };
-
+const global_user_name = ref(store.state.username);
 const ifsignoruser = () => {
 
   // 检查是否存储了用户信息
@@ -174,10 +179,11 @@ const ifsignoruser = () => {
   if (!hasUserInfo) {
     // 没有存储用户信息
     router.push({ name: '/signin' });
-  } else {
-    // 存储了用户信息
-    router.push({ name: '/user' });
   }
+  // else {
+  //   // 存储了用户信息
+  //   router.push({ name: '/user' });
+  // }
 };
 
 function login_out(){
@@ -227,7 +233,20 @@ login_init()
 .el-menu-vertical-demo {
   border-right:0!important;
 }
-
+.search-input {
+  margin-left: 60%;
+}
+.upload-button {
+  /*margin-left: 3%;*/
+  margin-left: 6%;
+}
+.avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-left: 2%;
+  /*background-color: red;*/
+}
 .el-aside {
   overflow: hidden;
 }

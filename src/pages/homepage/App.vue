@@ -7,11 +7,95 @@
 <!--        <h2>分类视频页</h2>-->
 <!--        <p>接收的参数: {{ $route.params.category }}</p>-->
 <!--      </div>-->
-      <div v-for="(video, index) in videos" :key="index" @click="clickvideo" class="video-item">
-        <router-link :to="`/videopage/${video.id}`">
-          <video :src="video.src" controls width="300" height="480"></video>
-        </router-link>
-      </div>
+<!--      第一行三个视频，一个个人中心-->
+      <el-row>
+
+        <div v-for="(video, index) in videos_top" :key="index" @click="clickvideo" class="video-item_top">
+          <router-link :to="`/videopage/${video.id}`">
+            <div class="video-content">
+              <div class="video-info" style="margin-right: 2px">
+                <video :src="video.src" controls width="285" height="480"></video>
+                <p style="margin-left: 5px;font-size: 15px;color: lightgrey">这里是视频简介</p>
+                <el-row style="margin-left: 5px;margin-top: 3px">
+                  <p style="font-size: 14px;color: grey">@用户名</p>
+                  <p style="margin-left: 20px;font-size: 14px;color: grey">· 发布时间</p>
+                </el-row>
+                <el-row style="margin-left: 5px;margin-top: 3px">
+                  <p>点赞</p>
+                  <p style="margin-left: 20px">评论</p>
+                  <p style="margin-left: 20px">收藏</p>
+                </el-row>
+              </div>
+            </div>
+          </router-link>
+        </div>
+
+        <div class="user-content">
+          <div class="user-info">
+            <el-row align="middle">
+              <p style="font-size: 20px">@{{store.state.username}}</p>
+            </el-row>
+            <el-row align="middle" style="margin-top: 5px">
+                <p>关注 {{followNums}} </p>
+                <p style="margin-left: 35px">粉丝 {{fanNums}} </p>
+                <p style="margin-left: 35px">获赞 {{likeNums}}</p>
+            </el-row>
+            <el-row align="middle" style="margin-top: 5px">
+              <p>抖音号: {{userId}}</p>
+              <el-icon class="female" style="color: deeppink; margin-left: 20px;"><Female /></el-icon>
+              <p style="margin-left: 5px">{{userAge}}</p>
+            </el-row>
+            <el-row align="middle" style="margin-top: 5px">
+              <p>很高兴认识你</p>
+            </el-row>
+
+            <!--            <p>{{store.state.username}}</p>-->
+<!--            <p>关注{{followNums}}   |   粉丝{{fanNums}}   |   获赞{{likeNums}}</p>-->
+<!--            <div>-->
+<!--              <p>抖音号: {{userId}}</p>-->
+<!--&lt;!&ndash;              <span class="N4QS6RJT"><svg width="12" height="12" fill="none" xmlns="http://www.w3.org/2000/svg" class=""&ndash;&gt;-->
+<!--&lt;!&ndash;                                          viewBox="0 0 12 12" style="margin-right: 4px;"><mask id="woman_svg__a"&ndash;&gt;-->
+<!--&lt;!&ndash;                                                                                               maskUnits="userSpaceOnUse"&ndash;&gt;-->
+<!--&lt;!&ndash;                                                                                               x="-2" y="-2" width="16"&ndash;&gt;-->
+<!--&lt;!&ndash;                                                                                               height="16"&ndash;&gt;-->
+<!--&lt;!&ndash;                                                                                               style="mask-type: alpha;"><path&ndash;&gt;-->
+<!--&lt;!&ndash;                  fill="#C4C4C4" d="M-2-2h16v16H-2z"></path></mask><g mask="url(#woman_svg__a)" stroke="#F5588E"&ndash;&gt;-->
+<!--&lt;!&ndash;                                                                      stroke-width="1.5" stroke-linecap="round"&ndash;&gt;-->
+<!--&lt;!&ndash;                                                                      stroke-linejoin="round"><circle cx="7.2"&ndash;&gt;-->
+<!--&lt;!&ndash;                                                                                                      cy="4.896"&ndash;&gt;-->
+<!--&lt;!&ndash;                                                                                                      r="3.25"></circle><path&ndash;&gt;-->
+<!--&lt;!&ndash;                  d="M1.617 10.511l3.115-3.115M1.904 7.396l2.828 2.829"></path></g></svg><span>23岁</span></span>&ndash;&gt;-->
+<!--              &lt;!&ndash;              <el-image ></el-image>&ndash;&gt;-->
+<!--&lt;!&ndash;              <p>{{userAge}}</p>&ndash;&gt;-->
+<!--            </div>-->
+
+          </div>
+        </div>
+      </el-row>
+
+      <el-row>
+        <!--      第二行四个视频-->
+        <div v-for="(video, index) in videos_remain" :key="index" @click="clickvideo" class="video-item_remain">
+          <router-link :to="`/videopage/${video.id}`">
+            <div class="video-content">
+              <div class="video-info">
+                <video :src="video.src" controls width="285" height="480"></video>
+                <p style="margin-left: 5px;font-size: 15px;color: lightgrey">这里是视频简介</p>
+                <el-row style="margin-left: 5px;margin-top: 3px">
+                  <p style="font-size: 14px;color: grey">@用户名</p>
+                  <p style="margin-left: 20px;font-size: 14px;color: grey">· 发布时间</p>
+                </el-row>
+                <el-row style="margin-left: 5px;margin-top: 3px">
+                  <p>点赞</p>
+                  <p style="margin-left: 20px">评论</p>
+                  <p style="margin-left: 20px">收藏</p>
+                </el-row>
+              </div>
+            </div>
+          </router-link>
+        </div>
+      </el-row>
+
     </div>
     <!--    <div class="video-grid">-->
     <!--      <div v-for="(video, index) in videos" :key="index" @click="toggleFullscreen" class="video-container">-->
@@ -88,14 +172,54 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between; /* 水平排列，四列 */
-  border-radius: 10px;
+  /*border-radius: 10%;*/
   /*margin: 0px; !* 为了填充每个video-item之间的空间，-8px 是 margin 的负值 *!*/
 }
 
-.video-item {
+.video-item_top {
   flex: 0 1 calc(25%); /* 四个一行，每个占 25% 的宽度，16px 是 margin 的值 */
   /*margin: 0px;*/
-  border-radius: 10px;
+  border-radius: 10%;
+}
+.video-item_remain {
+  flex: 0 1 calc(25%); /* 四个一行，每个占 25% 的宽度，16px 是 margin 的值 */
+  /*margin: 0px;*/
+  border-radius: 10%;
+}
+
+.video-info {
+  /*position: absolute;*/
+  /*top: 20px; !* 调整顶部距离 *!*/
+  /*right: 20px; !* 调整右边距离 *!*/
+  width: 285px; /* 调整矩形的宽度 */
+  height: 560px; /* 调整矩形的高度 */
+  background-color: #475669; /* 背景颜色 */
+  border-radius: 8px; /* 圆角半径 */
+  /*padding: 10px; !* 内边距，用于放置文本 *!*/
+  margin-left: 20px;
+  margin-bottom: 15px;
+  /*color: #fff; !* 文本颜色 *!*/
+  /*font-size: 12px; !* 文本大小 *!*/
+}
+.video-content {
+  position: relative;
+}
+
+.user-info {
+  /*position: absolute;*/
+  /*top: 20px; !* 调整顶部距离 *!*/
+  /*right: 20px; !* 调整右边距离 *!*/
+  width: 280px; /* 调整矩形的宽度 */
+  height: 120px; /* 调整矩形的高度 */
+  background-color: #475669; /* 背景颜色 */
+  border-radius: 8px; /* 圆角半径 */
+  padding: 10px; /* 内边距，用于放置文本 */
+  margin-left: 20px;
+  color: #fff; /* 文本颜色 */
+  font-size: 12px; /* 文本大小 */
+}
+.user-content {
+  position: relative;
 }
 </style>
 <script setup>
@@ -105,19 +229,36 @@
 import $ from 'jquery'
 import * as d3 from 'd3';
 import { reactive, onMounted, ref, onUnmounted } from "vue";
+import { Female, Edit, Search, Share, Upload } from '@element-plus/icons-vue';
 import { useRouter } from 'vue-router'
+import { useStore } from 'vuex';
 
 const router = useRouter()
 import '@fortawesome/fontawesome-free/css/all.css'
-const videos = [
-  { id: 1, src: require('../../assets/WeChat_20231025161539.mp4'), type: 'video/mp4' },
-  { id: 2, src: require('../../assets/WeChat_20231025161539.mp4'), type: 'video/mp4' },
-  { id: 3, src: require('../../assets/WeChat_20231025161539.mp4'), type: 'video/mp4' },
-  { id: 4, src: require('../../assets/WeChat_20231025161539.mp4'), type: 'video/mp4' },
-  { id: 5, src: require('../../assets/WeChat_20231025161539.mp4'), type: 'video/mp4' },
-  { id: 6, src: require('../../assets/WeChat_20231025161539.mp4'), type: 'video/mp4' },
+const videos_top = [
+  { id: 1, src: require('../../assets/WeChat_20231025161539.mp4'), type: 'video/mp4', height: Math.floor(Math.random() * 180) + 300 },
+  { id: 2, src: require('../../assets/WeChat_20231025161539.mp4'), type: 'video/mp4', height: Math.floor(Math.random() * 180) + 300 },
+  { id: 3, src: require('../../assets/WeChat_20231025161539.mp4'), type: 'video/mp4', height: Math.floor(Math.random() * 180) + 300 },
   // 添加更多视频数据...
 ];
+const videos_remain = [
+  { id: 4, src: require('../../assets/WeChat_20231025161539.mp4'), type: 'video/mp4', height: Math.floor(Math.random() * 180) + 300 },
+  { id: 5, src: require('../../assets/WeChat_20231025161539.mp4'), type: 'video/mp4', height: Math.floor(Math.random() * 180) + 300 },
+  { id: 6, src: require('../../assets/WeChat_20231025161539.mp4'), type: 'video/mp4', height: Math.floor(Math.random() * 180) + 300 },
+  { id: 7, src: require('../../assets/WeChat_20231025161539.mp4'), type: 'video/mp4', height: Math.floor(Math.random() * 180) + 300 },
+  { id: 8, src: require('../../assets/WeChat_20231025161539.mp4'), type: 'video/mp4', height: Math.floor(Math.random() * 180) + 300 },
+  { id: 9, src: require('../../assets/WeChat_20231025161539.mp4'), type: 'video/mp4', height: Math.floor(Math.random() * 180) + 300 },
+  { id: 10, src: require('../../assets/WeChat_20231025161539.mp4'), type: 'video/mp4', height: Math.floor(Math.random() * 180) + 300 },
+  { id: 11, src: require('../../assets/WeChat_20231025161539.mp4'), type: 'video/mp4', height: Math.floor(Math.random() * 180) + 300 },
+  // 添加更多视频数据...
+];
+
+const store = useStore();
+const followNums = 10
+const fanNums = 10
+const likeNums = 10
+const userId = 1011
+const userAge = 23
 const activeMenu = ref('/');
 const clickvideo = (index) => {
   activeMenu.value = index;
@@ -1557,6 +1698,9 @@ onMounted(() => {
   background-size: cover;
   background-repeat: no-repeat;
   background-position: 50%;
+}
+.female {
+  transform: rotate(25deg); /* 默认旋转15度 */
 }
 
 .banner.lite .lite-swiper-pagination {
