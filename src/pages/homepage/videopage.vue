@@ -594,6 +594,7 @@ function getvideo(){
 }
 function backTOHome(){
   router.push('/homepage')
+  console.log("xxxxxxxxxxxxxxxxx")
 }
 const videos = [
   { id: 1, src: require('../../assets/WeChat_20231025161539.mp4'), type: 'video/mp4' },
