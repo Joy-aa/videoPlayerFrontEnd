@@ -9,52 +9,51 @@
         </svg>
       </div>
       <div>
-        <el-row>
-          <el-col :span="22">
-            <div>
-
               <div>
-                <video class="videodetail" width="90%" :src="getvideo(1).src" controls></video>
+                <!-- <p>{{ videoInfo.videoId }}</p> -->
+                <video class="videodetail" width="90%" :src="videoInfo.videoPath" controls autoplay="autoplay"></video>
               </div>
 
               <div class="videoinfodetail">
-                <div class="account">
-                  <div class="account-name">
-                    <span>账户名称</span>
+                <el-row align="middle">
+                  <div class="account">
+                    <el-col span="30">
+                      <div class="account-name">@{{ userInfo.username }}</div>
+                    </el-col>
+                    <el-col span="22">
+                      <div class="video-create-time">10月30日</div>
+                    </el-col>
                   </div>
-                  <div class="video-create-time">
-                    <span>10月30日</span>
+                </el-row>
+                <el-row>
+                  <div class="title">
+                    <span class="e_h_fqNj">
+                      <span class="tag-span">《挑战和陌生人飞镖旅行》——湘西</span>
+                      
+                      <span class="tag-span">
+                        <a href="https://www.douyin.com/search/%E7%94%9C%E5%A6%B9" class="B3AsdZT9 vStoQqaB e8ZKvWWv"
+                          target="_blank">
+                          <span>#甜妹</span>
+                        </a>
+                      </span>
+                      
+                      <span class="tag-span">
+                        <a href="https://www.douyin.com/search/%E4%BB%93%E4%B9%9F" class="B3AsdZT9 vStoQqaB e8ZKvWWv"
+                          target="_blank">
+                          <span>#仓也</span>
+                        </a>
+                      </span>
+                      
+                      <span class="tag-span">
+                        <a href="https://www.douyin.com/search/%E6%97%85%E8%A1%8C" class="B3AsdZT9 vStoQqaB e8ZKvWWv"
+                          target="_blank">
+                          <span>#旅行</span>
+                        </a>
+                      </span>
+                    </span>
                   </div>
-                </div>
-                <div class="title">
-                <span class="e_h_fqNj">
-                    <span class="tag-span">《挑战和陌生人飞镖旅行》——湘西</span>
-                    <span><span><span><span> </span></span></span></span>
-                    <span class="tag-span">
-                      <a href="https://www.douyin.com/search/%E7%94%9C%E5%A6%B9" class="B3AsdZT9 vStoQqaB e8ZKvWWv"
-                         target="_blank">
-                        <span>#甜妹</span>
-                      </a>
-                    </span>
-                    <span><span><span><span> </span></span></span></span>
-                    <span class="tag-span">
-                      <a href="https://www.douyin.com/search/%E4%BB%93%E4%B9%9F" class="B3AsdZT9 vStoQqaB e8ZKvWWv"
-                         target="_blank">
-                        <span>#仓也</span>
-                      </a>
-                    </span>
-                    <span><span><span><span> </span></span></span></span>
-                    <span class="tag-span">
-                      <a href="https://www.douyin.com/search/%E6%97%85%E8%A1%8C" class="B3AsdZT9 vStoQqaB e8ZKvWWv"
-                         target="_blank">
-                    <span>#旅行</span>
-                      </a>
-                    </span>
-                </span>
-                </div>
+                </el-row>
               </div>
-            </div>
-          </el-col>
 
           <el-col :span="2" class="xslide">
             <div class="switch">
@@ -291,9 +290,7 @@
                 </svg>
               </div>
             </div>
-
           </el-col>
-        </el-row>
         <!-- 会弹出的登录界面 -->
         <!-- <div class="disturb-login-panel"></div> -->
       </div>
@@ -568,7 +565,7 @@
 .videoinfodetail{
   position: fixed;
   left: 0;
-  bottom: 8%;
+  bottom: 80px;
   padding: 16px 95px 16px 16px;
   width: 100%;
   z-index: 2;
@@ -576,14 +573,15 @@
 }
 .account{
   color: white;
-  width: 15%;
-  height: 50%;
-  /*background: #0c24ad;*/
-  display: flex;
+  /* width: 15%; */
+  /* height: 50%; */
+  /* text-align: center; */
+  display: flex; /**/
+  justify-content: center; /*水平居中*/
+  align-items: Center; /*垂直居中*/
 }
 .account-name{
-  float: left;
-  font-size: 30px;
+  font-size: 22px;
   margin-left: 5px;
   margin-right: 5px;
   font-family: PingFang SC,DFPKingGothicGB-Medium,sans-serif;
@@ -591,11 +589,11 @@
 }
 .video-create-time{
   font-family: PingFang SC,DFPKingGothicGB-Regular,sans-serif;
-  font-size: 20px;
-  margin: auto;
+  font-size: 12px;
 }
 .title{
-  font-size: 20px;
+  font-family: PingFang SC,DFPKingGothicGB-Regular,sans-serif;
+  font-size: 17px;
   color: white;
   cursor: auto;
   margin-top: 15px;
@@ -619,36 +617,59 @@
 <script setup>
 // import sidePane from '../../components/side-pane.vue';
 import { router } from '@/router';
+// import { ref } from 'vue'
 import { Delete, Star, Search, Share, StarFilled, Comment, Upload, ArrowUpBold, ArrowDownBold } from '@element-plus/icons-vue'
-import {computed, reactive} from "vue";
+import {computed, reactive, ref, toRaw} from "vue";
 import request from '@/api';
-function getvideo(videoId){
-  console.log(videoId)
-    
-  request
-  .get("video/findvideos", videoId)
+import { useThrottledRefHistory } from '@vueuse/core';
+// import { toRaw } from 'vue';
+// console.log(getvideo(1).src)
+function backTOHome(){
+  router.push('/homepage')
+}
+var videoInfo = ref({})
+
+var userInfo = ref({
+  userId: -1,
+  headshot:'',
+  username:"用户不存在"
+})
+
+async function getuser(userId) {
+  const p = {
+    userId: userId
+  }
+  console.log(p)
+  await request
+  .get("/user/findUser", {params: p})
   .then(res => {
-    console.log(res);
+    console.log(res)
+    if(res.data.code != 1)
+      userInfo.value = res.data.data
+  })
+  .catch(err => {
+    console.log(err)
+  })
+  console.log(toRaw(userInfo))
+}
+
+async function getvideo(videoId){
+  const p = {
+    videoId: videoId
+  }
+  await request
+  .get("/video/findVideos", {params: p})
+  .then(res => {
+    console.log(res.data.data.videoPath);
+    videoInfo.value =  res.data.data;
   })
   .catch(err => {
     console.log(err)
   });
-  return { id: 1, src: require('../../assets/WeChat_20231025161539.mp4'), type: 'video/mp4' }
+  console.log(toRaw(videoInfo))
+  getuser(toRaw(videoInfo.value).userId)
 }
-function backTOHome(){
-  router.push('/homepage')
-}
-const videos = [
-  { id: 1, src: require('../../assets/WeChat_20231025161539.mp4'), type: 'video/mp4' },
-  { id: 2, src: require('../../assets/WeChat_20231025161539.mp4'), type: 'video/mp4' },
-  { id: 3, src: require('../../assets/WeChat_20231025161539.mp4'), type: 'video/mp4' },
-  { id: 4, src: require('../../assets/WeChat_20231025161539.mp4'), type: 'video/mp4' },
-  { id: 5, src: require('../../assets/WeChat_20231025161539.mp4'), type: 'video/mp4' },
-  { id: 6, src: require('../../assets/WeChat_20231025161539.mp4'), type: 'video/mp4' },
-  // 添加更多视频数据...
-];
-// let fold = false
-// eslint-disable-next-line no-unused-vars
+getvideo(2)
 
 const test = reactive({
   fold :false
