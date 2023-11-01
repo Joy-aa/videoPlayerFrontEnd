@@ -1,10 +1,10 @@
 <template>
   <div style="text-align: -webkit-center">
     <el-form :model="user" label-width="120px" style="width: max-content">
-      <el-form-item label="账号:">
+      <el-form-item label="邮箱:">
         <el-input
-            v-model="user.username"
-            placeholder="请输入用户名/手机号"
+            v-model="user.email"
+            placeholder="请输入邮箱"
             clearable
         />
       </el-form-item>
@@ -37,7 +37,7 @@ const verificationCode = ref();
 const store = useStore();
 let user = reactive({
   code: "",
-  username: "",
+  email: "",
   password: "",
 });
 
@@ -46,7 +46,7 @@ function loginIn() {
   if (verificationCode.value.verificateFlag() === true) {
     let temp = {
       code: verificationCode.value.verCode,
-      username: user.username,
+      email: user.email,
       password: user.password,
     };
     console.log(temp);
@@ -55,24 +55,26 @@ function loginIn() {
         .post("/user/login", temp)
         .then((res) => {
           console.log(res)
-          if (res.data.msg === "登陆成功") {
-            console.log("登陆成功")
-            const userInfo = res.data.data.userInfo
+          if (res.data.msg === "登录成功！") {
+            console.log("登录成功！")
+            const userInfo = res.data.data.user
             let access = userInfo.authority
             store.commit("loginIn");
-            store.commit("setAccount", user.username)
+            store.commit("setEmail", userInfo.email)
+            store.commit('setUsername', userInfo.username)
             store.commit('setAccess', access)
-            store.commit('setPhone', userInfo.telephone)
             // if (store.state.isAut === true) {
             //   alert("登录成功！");
             router.push('homepage')
             // }
-          } else if (res.data.msg==="用户不存在"){
+          } else if (res.data.msg==="用户不存在！"){
             alert("用户不存在！")
             verificationCode.value.getCode()
-            console.log(res);
-          }else if(res.data.msg==="用户名或密码错误"){
-            alert("用户名或密码错误!")
+          } else if(res.data.msg==="密码错误！"){
+            alert("密码错误!")
+            verificationCode.value.getCode()
+          } else if(res.data.msg==="验证码错误！"){
+            alert("验证码错误!")
             verificationCode.value.getCode()
           }
         })

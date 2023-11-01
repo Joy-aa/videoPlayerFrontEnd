@@ -10,7 +10,7 @@ const store = createStore({
             localStorage.removeItem("username")
             state.access=-1
             localStorage.removeItem("access")
-            localStorage.removeItem("phone")
+            localStorage.removeItem("email")
         },
         getAut(state){
             // console.log("getAut", state.isAut)
@@ -19,25 +19,29 @@ const store = createStore({
         modifyDatasetId(state,datasetId){
             state.datasetId=datasetId
         },
-        setAccount(state,newUsername) {
+        setEmail(state,newEmail) {
+            state.email = newEmail
+            localStorage.setItem("email", newEmail)
+        },
+        setUsername(state,newUsername) {
             state.username = newUsername
             localStorage.setItem("username", newUsername)
         },
-        setPhone(state,newPhone) {
-            state.phone = newPhone
-            localStorage.setItem("phone", newPhone)
+        getEmail(state){
+            console.log("getEmail", state.email)
+            return state.email
         },
-        getImageList(state){
-            return state.imageList
-        },
-        getAccount(state){
-            console.log("getAccount", state.account)
-            return state.account
+        getUsername(state){
+            console.log("getUsername", state.username)
+            return state.username
         },
         setAccess(state, access){
             state.access = access
             console.log('setAccess', state.access)
             localStorage.setItem('access', access)
+        },
+        getImageList(state){
+            return state.imageList
         },
         setTableData(state, Data) {
             state.tableData = Data
@@ -64,7 +68,7 @@ const store = createStore({
         return{
             isAut:false,
             username:'',
-            phone:'',
+            email:'',
             datasetId:1,
             imageList:[],
             access: -1,

@@ -191,12 +191,14 @@ function login_out(){
 }
 function login_init(){
   const _username = localStorage.getItem("username")
+  const _email = localStorage.getItem("email")
   const access = localStorage.getItem('access')
   console.log("localStorage", _username, access)
   if(_username!=null){
-    console.log("setAccount", _username)
+    console.log("setUsername", _username)
     store.commit("loginIn")
-    store.commit("setAccount", _username)
+    store.commit("setUsername", _username)
+    store.commit("setEmail", _email)
     store.commit('setAccess', access)
   }
 }

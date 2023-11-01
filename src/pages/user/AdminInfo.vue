@@ -25,12 +25,11 @@
         </div>
         <br/>
         <div>
+          邮箱：
+          <el-tag>{{this.$store.state.email}}</el-tag>
+        </div><div>
           用户名：
           <el-tag>{{userInfo.username}}</el-tag>
-        </div>
-        <div>
-          电话号码：
-          <el-tag>{{this.$store.state.phone}}</el-tag>
         </div>
         <div>
           用户地址：
@@ -96,8 +95,8 @@
           <el-option label="普通用户" value="1"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="电话号码">
-        <el-input v-model="newInfo.phone" autocomplete="off" />
+      <el-form-item label="用户名">
+        <el-input v-model="newInfo.username" autocomplete="off" />
       </el-form-item>
       <!-- <el-form-item label="用户地址">
         <el-input v-model="newInfo.address" autocomplete="off" />
@@ -166,14 +165,14 @@ export default {
       dialogPasswordVisible : false,
       dialogInfoVisible : false,
       userInfo : {
+        email: this.$store.state.email,
         username: this.$store.state.username,//当登陆后会获取已经登陆的用户的用户名，电话号码，权限等信息
-        phone: this.$store.state.phone,
         address: '浙江省-杭州市',
         userpermission:this.$store.state.access
       },
       newInfo : {
+        email:'',
         username:'',
-        phone:'',
         address:'',
         userpermission:''
       }
@@ -188,9 +187,9 @@ export default {
     },
     handleClose:function()
     {
+      this.newInfo.email=''
       this.newInfo.username=''
       this.newInfo.userpermission=''
-      this.newInfo.phone=''
       this.newInfo.address=''
       this.ruleForm.oldpass=''
       this.ruleForm.pass=''
@@ -204,7 +203,7 @@ export default {
           request.post('/user/updatepwd',{},
           {
             params:{
-              username:this.userInfo.username,
+              email:this.userInfo.email,
               newPassword:this.ruleForm.pass
             },
             headers:{'Content-Type':'application/json'}
@@ -247,15 +246,15 @@ export default {
           console.log(err)
         })
       }
-      if(this.newInfo.phone!='') {
-        this.userInfo.phone=JSON.parse(JSON.stringify(this.newInfo.phone))
-        //this.$store.state.phone=JSON.parse(JSON.stringify(this.newInfo.phone))
-        this.$store.commit("setPhone",this.userInfo.phone)
-        console.log(this.$store.state.phone)
-        console.log(this.userInfo.phone)
+      if(this.newInfo.email!='') {
+        this.userInfo.email=JSON.parse(JSON.stringify(this.newInfo.email))
+        //this.$store.state.email=JSON.parse(JSON.stringify(this.newInfo.email))
+        this.$store.commit("setEmail",this.userInfo.email)
+        console.log(this.$store.state.email)
+        console.log(this.userInfo.email)
         this.flag=1
-        axios.post('/user/updatetel',{
-          "telephone":this.newInfo.phone,
+        axios.post('/user/updateemail',{
+          "email":this.newInfo.email,
           "username":this.userInfo.username
         }).then(function(response) {
           console.log(response)
@@ -283,7 +282,7 @@ export default {
     }
   },
   mounted: function () {
-    this.$store.state.phone=localStorage.getItem("phone")
+    this.$store.state.email=localStorage.getItem("email")
   }
 }
 </script>
