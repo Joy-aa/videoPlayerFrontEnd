@@ -21,36 +21,24 @@
                       <div class="account-name">@{{ userInfo.username }}</div>
                     </el-col>
                     <el-col span="22">
-                      <div class="video-create-time">10月30日</div>
+                      <div class="video-create-time">--{{ videoInfo.createTime }}</div>
                     </el-col>
                   </div>
                 </el-row>
                 <el-row>
                   <div class="title">
-                    <span class="e_h_fqNj">
-                      <span class="tag-span">《挑战和陌生人飞镖旅行》——湘西</span>
-                      
-                      <span class="tag-span">
+                      <span class="tag-span">{{ videoInfo.videoName }}</span>
+                      <el-row>
+                        <el-row v-for="(tag, index) in taglist" :key="index">
+                          <span class="tag-span">#{{ tag.tagName }}</span>
+                        </el-row>
+                      </el-row>
+                      <!-- <span class="tag-span">
                         <a href="https://www.douyin.com/search/%E7%94%9C%E5%A6%B9" class="B3AsdZT9 vStoQqaB e8ZKvWWv"
                           target="_blank">
                           <span>#甜妹</span>
                         </a>
-                      </span>
-                      
-                      <span class="tag-span">
-                        <a href="https://www.douyin.com/search/%E4%BB%93%E4%B9%9F" class="B3AsdZT9 vStoQqaB e8ZKvWWv"
-                          target="_blank">
-                          <span>#仓也</span>
-                        </a>
-                      </span>
-                      
-                      <span class="tag-span">
-                        <a href="https://www.douyin.com/search/%E6%97%85%E8%A1%8C" class="B3AsdZT9 vStoQqaB e8ZKvWWv"
-                          target="_blank">
-                          <span>#旅行</span>
-                        </a>
-                      </span>
-                    </span>
+                      </span> -->
                   </div>
                 </el-row>
               </div>
@@ -76,12 +64,7 @@
             </div>
             <div class="button-slide">
               <div class="headImage">
-                <a href="//www.douyin.com/user/MS4wLjABAAAAEtfK7xIVdVCD6zsxc0kqbb8qXZSO2H6UNWcxJuBQqUg"
-                   data-e2e="video-avatar" target="_blank" rel="noopener noreferrer">
-                  <img
-                      src="//p3-pc.douyinpic.com/aweme/100x100/aweme-avatar/tos-cn-avt-0015_71379b9841db2830c4aaa59e5c2c59d7.jpeg?from=116350172"
-                      alt="" class="PbpHcHqa">
-                </a>
+                  <img v-bind:src= "userInfo.headshot? userInfo.headshot:require('../../assets/img.png')" class="PbpHcHqa">
                 <div class="NRiH5zYV" data-e2e="feed-follow-icon">
                   <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                        viewBox="0 0 90 90" width="90" height="90" preserveAspectRatio="xMidYMid meet"
@@ -635,15 +618,17 @@ var userInfo = ref({
   username:"用户不存在"
 })
 
+var taglist = ref([])
+
 async function getuser(userId) {
   const p = {
     userId: userId
   }
-  console.log(p)
+  // console.log(p)
   await request
   .get("/user/findUser", {params: p})
   .then(res => {
-    console.log(res)
+    // console.log(res)
     if(res.data.code != 1)
       userInfo.value = res.data.data
   })
@@ -653,6 +638,42 @@ async function getuser(userId) {
   console.log(toRaw(userInfo))
 }
 
+function gettagrecord(videoId) {
+  const p = {
+    videoId: videoId
+  }
+  request
+  .get("/tagrecord/findTagrecord", {params: p})
+  .then(res => {
+    // console.log(res)
+    if(res.data.code != 1){
+      var tagrecords = res.data.data
+      for(let i = 0; i < tagrecords.length; i++) {
+        gettags(tagrecords[i].tagId)
+      }
+      
+    }
+  })
+  .catch(err => {
+    console.log(err)
+  })
+}
+
+function gettags(tagid) {
+  const p = {
+    tagId : tagid
+  }
+  request
+  .get("/tag/findtagbyid", {params: p})
+  .then(res => {
+    // console.log(res)
+    taglist.value.push(res.data.data)
+  })
+  .catch(err => {
+    console.log(err)
+  })
+}
+
 async function getvideo(videoId){
   const p = {
     videoId: videoId
@@ -660,14 +681,16 @@ async function getvideo(videoId){
   await request
   .get("/video/findVideos", {params: p})
   .then(res => {
-    console.log(res.data.data.videoPath);
+    // console.log(res.data.data.videoPath);
     videoInfo.value =  res.data.data;
   })
   .catch(err => {
     console.log(err)
   });
-  console.log(toRaw(videoInfo))
+  // console.log(toRaw(videoInfo))
   getuser(toRaw(videoInfo.value).userId)
+  gettagrecord(toRaw(videoInfo.value).videoId)
+  
 }
 getvideo(2)
 
