@@ -14,7 +14,7 @@
             <div>
 
               <div>
-                <video class="videodetail" width="90%" :src="getvideo().src" controls></video>
+                <video class="videodetail" width="90%" :src="getvideo(1).src" controls></video>
               </div>
 
               <div class="videoinfodetail">
@@ -621,12 +621,22 @@
 import { router } from '@/router';
 import { Delete, Star, Search, Share, StarFilled, Comment, Upload, ArrowUpBold, ArrowDownBold } from '@element-plus/icons-vue'
 import {computed, reactive} from "vue";
-function getvideo(){
+import request from '@/api';
+function getvideo(videoId){
+  console.log(videoId)
+    
+  request
+  .get("video/findvideos", videoId)
+  .then(res => {
+    console.log(res);
+  })
+  .catch(err => {
+    console.log(err)
+  });
   return { id: 1, src: require('../../assets/WeChat_20231025161539.mp4'), type: 'video/mp4' }
 }
 function backTOHome(){
   router.push('/homepage')
-  console.log("xxxxxxxxxxxxxxxxx")
 }
 const videos = [
   { id: 1, src: require('../../assets/WeChat_20231025161539.mp4'), type: 'video/mp4' },
