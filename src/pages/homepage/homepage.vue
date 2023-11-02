@@ -9,8 +9,8 @@
               <div class="video-info">
                 <video class="video-wrapper" :src="video.videoPath" autoplay="autoplay" :style="{ height: store.state.heights.at(index) + 'px' }" controls width="285"></video>
                 <p style="margin-left: 5px;font-size: 15px;color: lightgrey">{{video.videoName}}</p>
-                <el-row style="margin-left: 5px;margin-top: 3px">
-                  <p style="font-size: 14px;color: lightgrey">@用户名</p>
+                <el-row style="margin-top: 3px">
+                  <p style="margin-left: 5px;font-size: 14px;color: lightgrey">@{{ store.state.users.at(index) }}</p>
                   <p style="margin-left: 20px;font-size: 14px;color: lightgrey">· {{ formatMsgTime(video.createTime) }}</p>
                 </el-row>
                 <el-row>
@@ -77,7 +77,7 @@
                     </svg>
                   </div>
                   <p style="margin-top: 7px;font-size: 12px;color: grey">{{video.likeNum}}</p>
-                  <div class="commentbutton" style="width: 30px;height: 30px">
+                  <div class="commentbutton" style="margin-left: 5px;width: 30px;height: 30px">
                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 100 100" width="99" height="99" preserveAspectRatio="xMidYMid meet" style="width: 100%; height: 100%; transform: translate3d(0px, 0px, 0px); content-visibility: visible;">
                       <g clip-path="url(#__lottie_element_1416)">
                         <g transform="matrix(0.6600000262260437,0,0,0.6600000262260437,76.25495910644531,52.904117584228516)" opacity="1" style="display: block;">
@@ -95,7 +95,7 @@
                     </svg>
                   </div>
                   <p style="margin-top: 7px;font-size: 12px;color: grey">{{video.shareNum}}</p>
-                  <div class="starbutton" style="width: 30px;height: 30px">
+                  <div class="starbutton" style="margin-left: 5px;width: 30px;height: 30px">
                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-2 0 105 105" width="99" height="99" preserveAspectRatio="xMidYMid meet" style="width: 100%; height: 100%; transform: translate3d(0px, 0px, 0px); content-visibility: visible;">
                       <g clip-path="url(#__lottie_element_1421)">
                         <g clip-path="url(#__lottie_element_1495)" style="display: none;">
@@ -301,6 +301,7 @@ onUpdated(() => {
 
 function formatMsgTime (timestamp) {
   var dateTime = renderTime(timestamp)
+  console.log(dateTime)
   function renderTime(date) {
     var dateee = new Date(date).toJSON();
     return new Date(+new Date(dateee) + 8 * 3600 * 1000)
