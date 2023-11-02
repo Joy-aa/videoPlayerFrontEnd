@@ -3,20 +3,15 @@
   <div class="holly-main">
     <router-view></router-view>
     <div class="video-container">
-      <div>
-        <h2>分类视频页</h2>
-        <p>接收的参数: {{ $route.params.category }}</p>
-      </div>
-
-        <div v-for="(video, index) in videos_remain" :key="index" @click="clickvideo"  :style="{ height: video.height + 80 + 'px' }" class="video-item_remain">
+        <div v-for="(video, index) in store.state.videos" :key="index" @click="clickvideo"  :style="{ height: store.state.heights.at(index) + 80 + 'px' }" class="video-item_remain">
           <router-link :to="`/videopage/${video.id}`">
             <div class="video-content">
               <div class="video-info">
-                <video class="video-wrapper" :src="video.src" :style="{ height: video.height + 'px' }" controls width="285"></video>
-                <p style="margin-left: 5px;font-size: 15px;color: lightgrey">这里是视频简介</p>
+                <video class="video-wrapper" :src="video.videoPath" autoplay="autoplay" :style="{ height: store.state.heights.at(index) + 'px' }" controls width="285"></video>
+                <p style="margin-left: 5px;font-size: 15px;color: lightgrey">{{video.videoName}}</p>
                 <el-row style="margin-left: 5px;margin-top: 3px">
                   <p style="font-size: 14px;color: lightgrey">@用户名</p>
-                  <p style="margin-left: 20px;font-size: 14px;color: lightgrey">· 发布时间</p>
+                  <p style="margin-left: 20px;font-size: 14px;color: lightgrey">· {{ formatMsgTime(video.createTime) }}</p>
                 </el-row>
                 <el-row>
                   <div class="likebutton" style="margin-left: 0px;margin-top: 0px;width: 30px;height: 30px">
@@ -81,7 +76,7 @@
                       </g>
                     </svg>
                   </div>
-                  <p style="margin-top: 7px;font-size: 12px;color: grey">{{video.likeNums}}</p>
+                  <p style="margin-top: 7px;font-size: 12px;color: grey">{{video.likeNum}}</p>
                   <div class="commentbutton" style="width: 30px;height: 30px">
                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 100 100" width="99" height="99" preserveAspectRatio="xMidYMid meet" style="width: 100%; height: 100%; transform: translate3d(0px, 0px, 0px); content-visibility: visible;">
                       <g clip-path="url(#__lottie_element_1416)">
@@ -99,7 +94,7 @@
                       </g>
                     </svg>
                   </div>
-                  <p style="margin-top: 7px;font-size: 12px;color: grey">{{video.commentNums}}</p>
+                  <p style="margin-top: 7px;font-size: 12px;color: grey">{{video.shareNum}}</p>
                   <div class="starbutton" style="width: 30px;height: 30px">
                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-2 0 105 105" width="99" height="99" preserveAspectRatio="xMidYMid meet" style="width: 100%; height: 100%; transform: translate3d(0px, 0px, 0px); content-visibility: visible;">
                       <g clip-path="url(#__lottie_element_1421)">
@@ -190,7 +185,7 @@
                       </g>
                     </svg>
                   </div>
-                  <p style="margin-top: 7px;font-size: 12px;color: grey">{{video.starNums}}</p>
+                  <p style="margin-top: 7px;font-size: 12px;color: grey">{{video.starNum}}</p>
                 </el-row>
               </div>
 <!--              <div v-else class="video-info">-->
@@ -273,7 +268,7 @@
 
 import $ from 'jquery'
 import * as d3 from 'd3';
-import {reactive, onMounted, onUpdated, ref, onUnmounted, watch, defineExpose} from "vue";
+import {reactive, onMounted, onUpdated, ref, onBeforeUpdate, onUnmounted, watch, defineExpose} from "vue";
 import { Female, Edit, Search, Share, Upload } from '@element-plus/icons-vue';
 import {useRoute, useRouter} from 'vue-router'
 import { useStore } from 'vuex';
@@ -285,10 +280,7 @@ const route = useRoute()
 const store = useStore();
 const activeMenu = ref('/');
 
-const video_category_group = ref({
-  category: 1,
-  videos: ""
-})
+const videos = ref();
 const followNums = 10
 const fanNums = 10
 const likeNums = 10
@@ -303,41 +295,43 @@ const clickvideo = (index) => {
 
 //周期函数
 onUpdated(() => {
-  //打印父组件传递的值
-  video_category_group.value.category = route.params.category
-  get_videos_of_category()
-  console.log('当前页面类别' + video_category_group.value.category)
+  videos.value = store.state.videos
+  console.log(videos.value)
 })
 
-const videos_remain = [
-  { id: 1, height: Math.floor(Math.random()*200) + 280, src: "http://s318q0lql.hn-bkt.clouddn.com/BV12B4y1R7Fs.mp4?e=1698819258&token=KjTkrg-s8FgPQ9VobTqkXGEa_UJArb6iU4h6kHKN:2oEVD3a18j_CxAXQCFaKNYrO02Q=", type: 'video/mp4', likeNums: 1, commentNums: 1, starNums: 1 },
-  { id: 2, height: Math.floor(Math.random()*200) + 280, src: require('../../assets/WeChat_20231025161539.mp4'), type: 'video/mp4', likeNums: 1, commentNums: 1, starNums: 1 },
-  { id: 3, height: Math.floor(Math.random()*200) + 280, src: require('../../assets/WeChat_20231025161539.mp4'), type: 'video/mp4', likeNums: 1, commentNums: 1, starNums: 1 },
-  { id: 4, height: Math.floor(Math.random()*200) + 280, src: require('../../assets/WeChat_20231025161539.mp4'), type: 'video/mp4', likeNums: 1, commentNums: 1, starNums: 1 },
-  { id: 5, height: Math.floor(Math.random()*200) + 280, src: require('../../assets/WeChat_20231025161539.mp4'), type: 'video/mp4', likeNums: 1, commentNums: 1, starNums: 1 },
-  { id: 6, height: Math.floor(Math.random()*200) + 280, src: require('../../assets/WeChat_20231025161539.mp4'), type: 'video/mp4', likeNums: 1, commentNums: 1, starNums: 1 },
-  { id: 7, height: Math.floor(Math.random()*200) + 280, src: require('../../assets/WeChat_20231025161539.mp4'), type: 'video/mp4', likeNums: 1, commentNums: 1, starNums: 1 },
-  { id: 8, height: Math.floor(Math.random()*200) + 280, src: require('../../assets/WeChat_20231025161539.mp4'), type: 'video/mp4', likeNums: 1, commentNums: 1, starNums: 1 },
-  { id: 9, height: Math.floor(Math.random()*200) + 280, src: require('../../assets/WeChat_20231025161539.mp4'), type: 'video/mp4', likeNums: 1, commentNums: 1, starNums: 1 },
-  { id: 10, height: Math.floor(Math.random()*200) + 280, src: require('../../assets/WeChat_20231025161539.mp4'), type: 'video/mp4', likeNums: 1, commentNums: 1, starNums: 1 },
-  { id: 11, height: Math.floor(Math.random()*200) + 280, src: require('../../assets/WeChat_20231025161539.mp4'), type: 'video/mp4', likeNums: 1, commentNums: 1, starNums: 1 },
-  { id: 12, height: Math.floor(Math.random()*200) + 280, src: require('../../assets/WeChat_20231025161539.mp4'), type: 'video/mp4', likeNums: 1, commentNums: 1, starNums: 1 },
-  // 添加更多视频数据...
-];
-
-async function get_videos_of_category() {
-  console.log("进入函数体" + video_category_group.value.category)
-  await request
-      .get("/tagrecord/findVideoByTag", {params: video_category_group.value.category})
-      .then(res => {
-        // console.log(res)
-        video_category_group.value.videos = res.data.data
-        console.log("xxxxxxxxxxxxx")
-        console.log(res);
-      })
-      .catch(err => {
-        console.log(err)
-      });
+function formatMsgTime (timestamp) {
+  var dateTime = renderTime(timestamp)
+  function renderTime(date) {
+    var dateee = new Date(date).toJSON();
+    return new Date(+new Date(dateee) + 8 * 3600 * 1000)
+  }
+  console.log(dateTime) // 将传进来的字符串或者毫秒转为标准时间
+  var year = dateTime.getFullYear()
+  var month = dateTime.getMonth() + 1
+  var day = dateTime.getDate()
+  var hour = dateTime.getHours()
+  var minute = dateTime.getMinutes()
+  // var second = dateTime.getSeconds()
+  var millisecond = dateTime.getTime() // 将当前编辑的时间转换为毫秒
+  var now = new Date() // 获取本机当前的时间
+  var nowNew = now.getTime() // 将本机的时间转换为毫秒
+  var milliseconds = 0
+  var timeSpanStr
+  milliseconds = nowNew - millisecond
+  if (milliseconds <= 1000 * 60 * 1) { // 小于一分钟展示为刚刚
+    timeSpanStr = '刚刚'
+  } else if (1000 * 60 * 1 < milliseconds && milliseconds <= 1000 * 60 * 60) { // 大于一分钟小于一小时展示为分钟
+    timeSpanStr = Math.round((milliseconds / (1000 * 60))) + '分钟前'
+  } else if (1000 * 60 * 60 * 1 < milliseconds && milliseconds <= 1000 * 60 * 60 * 24) { // 大于一小时小于一天展示为小时
+    timeSpanStr = Math.round(milliseconds / (1000 * 60 * 60)) + '小时前'
+  } else if (1000 * 60 * 60 * 24 < milliseconds && milliseconds <= 1000 * 60 * 60 * 24 * 15) { // 大于一天小于十五天展示位天
+    timeSpanStr = Math.round(milliseconds / (1000 * 60 * 60 * 24)) + '天前'
+  } else if (milliseconds > 1000 * 60 * 60 * 24 * 15 && year === now.getFullYear()) {
+    timeSpanStr = month + '-' + day + ' ' + hour + ':' + minute
+  } else {
+    timeSpanStr = year + '-' + month + '-' + day + ' ' + hour + ':' + minute
+  }
+  return timeSpanStr
 }
 
 </script>

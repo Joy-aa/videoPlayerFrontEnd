@@ -34,10 +34,10 @@ const routes = [
         path: '/homepage',
         component: homepage
     },
-    {
-        path: '/homepage/:category',
-        component: homepage
-    },
+    // {
+    //     path: '/homepage',
+    //     component: homepage
+    // },
     {
         path: '/searchpage',
         component: searchpage

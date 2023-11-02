@@ -40,6 +40,20 @@ const store = createStore({
             console.log('setAccess', state.access)
             localStorage.setItem('access', access)
         },
+        setVideosOfCategory(state, videos) {
+            state.videos = videos
+            console.log('setVideos', state.videos)
+        },
+        getVideoOfCategory(state) {
+            return state.videos
+        },
+        setHeights(state, heights) {
+            state.heights = heights
+            console.log('setVideos', state.heights)
+        },
+        getHeights(state) {
+            return state.heights
+        },
         getImageList(state){
             return state.imageList
         },
@@ -78,6 +92,8 @@ const store = createStore({
             showHistory3DModelPath: '',
             tableData:[],
             pictures:[],
+            videos:[],
+            heights:[]
             // isCollapse:true,
         }
     },

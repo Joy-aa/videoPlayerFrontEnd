@@ -9,28 +9,26 @@
 
             <el-menu
                 default-active=1
-                router="router"
                 class="el-menu-vertical-demo"
-                @select="handleMenuSelect"
                 @open="handleOpen"
                 @close="handleClose"
                 background-color="#2c3e50"
                 text-color="#fff"
                 active-text-color="#ffd04b">
 
-              <el-menu-item index="/homepage/1">
+              <el-menu-item @click="handleMenuSelect(1)">
                 <i class="el-icon-menu"></i>
                 <span>首页</span>
               </el-menu-item>
-              <el-menu-item index="/homepage/2">
+              <el-menu-item @click="handleMenuSelect(2)">
                 <i class="el-icon-document"></i>
                 <span>推荐</span>
               </el-menu-item>
-              <el-menu-item index="/homepage/3">
+              <el-menu-item @click="handleMenuSelect(3)">
                 <i class="el-icon-document"></i>
                 <span>本地</span>
               </el-menu-item>
-              <el-menu-item index="/homepage/4">
+              <el-menu-item @click="handleMenuSelect(4)">
                 <i class="el-icon-setting"></i>
                 <span>知识</span>
               </el-menu-item>
@@ -151,10 +149,35 @@ function login_signin() {
   //   router.push("/userinfo")
 }
 
-const handleMenuSelect = (index) => {
+async function handleMenuSelect(index) {
+  console.log("父组件" + index)
   activeMenu.value = index;
-  router.push(index)
-};
+  const p = {
+    tagId : index,
+  }
+
+  var result = ""
+  var heights = []
+  await request
+      .get("/tagrecord/findVideoByTag", {params: p})
+      .then(res => {
+        result = res.data.data
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err)
+      });
+  console.log('当前页面类别' + index)
+  console.log(result)
+  store.commit("setVideosOfCategory", result)
+
+  for (var i = 0; i < result.length; i++) {
+    heights.push(Math.floor(Math.random()*200) + 280);
+  }
+  store.commit("setHeights", heights)
+
+  router.push("/homepage")
+}
 
 const global_user_name = ref(store.state.username);
 const ifsignoruser = () => {
@@ -192,7 +215,7 @@ function login_out(){
   location.reload()  //刷新当前页面
 }
 
-function login_init(){
+async function login_init(){
   const _username = localStorage.getItem("username")
   const _email = localStorage.getItem("email")
   const access = localStorage.getItem('access')
@@ -204,6 +227,30 @@ function login_init(){
     store.commit("setEmail", _email)
     store.commit('setAccess', access)
   }
+
+  const p = {
+    tagId : 1,
+  }
+  var result = ""
+  var heights = []
+  await request
+      .get("/tagrecord/findVideoByTag", {params: p})
+      .then(res => {
+        result = res.data.data
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err)
+      });
+  console.log('当前页面类别' + 1)
+  console.log(result)
+
+  for (var i = 0; i < result.length; i++) {
+    heights.push(Math.floor(Math.random()*200) + 280);
+  }
+  store.commit("setHeights", heights)
+
+  store.commit("setVideosOfCategory", result)
 }
 login_init()
 

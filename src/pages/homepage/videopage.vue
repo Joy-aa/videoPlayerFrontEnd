@@ -9,52 +9,39 @@
         </svg>
       </div>
       <div>
-        <el-row>
-          <el-col :span="22">
-            <div>
-<!--                  <p>{{p.videoId}}</p>-->
               <div>
-                <video class="videodetail" :src="p.videoPath" autoplay="autoplay" controls></video>
+                <!-- <p>{{ videoInfo.videoId }}</p> -->
+                <video class="videodetail" width="90%" :src="videoInfo.videoPath" controls autoplay="autoplay"></video>
               </div>
 
               <div class="videoinfodetail">
-                <div class="account">
-                  <div class="account-name">
-                    <span>账户名称</span>
+                <el-row align="middle">
+                  <div class="account">
+                    <el-col span="30">
+                      <div class="account-name">@{{ userInfo.username }}</div>
+                    </el-col>
+                    <el-col span="22">
+                      <div class="video-create-time">--{{ videoInfo.createTime }}</div>
+                    </el-col>
                   </div>
-                  <div class="video-create-time">
-                    <span>10月30日</span>
+                </el-row>
+                <el-row>
+                  <div class="title">
+                      <span class="tag-span">{{ videoInfo.videoName }}</span>
+                      <el-row>
+                        <el-row v-for="(tag, index) in taglist" :key="index">
+                          <span class="tag-span">#{{ tag.tagName }}</span>
+                        </el-row>
+                      </el-row>
+                      <!-- <span class="tag-span">
+                        <a href="https://www.douyin.com/search/%E7%94%9C%E5%A6%B9" class="B3AsdZT9 vStoQqaB e8ZKvWWv"
+                          target="_blank">
+                          <span>#甜妹</span>
+                        </a>
+                      </span> -->
                   </div>
-                </div>
-                <div class="title">
-                <span class="e_h_fqNj">
-                    <span class="tag-span">《挑战和陌生人飞镖旅行》——湘西</span>
-                    <span><span><span><span> </span></span></span></span>
-                    <span class="tag-span">
-                      <a href="https://www.douyin.com/search/%E7%94%9C%E5%A6%B9" class="B3AsdZT9 vStoQqaB e8ZKvWWv"
-                         target="_blank">
-                        <span>#甜妹</span>
-                      </a>
-                    </span>
-                    <span><span><span><span> </span></span></span></span>
-                    <span class="tag-span">
-                      <a href="https://www.douyin.com/search/%E4%BB%93%E4%B9%9F" class="B3AsdZT9 vStoQqaB e8ZKvWWv"
-                         target="_blank">
-                        <span>#仓也</span>
-                      </a>
-                    </span>
-                    <span><span><span><span> </span></span></span></span>
-                    <span class="tag-span">
-                      <a href="https://www.douyin.com/search/%E6%97%85%E8%A1%8C" class="B3AsdZT9 vStoQqaB e8ZKvWWv"
-                         target="_blank">
-                    <span>#旅行</span>
-                      </a>
-                    </span>
-                </span>
-                </div>
+                </el-row>
               </div>
-            </div>
-          </el-col>
 
           <el-col :span="2" class="xslide">
             <div class="switch">
@@ -77,12 +64,7 @@
             </div>
             <div class="button-slide">
               <div class="headImage">
-                <a href="//www.douyin.com/user/MS4wLjABAAAAEtfK7xIVdVCD6zsxc0kqbb8qXZSO2H6UNWcxJuBQqUg"
-                   data-e2e="video-avatar" target="_blank" rel="noopener noreferrer">
-                  <img
-                      src="//p3-pc.douyinpic.com/aweme/100x100/aweme-avatar/tos-cn-avt-0015_71379b9841db2830c4aaa59e5c2c59d7.jpeg?from=116350172"
-                      alt="" class="PbpHcHqa">
-                </a>
+                  <img v-bind:src= "userInfo.headshot? userInfo.headshot:require('../../assets/img.png')" class="PbpHcHqa">
                 <div class="NRiH5zYV" data-e2e="feed-follow-icon">
                   <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                        viewBox="0 0 90 90" width="90" height="90" preserveAspectRatio="xMidYMid meet"
@@ -291,9 +273,7 @@
                 </svg>
               </div>
             </div>
-
           </el-col>
-        </el-row>
         <!-- 会弹出的登录界面 -->
         <!-- <div class="disturb-login-panel"></div> -->
       </div>
@@ -568,7 +548,7 @@
 .videoinfodetail{
   position: fixed;
   left: 0;
-  bottom: 8%;
+  bottom: 80px;
   padding: 16px 95px 16px 16px;
   width: 100%;
   z-index: 2;
@@ -576,14 +556,15 @@
 }
 .account{
   color: white;
-  width: 15%;
-  height: 50%;
-  /*background: #0c24ad;*/
-  display: flex;
+  /* width: 15%; */
+  /* height: 50%; */
+  /* text-align: center; */
+  display: flex; /**/
+  justify-content: center; /*水平居中*/
+  align-items: Center; /*垂直居中*/
 }
 .account-name{
-  float: left;
-  font-size: 30px;
+  font-size: 22px;
   margin-left: 5px;
   margin-right: 5px;
   font-family: PingFang SC,DFPKingGothicGB-Medium,sans-serif;
@@ -591,11 +572,11 @@
 }
 .video-create-time{
   font-family: PingFang SC,DFPKingGothicGB-Regular,sans-serif;
-  font-size: 20px;
-  margin: auto;
+  font-size: 12px;
 }
 .title{
-  font-size: 20px;
+  font-family: PingFang SC,DFPKingGothicGB-Regular,sans-serif;
+  font-size: 17px;
   color: white;
   cursor: auto;
   margin-top: 15px;
@@ -619,55 +600,99 @@
 <script setup>
 // import sidePane from '../../components/side-pane.vue';
 import { router } from '@/router';
-import {onMounted, ref, onUnmounted } from "vue";
+// import { ref } from 'vue'
 import { Delete, Star, Search, Share, StarFilled, Comment, Upload, ArrowUpBold, ArrowDownBold } from '@element-plus/icons-vue'
-import {computed, reactive} from "vue";
-import request from "@/api";
-// function getvideo(){
-//   return { id: 1, src: require('../../assets/WeChat_20231025161539.mp4'), type: 'video/mp4' }
-// }
-// let videopath = "";
-const p = ref({
-  videoId: 1,
-  videoPath: "http://s318q0lql.hn-bkt.clouddn.com/BV12B4y1R7Fs.mp4?e=1698819258&token=KjTkrg-s8FgPQ9VobTqkXGEa_UJArb6iU4h6kHKN:2oEVD3a18j_CxAXQCFaKNYrO02Q="
-})
-function getvideo(){
-  // console.log(videoId);
-
-  // console.log(params.videoId)
-  request
-      .get("/video/findVideos", {params: p.value})
-      .then(res => {
-        // p.videoPath = "http://s318q0lql.hn-bkt.clouddn.com/BV12B4y1R7Fs.mp4?e=1698819258&token=KjTkrg-s8FgPQ9VobTqkXGEa_UJArb6iU4h6kHKN:2oEVD3a18j_CxAXQCFaKNYrO02Q=";
-        // p.value.videoId = 2
-        console.log(res)
-        // p.value.videoId = 2
-        p.value.videoPath = res.data.data.videoPath
-        console.log("xxxxxxxxxxxxx")
-        // console.log(res.data.data.videoPath)
-        // console.log(p.videoPath)
-        console.log(res);
-      })
-      .catch(err => {
-        console.log(err)
-      });
-}
-getvideo()
+import {computed, reactive, ref, toRaw} from "vue";
+import request from '@/api';
+import { useThrottledRefHistory } from '@vueuse/core';
+// import { toRaw } from 'vue';
+// console.log(getvideo(1).src)
 function backTOHome(){
   router.push('/homepage')
-  console.log("xxxxxxxxxxxxxxxxx")
 }
-const videos = [
-  { id: 1, src: require('../../assets/WeChat_20231025161539.mp4'), type: 'video/mp4' },
-  { id: 2, src: require('../../assets/WeChat_20231025161539.mp4'), type: 'video/mp4' },
-  { id: 3, src: require('../../assets/WeChat_20231025161539.mp4'), type: 'video/mp4' },
-  { id: 4, src: require('../../assets/WeChat_20231025161539.mp4'), type: 'video/mp4' },
-  { id: 5, src: require('../../assets/WeChat_20231025161539.mp4'), type: 'video/mp4' },
-  { id: 6, src: require('../../assets/WeChat_20231025161539.mp4'), type: 'video/mp4' },
-  // 添加更多视频数据...
-];
-// let fold = false
-// eslint-disable-next-line no-unused-vars
+var videoInfo = ref({})
+
+var userInfo = ref({
+  userId: -1,
+  headshot:'',
+  username:"用户不存在"
+})
+
+var taglist = ref([])
+
+async function getuser(userId) {
+  const p = {
+    userId: userId
+  }
+  // console.log(p)
+  await request
+  .get("/user/findUser", {params: p})
+  .then(res => {
+    // console.log(res)
+    if(res.data.code != 1)
+      userInfo.value = res.data.data
+  })
+  .catch(err => {
+    console.log(err)
+  })
+  console.log(toRaw(userInfo))
+}
+
+function gettagrecord(videoId) {
+  const p = {
+    videoId: videoId
+  }
+  request
+  .get("/tagrecord/findTagrecord", {params: p})
+  .then(res => {
+    // console.log(res)
+    if(res.data.code != 1){
+      var tagrecords = res.data.data
+      for(let i = 0; i < tagrecords.length; i++) {
+        gettags(tagrecords[i].tagId)
+      }
+      
+    }
+  })
+  .catch(err => {
+    console.log(err)
+  })
+}
+
+function gettags(tagid) {
+  const p = {
+    tagId : tagid
+  }
+  request
+  .get("/tag/findtagbyid", {params: p})
+  .then(res => {
+    // console.log(res)
+    taglist.value.push(res.data.data)
+  })
+  .catch(err => {
+    console.log(err)
+  })
+}
+
+async function getvideo(videoId){
+  const p = {
+    videoId: videoId
+  }
+  await request
+  .get("/video/findVideos", {params: p})
+  .then(res => {
+    // console.log(res.data.data.videoPath);
+    videoInfo.value =  res.data.data;
+  })
+  .catch(err => {
+    console.log(err)
+  });
+  // console.log(toRaw(videoInfo))
+  getuser(toRaw(videoInfo.value).userId)
+  gettagrecord(toRaw(videoInfo.value).videoId)
+  
+}
+getvideo(2)
 
 const test = reactive({
   fold :false

@@ -5,6 +5,10 @@ module.exports = defineConfig({
   lintOnSave: false,
   transpileDependencies: true,
   devServer:{
+    port: 8080, //前端服务启动的端口号
+    host: 'localhost', //前端服务启动后的访问ip，默认为localhost, host和port组成了前端服务启动后的访问入口。
+    https: false,
+    open: true,
     proxy:{
       '/api': {
         // target: 'http://10.214.242.155:7667',  //部署的时候, 记得更改服务器上的后端端口
