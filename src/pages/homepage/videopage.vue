@@ -12,9 +12,9 @@
         <el-row>
           <el-col :span="22">
             <div>
-
+<!--                  <p>{{p.videoId}}</p>-->
               <div>
-                <video class="videodetail" width="90%" :src="getvideo().src" controls></video>
+                <video class="videodetail" :src="p.videoPath" autoplay="autoplay" controls></video>
               </div>
 
               <div class="videoinfodetail">
@@ -619,11 +619,40 @@
 <script setup>
 // import sidePane from '../../components/side-pane.vue';
 import { router } from '@/router';
+import {onMounted, ref, onUnmounted } from "vue";
 import { Delete, Star, Search, Share, StarFilled, Comment, Upload, ArrowUpBold, ArrowDownBold } from '@element-plus/icons-vue'
 import {computed, reactive} from "vue";
+import request from "@/api";
+// function getvideo(){
+//   return { id: 1, src: require('../../assets/WeChat_20231025161539.mp4'), type: 'video/mp4' }
+// }
+// let videopath = "";
+const p = ref({
+  videoId: 1,
+  videoPath: "http://s318q0lql.hn-bkt.clouddn.com/BV12B4y1R7Fs.mp4?e=1698819258&token=KjTkrg-s8FgPQ9VobTqkXGEa_UJArb6iU4h6kHKN:2oEVD3a18j_CxAXQCFaKNYrO02Q="
+})
 function getvideo(){
-  return { id: 1, src: require('../../assets/WeChat_20231025161539.mp4'), type: 'video/mp4' }
+  // console.log(videoId);
+
+  // console.log(params.videoId)
+  request
+      .get("/video/findVideos", {params: p.value})
+      .then(res => {
+        // p.videoPath = "http://s318q0lql.hn-bkt.clouddn.com/BV12B4y1R7Fs.mp4?e=1698819258&token=KjTkrg-s8FgPQ9VobTqkXGEa_UJArb6iU4h6kHKN:2oEVD3a18j_CxAXQCFaKNYrO02Q=";
+        // p.value.videoId = 2
+        console.log(res)
+        // p.value.videoId = 2
+        p.value.videoPath = res.data.data.videoPath
+        console.log("xxxxxxxxxxxxx")
+        // console.log(res.data.data.videoPath)
+        // console.log(p.videoPath)
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err)
+      });
 }
+getvideo()
 function backTOHome(){
   router.push('/homepage')
   console.log("xxxxxxxxxxxxxxxxx")

@@ -8,7 +8,7 @@
           <el-col>
 
             <el-menu
-                default-active="1"
+                default-active=1
                 router="router"
                 class="el-menu-vertical-demo"
                 @select="handleMenuSelect"
@@ -18,53 +18,53 @@
                 text-color="#fff"
                 active-text-color="#ffd04b">
 
-              <el-menu-item index="/homepage">
+              <el-menu-item index="/homepage/1">
                 <i class="el-icon-menu"></i>
                 <span>首页</span>
               </el-menu-item>
-              <el-menu-item index="/homepage">
+              <el-menu-item index="/homepage/2">
                 <i class="el-icon-document"></i>
                 <span>推荐</span>
               </el-menu-item>
-              <el-menu-item index="/homepage">
+              <el-menu-item index="/homepage/3">
                 <i class="el-icon-document"></i>
                 <span>本地</span>
               </el-menu-item>
-              <el-menu-item index="/homepage">
+              <el-menu-item index="/homepage/4">
                 <i class="el-icon-setting"></i>
                 <span>知识</span>
               </el-menu-item>
 
-              <el-menu-item index="/homepage">
+              <el-menu-item index="/homepage/5">
                 <i class="el-icon-menu"></i>
                 <span>娱乐</span>
               </el-menu-item>
-              <el-menu-item index="/homepage">
+              <el-menu-item index="/homepage/6">
                 <i class="el-icon-document"></i>
                 <span>游戏</span>
               </el-menu-item>
-              <el-menu-item index="/homepage">
+              <el-menu-item index="/homepage/7">
                 <i class="el-icon-document"></i>
                 <span>二次元</span>
               </el-menu-item>
-              <el-menu-item index="/homepage">
+              <el-menu-item index="/homepage/8">
                 <i class="el-icon-setting"></i>
                 <span>美食</span>
               </el-menu-item>
 
-              <el-menu-item index="/homepage">
+              <el-menu-item index="/homepage/9">
                 <i class="el-icon-menu"></i>
                 <span>体育</span>
               </el-menu-item>
-              <el-menu-item index="/homepage">
+              <el-menu-item index="/homepage/10">
                 <i class="el-icon-document"></i>
                 <span>时尚</span>
               </el-menu-item>
-              <el-menu-item index="/homepage">
+              <el-menu-item index="/homepage/11">
                 <i class="el-icon-document"></i>
                 <span>财经</span>
               </el-menu-item>
-              <el-menu-item index="/homepage">
+              <el-menu-item index="/homepage/12">
                 <i class="el-icon-setting"></i>
                 <span>健康</span>
               </el-menu-item>
@@ -131,7 +131,11 @@ import request from "@/api";
 import Cookies from 'js-cookie'
 import { Delete, Edit, Search, Share, Upload } from '@element-plus/icons-vue'
 import avatar_url from '@/assets/img.png'
-// const searchcontent = ""
+import { useRoute, useRouter } from 'vue-router';
+const activeMenu = ref('/');
+const route = useRoute();
+const router = useRouter();
+
 function searchbuttonclick() {
   router.push("/searchpage")
 }
@@ -139,21 +143,19 @@ function searchbuttonclick() {
 function uploadbuttonclick() {
 // 处理按钮点击事件
 }
+
 function login_signin() {
   if (!store.state.isAut)
     router.push("/signin")
   // else
   //   router.push("/userinfo")
 }
-import { useRoute, useRouter } from 'vue-router';
-const activeMenu = ref('/');
-const route = useRoute();
-const router = useRouter();
 
 const handleMenuSelect = (index) => {
   activeMenu.value = index;
-  router.push(index);
+  router.push(index)
 };
+
 const global_user_name = ref(store.state.username);
 const ifsignoruser = () => {
 
@@ -189,6 +191,7 @@ function login_out(){
   });
   location.reload()  //刷新当前页面
 }
+
 function login_init(){
   const _username = localStorage.getItem("username")
   const _email = localStorage.getItem("email")
@@ -203,15 +206,11 @@ function login_init(){
   }
 }
 login_init()
+
 </script>
+
 <style>
-.upload-siginin-group {
-  flex-direction: row;
-}
-/*.container {*/
-/*  !*display: flex; !* 使用弹性布局，元素水平排列在同一行 *!*!*/
-/*  align-items: center; !* 垂直居中对齐按钮和菜单 *!*/
-/*}*/
+
 .menu-image {
   height: 80px;
   width: 120px;
@@ -269,72 +268,3 @@ login_init()
   border-color: white;
 }
 </style>
-
-<!--<style lang="css" scoped>-->
-<!--.holly-title{-->
-<!--  font-size: 15px-->
-<!--}-->
-<!--.flex-grow {-->
-<!--  flex-grow: 1;-->
-<!--}-->
-<!--.el-header {-->
-<!--  position: sticky;-->
-<!--  top: 0;-->
-<!--  padding: 0;-->
-<!--  margin: 0;-->
-<!--}-->
-<!--.el-menu {-->
-<!--  padding: 0;-->
-<!--  margin: 0;-->
-<!--  padding-inline: 40px;-->
-<!--  //border: 0;-->
-<!--  text-align: left;-->
-<!--  /*border: 5px solid #000000;*/-->
-<!--}-->
-<!--.el-sub-menu {-->
-<!--  padding: 0;-->
-<!--  margin: 0;-->
-<!--  //border: 0;-->
-<!--  text-align: left;-->
-<!--  /*border: 5px solid #000000;*/-->
-<!--}-->
-<!--.el-menu-item{-->
-<!--}-->
-<!--.el-main {-->
-<!--  padding: 0;-->
-<!--  margin: 0;-->
-<!--  background-color: white;-->
-<!--  /*background-image: linear-gradient(transparent,#fff 100%), url("http://10.214.242.155:7667/img/background/background_purple.jpg");*/-->
-<!--}-->
-<!--.right{-->
-<!--  /*position: absolute;*/-->
-<!--  right: 0;-->
-<!--  /*margin-inline: 20px;*/-->
-<!--  /*display: flex;*/-->
-<!--}-->
-<!--.common-layout{-->
-<!--  height: 100%;-->
-<!--}-->
-<!--.el-container,-->
-<!--.el-menu,-->
-<!--.el-main {-->
-<!--  height: 100%;-->
-<!--}-->
-<!--/* <style>-->
-<!--#app {-->
-<!--  font-family: Avenir, Helvetica, Arial, sans-serif;-->
-<!--  -webkit-font-smoothing: antialiased;-->
-<!--  -moz-osx-font-smoothing: grayscale;-->
-<!--  text-align: center;-->
-<!--  color: #2c3e50;-->
-<!--  margin-top: 60px;-->
-<!--}-->
-<!--*/-->
-<!--/*#app {*/-->
-<!--/*  font-family: 'Avenir', Helvetica, Arial, sans-serif;*/-->
-<!--/*  -webkit-font-smoothing: antialiased;*/-->
-<!--/*  -moz-osx-font-smoothing: grayscale;*/-->
-<!--/*  text-align: center;*/-->
-<!--/*  color: #2c3e50;*/-->
-<!--/*}*/-->
-<!--</style>-->
