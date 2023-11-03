@@ -7,17 +7,17 @@
         <el-tab-pane style="font-size: 16px" label="视频" name="first">
           <el-row>
             <!-- 四个视频-->
-            <div v-for="(video, index) in videos" :key="index" @click="clickvideo" class="video-item">
+            <div v-for="(video, index) in store.state.relatedvideos" :key="index" @click="clickvideo" class="video-item">
 
                 <div class="video-content">
                   <div class="video-info">
                     <router-link :to="`/videopage/${video.id}`">
-                      <video :src="video.src" controls width="285" height="480"></video>
+                      <video :src="video.videoPath" autoplay="autoplay" controls width="285" height="480"></video>
                     </router-link>
-                    <p style="margin-top: 0px;margin-left: 8px;font-size: 15px;color: lightgrey">这里是视频简介</p>
+                    <p style="margin-top: 0px;margin-left: 8px;font-size: 15px;color: lightgrey">{{video.videoName}}</p>
                     <el-row style="margin-top: -25px;margin-left: 8px">
-                      <p style="font-size: 14px;color: lightgrey">@用户名</p>
-                      <p style="margin-left: 20px;font-size: 14px;color: lightgrey">· 发布时间</p>
+                      <p style="font-size: 14px;color: lightgrey">@{{ video.username }}</p>
+                      <p style="margin-left: 20px;font-size: 14px;color: lightgrey">· {{ formatMsgTime(video.createTime) }}</p>
                     </el-row>
 
                     <el-row style="margin-top: -15px;">
@@ -83,7 +83,7 @@
                           </g>
                         </svg>
                       </div>
-                      <p style="margin-top: 7px;font-size: 12px;color: lightgrey">{{video.likeNums}}</p>
+                      <p style="margin-top: 7px;font-size: 12px;color: lightgrey">{{video.likeNum}}</p>
                       <div class="commentbutton" style="width: 30px;height: 30px">
                         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 100 100" width="99" height="99" preserveAspectRatio="xMidYMid meet" style="width: 100%; height: 100%; transform: translate3d(0px, 0px, 0px); content-visibility: visible;">
                           <g clip-path="url(#__lottie_element_1416)">
@@ -101,7 +101,7 @@
                           </g>
                         </svg>
                       </div>
-                      <p style="margin-top: 7px;font-size: 12px;color: lightgrey">{{video.commentNums}}</p>
+                      <p style="margin-top: 7px;font-size: 12px;color: lightgrey">{{video.shareNum}}</p>
                       <div class="starbutton" style="width: 30px;height: 30px">
                         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-2 0 105 105" width="99" height="99" preserveAspectRatio="xMidYMid meet" style="width: 100%; height: 100%; transform: translate3d(0px, 0px, 0px); content-visibility: visible;">
                           <g clip-path="url(#__lottie_element_1421)">
@@ -192,7 +192,7 @@
                           </g>
                         </svg>
                       </div>
-                      <p style="margin-top: 7px;font-size: 12px;color: lightgrey">{{video.starNums}}</p>
+                      <p style="margin-top: 7px;font-size: 12px;color: lightgrey">{{video.starNum}}</p>
                     </el-row>
 
                   </div>
@@ -205,7 +205,7 @@
         <el-tab-pane style="font-size: 16px" label="用户" name="second">
           <el-row>
             <!-- 四个视频-->
-            <div v-for="(user, index) in users" :key="index" @click="clickuser" class="user-item">
+            <div v-for="(user, index) in store.state.relatedusers" :key="index" @click="clickuser" class="user-item">
 
                 <div class="user-content">
                   <div class="user-info">
@@ -217,11 +217,11 @@
                       <el-button style="margin-left: 40%;font-size: 14px;color:white;background-color: deeppink;border-color: deeppink">关注</el-button>
                     </el-row>
                     <el-row style="margin-top: 0px">
-                      <p style="color:lightgrey;font-size: 14px">抖音号: {{user.id}}</p>
-                      <p style="color:lightgrey;font-size: 14px;margin-left: 20px">{{user.likeNums}} 获赞</p>
-                      <p style="color:lightgrey;font-size: 14px;margin-left: 20px">{{user.fanNums}} 粉丝</p>
+                      <p style="color:lightgrey;font-size: 14px">抖音号: {{user.userId}}</p>
+                      <p style="color:lightgrey;font-size: 14px;margin-left: 20px">{{ user.likeNum }} 获赞</p>
+                      <p style="color:lightgrey;font-size: 14px;margin-left: 20px">{{user.fanNum}} 粉丝</p>
                     </el-row>
-                    <p style="color:lightgrey;margin-top: 0px;font-size: 14px">{{user.introduction}}</p>
+                    <p style="color:lightgrey;margin-top: 0px;font-size: 14px">{{ user.introduction }}</p>
 
                   </div>
                 </div>
@@ -323,64 +323,70 @@
 </style>
 <script setup>
 
-// import $ from 'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js'
-// import * as d3 from 'https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js';
-// import $ from 'jquery'
-// import * as d3 from 'd3';
 import { reactive, onMounted, ref, onUnmounted } from "vue";
 import { Female, Edit, Search, Share, Upload } from '@element-plus/icons-vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import avatar_url from '@/assets/img.png'
-const router = useRouter()
 import '@fortawesome/fontawesome-free/css/all.css'
 import {Comment} from "@element-plus/icons";
 
-
-const videos = [
-  { id: 1, src: require('../../assets/WeChat_20231025161539.mp4'), type: 'video/mp4', likeNums: 1, commentNums: 1, starNums: 1 },
-  { id: 2, src: require('../../assets/WeChat_20231025161539.mp4'), type: 'video/mp4', likeNums: 1, commentNums: 1, starNums: 1 },
-  { id: 3, src: require('../../assets/WeChat_20231025161539.mp4'), type: 'video/mp4', likeNums: 1, commentNums: 1, starNums: 1 },
-  { id: 4, src: require('../../assets/WeChat_20231025161539.mp4'), type: 'video/mp4', likeNums: 1, commentNums: 1, starNums: 1 },
-  { id: 5, src: require('../../assets/WeChat_20231025161539.mp4'), type: 'video/mp4', likeNums: 1, commentNums: 1, starNums: 1 },
-  { id: 6, src: require('../../assets/WeChat_20231025161539.mp4'), type: 'video/mp4', likeNums: 1, commentNums: 1, starNums: 1 },
-  { id: 7, src: require('../../assets/WeChat_20231025161539.mp4'), type: 'video/mp4', likeNums: 1, commentNums: 1, starNums: 1 },
-  { id: 8, src: require('../../assets/WeChat_20231025161539.mp4'), type: 'video/mp4', likeNums: 1, commentNums: 1, starNums: 1 },
-  { id: 9, src: require('../../assets/WeChat_20231025161539.mp4'), type: 'video/mp4', likeNums: 1, commentNums: 1, starNums: 1 },
-  { id: 10, src: require('../../assets/WeChat_20231025161539.mp4'), type: 'video/mp4', likeNums: 1, commentNums: 1, starNums: 1 },
-  { id: 11, src: require('../../assets/WeChat_20231025161539.mp4'), type: 'video/mp4', likeNums: 1, commentNums: 1, starNums: 1 },
-  // 添加更多视频数据...
-];
-const users = [
-  { id: 1, username: "用户名", avatar_url: avatar_url, fanNums: 1, likeNums: 1, commentNums: 1, starNums: 1, introduction: "这里是个人简介" },
-  { id: 2, username: "用户名", avatar_url: avatar_url, fanNums: 1, likeNums: 1, commentNums: 1, starNums: 1, introduction: "这里是个人简介" },
-  { id: 3, username: "用户名", avatar_url: avatar_url, fanNums: 1, likeNums: 1, commentNums: 1, starNums: 1, introduction: "这里是个人简介" },
-  { id: 4, username: "用户名", avatar_url: avatar_url, fanNums: 1, likeNums: 1, commentNums: 1, starNums: 1, introduction: "这里是个人简介" },
-  { id: 5, username: "用户名", avatar_url: avatar_url, fanNums: 1, likeNums: 1, commentNums: 1, starNums: 1, introduction: "这里是个人简介" },
-  { id: 6, username: "用户名", avatar_url: avatar_url, fanNums: 1, likeNums: 1, commentNums: 1, starNums: 1, introduction: "这里是个人简介" },
-  { id: 7, username: "用户名", avatar_url: avatar_url, fanNums: 1, likeNums: 1, commentNums: 1, starNums: 1, introduction: "这里是个人简介" },
-  { id: 8, username: "用户名", avatar_url: avatar_url, fanNums: 1, likeNums: 1, commentNums: 1, starNums: 1, introduction: "这里是个人简介" },
-  { id: 9, username: "用户名", avatar_url: avatar_url, fanNums: 1, likeNums: 1, commentNums: 1, starNums: 1, introduction: "这里是个人简介" },
-  { id: 10, username: "用户名", avatar_url: avatar_url, fanNums: 1, likeNums: 1, commentNums: 1, starNums: 1, introduction: "这里是个人简介" },
-  { id: 11, username: "用户名", avatar_url: avatar_url, fanNums: 1, likeNums: 1, commentNums: 1, starNums: 1, introduction: "这里是个人简介" },
-  // 添加更多视频数据...
-];
-
+const router = useRouter()
 const store = useStore();
+const activeMenu = ref('/');
+
 const followNums = 10
 const fanNums = 10
 const likeNums = 10
 const userId = 1011
 const userAge = 23
-const activeMenu = ref('/');
+
+function formatMsgTime (timestamp) {
+  var dateTime = renderTime(timestamp)
+  console.log(dateTime)
+  function renderTime(date) {
+    var dateee = new Date(date).toJSON();
+    return new Date(+new Date(dateee) + 8 * 3600 * 1000)
+  }
+  console.log(dateTime) // 将传进来的字符串或者毫秒转为标准时间
+  var year = dateTime.getFullYear()
+  var month = dateTime.getMonth() + 1
+  var day = dateTime.getDate()
+  var hour = dateTime.getHours()
+  var minute = dateTime.getMinutes()
+  // var second = dateTime.getSeconds()
+  var millisecond = dateTime.getTime() // 将当前编辑的时间转换为毫秒
+  var now = new Date() // 获取本机当前的时间
+  var nowNew = now.getTime() // 将本机的时间转换为毫秒
+  var milliseconds = 0
+  var timeSpanStr
+  milliseconds = nowNew - millisecond
+  if (milliseconds <= 1000 * 60 * 1) { // 小于一分钟展示为刚刚
+    timeSpanStr = '刚刚'
+  } else if (1000 * 60 * 1 < milliseconds && milliseconds <= 1000 * 60 * 60) { // 大于一分钟小于一小时展示为分钟
+    timeSpanStr = Math.round((milliseconds / (1000 * 60))) + '分钟前'
+  } else if (1000 * 60 * 60 * 1 < milliseconds && milliseconds <= 1000 * 60 * 60 * 24) { // 大于一小时小于一天展示为小时
+    timeSpanStr = Math.round(milliseconds / (1000 * 60 * 60)) + '小时前'
+  } else if (1000 * 60 * 60 * 24 < milliseconds && milliseconds <= 1000 * 60 * 60 * 24 * 15) { // 大于一天小于十五天展示位天
+    timeSpanStr = Math.round(milliseconds / (1000 * 60 * 60 * 24)) + '天前'
+  } else if (milliseconds > 1000 * 60 * 60 * 24 * 15 && year === now.getFullYear()) {
+    timeSpanStr = month + '-' + day + ' ' + hour + ':' + minute
+  } else {
+    timeSpanStr = year + '-' + month + '-' + day + ' ' + hour + ':' + minute
+  }
+  return timeSpanStr
+}
+
 const clickvideo = (index) => {
   activeMenu.value = index;
   router.go(index);
 };
+
 const clickuser = (index) => {
   activeMenu.value = index;
   router.go(index);
 };
+
 const activeName = 'first';
 function handleClick() {
 

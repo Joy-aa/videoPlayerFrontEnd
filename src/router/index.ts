@@ -1,5 +1,5 @@
 import {createRouter,createWebHashHistory }from 'vue-router'
-import homepage from '@/pages/homepage/App.vue'
+import homepage from '@/pages/homepage/homepage.vue'
 import searchpage from '@/pages/homepage/searchpage.vue'
 import details from '@/pages/homepage/details.vue'
 import videopage from '@/pages/homepage/videopage.vue'
@@ -34,10 +34,10 @@ const routes = [
         path: '/homepage',
         component: homepage
     },
-    {
-        path: '/homepage/:category',
-        component: homepage
-    },
+    // {
+    //     path: '/homepage',
+    //     component: homepage
+    // },
     {
         path: '/searchpage',
         component: searchpage

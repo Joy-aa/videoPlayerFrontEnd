@@ -8,63 +8,61 @@
           <el-col>
 
             <el-menu
-                default-active="1"
-                router="router"
+                default-active=1
                 class="el-menu-vertical-demo"
-                @select="handleMenuSelect"
                 @open="handleOpen"
                 @close="handleClose"
                 background-color="#2c3e50"
                 text-color="#fff"
                 active-text-color="#ffd04b">
 
-              <el-menu-item index="/homepage">
+              <el-menu-item style="color: white" @click="handleMenuSelect(1)">
                 <i class="el-icon-menu"></i>
                 <span>首页</span>
               </el-menu-item>
-              <el-menu-item index="/homepage">
+              <el-menu-item style="color: white" @click="handleMenuSelect(2)">
                 <i class="el-icon-document"></i>
                 <span>推荐</span>
               </el-menu-item>
-              <el-menu-item index="/homepage">
+              <el-menu-item style="color: white" @click="handleMenuSelect(3)">
                 <i class="el-icon-document"></i>
                 <span>本地</span>
               </el-menu-item>
-              <el-menu-item index="/homepage">
+              <el-menu-item style="color: white" @click="handleMenuSelect(4)">
                 <i class="el-icon-setting"></i>
                 <span>知识</span>
               </el-menu-item>
 
-              <el-menu-item index="/homepage">
+              <el-menu-item style="color: white" @click="handleMenuSelect(5)">
                 <i class="el-icon-menu"></i>
                 <span>娱乐</span>
               </el-menu-item>
-              <el-menu-item index="/homepage">
+              <el-menu-item style="color: white" @click="handleMenuSelect(6)">
                 <i class="el-icon-document"></i>
                 <span>游戏</span>
               </el-menu-item>
-              <el-menu-item index="/homepage">
+              <el-menu-item style="color: white" @click="handleMenuSelect(7)">
                 <i class="el-icon-document"></i>
                 <span>二次元</span>
               </el-menu-item>
-              <el-menu-item index="/homepage">
+              <el-menu-item style="color: white" @click="handleMenuSelect(8)">
                 <i class="el-icon-setting"></i>
                 <span>美食</span>
               </el-menu-item>
 
-              <el-menu-item index="/homepage">
+              <el-menu-item style="color: white" @click="handleMenuSelect(9)">
                 <i class="el-icon-menu"></i>
                 <span>体育</span>
               </el-menu-item>
-              <el-menu-item index="/homepage">
+              <el-menu-item style="color: white" @click="handleMenuSelect(10)">
                 <i class="el-icon-document"></i>
                 <span>时尚</span>
               </el-menu-item>
-              <el-menu-item index="/homepage">
+              <el-menu-item style="color: white" @click="handleMenuSelect(11)">
                 <i class="el-icon-document"></i>
                 <span>财经</span>
               </el-menu-item>
-              <el-menu-item index="/homepage">
+              <el-menu-item style="color: white" @click="handleMenuSelect(12)">
                 <i class="el-icon-setting"></i>
                 <span>健康</span>
               </el-menu-item>
@@ -78,7 +76,7 @@
           <div class="container" style="margin-top: 20px">
             <el-row align="middle">
               <div class="search-bar">
-                <el-input v-model="searchcontent" type="text" class="search-input" style="display: inline" placeholder="搜索..."/>
+                <el-input v-model="searchcontent" type="text" class="search-input" style="display: inline"/>
                 <el-button router="router" class="search-button" :icon="Search" style="display: inline" @click="searchbuttonclick">搜索</el-button>
               </div>
 
@@ -131,29 +129,101 @@ import request from "@/api";
 import Cookies from 'js-cookie'
 import { Delete, Edit, Search, Share, Upload } from '@element-plus/icons-vue'
 import avatar_url from '@/assets/img.png'
-// const searchcontent = ""
-function searchbuttonclick() {
+import { useRoute, useRouter } from 'vue-router';
+const activeMenu = ref('/');
+const route = useRoute();
+const router = useRouter();
+
+const searchcontent = ref("请搜索")
+async function searchbuttonclick() {
+  console.log(searchcontent.value)
+  const p = {
+    content: searchcontent.value
+  }
+  var relatedusers = ""
+  await request
+      .get("/user/findUsers", {params: p})
+      .then(res => {
+        relatedusers = res.data.data
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err)
+      });
+  console.log(relatedusers)
+  store.commit("setRelatedUsers", relatedusers)
+
+  var relatedvideos = ""
+  await request
+      .get("/video/findVideoByName", {params: p})
+      .then(res => {
+        relatedvideos = res.data.data
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err)
+      });
+  console.log(relatedvideos)
+  store.commit("setRelatedVideos", relatedvideos)
+
   router.push("/searchpage")
 }
 
 function uploadbuttonclick() {
 // 处理按钮点击事件
 }
+
 function login_signin() {
   if (!store.state.isAut)
     router.push("/signin")
   // else
   //   router.push("/userinfo")
 }
-import { useRoute, useRouter } from 'vue-router';
-const activeMenu = ref('/');
-const route = useRoute();
-const router = useRouter();
 
-const handleMenuSelect = (index) => {
+async function handleMenuSelect(index) {
+  console.log("父组件" + index)
   activeMenu.value = index;
-  router.push(index);
-};
+  const p = {
+    tagId : index,
+  }
+
+  var videos = ""
+  var users = ""
+  var heights = []
+  await request
+      .get("/tagrecord/findVideoByTag", {params: p})
+      .then(res => {
+        videos = res.data.data
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err)
+      });
+  console.log('当前页面类别' + index)
+  console.log(videos)
+  store.commit("setVideosOfCategory", videos)
+
+  await request
+      .get("/tagrecord/findUserOfVideoByTag", {params: p})
+      .then(res => {
+        users = res.data.data
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err)
+      });
+  console.log('当前页面类别' + index)
+  console.log(users)
+  store.commit("setUsersOfCategory", users)
+
+  for (var i = 0; i < videos.length; i++) {
+    heights.push(Math.floor(Math.random()*200) + 280);
+  }
+  store.commit("setHeights", heights)
+
+  router.push("/homepage")
+}
+
 const global_user_name = ref(store.state.username);
 const ifsignoruser = () => {
 
@@ -189,7 +259,8 @@ function login_out(){
   });
   location.reload()  //刷新当前页面
 }
-function login_init(){
+
+async function login_init(){
   const _username = localStorage.getItem("username")
   const _email = localStorage.getItem("email")
   const access = localStorage.getItem('access')
@@ -201,17 +272,53 @@ function login_init(){
     store.commit("setEmail", _email)
     store.commit('setAccess', access)
   }
+
+  const p = {
+    tagId : 1,
+  }
+  var videos = ""
+  var users = ""
+  var heights = []
+  await request
+      .get("/tagrecord/findVideoByTag", {params: p})
+      .then(res => {
+        videos = res.data.data
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err)
+      });
+  console.log('当前页面类别' + 1)
+  console.log(videos)
+  store.commit("setVideosOfCategory", videos)
+
+  await request
+      .get("/tagrecord/findUserOfVideoByTag", {params: p})
+      .then(res => {
+        users = res.data.data
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err)
+      });
+  console.log(users)
+  store.commit("setUsersOfCategory", users)
+
+  for (var i = 0; i < videos.length; i++) {
+    heights.push(Math.floor(Math.random()*200) + 280);
+  }
+  store.commit("setHeights", heights)
+
+  console.log(store.state.videos)
+  console.log(store.state.users)
+  console.log(store.state.heights)
 }
 login_init()
+
 </script>
+
 <style>
-.upload-siginin-group {
-  flex-direction: row;
-}
-/*.container {*/
-/*  !*display: flex; !* 使用弹性布局，元素水平排列在同一行 *!*!*/
-/*  align-items: center; !* 垂直居中对齐按钮和菜单 *!*/
-/*}*/
+
 .menu-image {
   height: 80px;
   width: 120px;
@@ -269,72 +376,3 @@ login_init()
   border-color: white;
 }
 </style>
-
-<!--<style lang="css" scoped>-->
-<!--.holly-title{-->
-<!--  font-size: 15px-->
-<!--}-->
-<!--.flex-grow {-->
-<!--  flex-grow: 1;-->
-<!--}-->
-<!--.el-header {-->
-<!--  position: sticky;-->
-<!--  top: 0;-->
-<!--  padding: 0;-->
-<!--  margin: 0;-->
-<!--}-->
-<!--.el-menu {-->
-<!--  padding: 0;-->
-<!--  margin: 0;-->
-<!--  padding-inline: 40px;-->
-<!--  //border: 0;-->
-<!--  text-align: left;-->
-<!--  /*border: 5px solid #000000;*/-->
-<!--}-->
-<!--.el-sub-menu {-->
-<!--  padding: 0;-->
-<!--  margin: 0;-->
-<!--  //border: 0;-->
-<!--  text-align: left;-->
-<!--  /*border: 5px solid #000000;*/-->
-<!--}-->
-<!--.el-menu-item{-->
-<!--}-->
-<!--.el-main {-->
-<!--  padding: 0;-->
-<!--  margin: 0;-->
-<!--  background-color: white;-->
-<!--  /*background-image: linear-gradient(transparent,#fff 100%), url("http://10.214.242.155:7667/img/background/background_purple.jpg");*/-->
-<!--}-->
-<!--.right{-->
-<!--  /*position: absolute;*/-->
-<!--  right: 0;-->
-<!--  /*margin-inline: 20px;*/-->
-<!--  /*display: flex;*/-->
-<!--}-->
-<!--.common-layout{-->
-<!--  height: 100%;-->
-<!--}-->
-<!--.el-container,-->
-<!--.el-menu,-->
-<!--.el-main {-->
-<!--  height: 100%;-->
-<!--}-->
-<!--/* <style>-->
-<!--#app {-->
-<!--  font-family: Avenir, Helvetica, Arial, sans-serif;-->
-<!--  -webkit-font-smoothing: antialiased;-->
-<!--  -moz-osx-font-smoothing: grayscale;-->
-<!--  text-align: center;-->
-<!--  color: #2c3e50;-->
-<!--  margin-top: 60px;-->
-<!--}-->
-<!--*/-->
-<!--/*#app {*/-->
-<!--/*  font-family: 'Avenir', Helvetica, Arial, sans-serif;*/-->
-<!--/*  -webkit-font-smoothing: antialiased;*/-->
-<!--/*  -moz-osx-font-smoothing: grayscale;*/-->
-<!--/*  text-align: center;*/-->
-<!--/*  color: #2c3e50;*/-->
-<!--/*}*/-->
-<!--</style>-->

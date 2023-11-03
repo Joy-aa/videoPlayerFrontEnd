@@ -44,6 +44,42 @@ const store = createStore({
             console.log('setAccess', state.access)
             localStorage.setItem('access', access)
         },
+        setVideosOfCategory(state, videos) {
+            state.videos = videos
+            console.log('setVideosOfCategory', state.videos)
+        },
+        getVideosOfCategory(state) {
+            return state.videos
+        },
+        setHeights(state, heights) {
+            state.heights = heights
+            console.log('setHeights', state.heights)
+        },
+        getHeights(state) {
+            return state.heights
+        },
+        setRelatedUsers(state, relatedusers) {
+            state.relatedusers = relatedusers
+            console.log('setRelatedUsers', state.relatedusers)
+        },
+        getRelatedUsers(state) {
+            return state.relatedusers
+        },
+        setRelatedVideos(state, relatedvideos) {
+            state.relatedvideos = relatedvideos
+            console.log('setRelatedVideos', state.relatedvideos)
+        },
+        getRelatedVideos(state) {
+            return state.relatedvideos
+        },
+        getUsersOfCategory(state) {
+            return state.users
+        },
+        setUsersOfCategory(state, users) {
+            state.users = users
+            console.log('setUsersOfCategory', state.users)
+        },
+
         getImageList(state){
             return state.imageList
         },
@@ -83,6 +119,11 @@ const store = createStore({
             showHistory3DModelPath: '',
             tableData:[],
             pictures:[],
+            videos:[],
+            heights:[],
+            users:[],
+            relatedusers:[],
+            relatedvideos:[]
             // isCollapse:true,
         }
     },
