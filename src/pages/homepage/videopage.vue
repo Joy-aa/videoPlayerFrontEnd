@@ -605,8 +605,14 @@ import { Delete, Star, Search, Share, StarFilled, Comment, Upload, ArrowUpBold, 
 import {computed, reactive, ref, toRaw} from "vue";
 import request from '@/api';
 import { useThrottledRefHistory } from '@vueuse/core';
-// import { toRaw } from 'vue';
-// console.log(getvideo(1).src)
+import { useStore} from 'vuex';
+// import {localStorage} from
+
+const store = useStore();
+
+console.log(store.state.username)
+console.log(localStorage.getItem("userId"))
+
 function backTOHome(){
   router.push('/homepage')
 }

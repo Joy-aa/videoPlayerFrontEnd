@@ -19,6 +19,10 @@ const store = createStore({
         modifyDatasetId(state,datasetId){
             state.datasetId=datasetId
         },
+        setUserId(state, userId) {
+            state.userId = userId
+            localStorage.setItem("userId", userId)
+        },
         setEmail(state,newEmail) {
             state.email = newEmail
             localStorage.setItem("email", newEmail)
@@ -68,6 +72,7 @@ const store = createStore({
         return{
             isAut:false,
             username:'',
+            userId:-1,
             email:'',
             datasetId:1,
             imageList:[],
