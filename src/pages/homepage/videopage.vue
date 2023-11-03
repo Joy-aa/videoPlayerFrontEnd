@@ -610,7 +610,7 @@ import { useStore} from 'vuex';
 
 const store = useStore();
 
-console.log(store.state.username)
+// console.log(store.state.userId)
 console.log(localStorage.getItem("userId"))
 
 function backTOHome(){
