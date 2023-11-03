@@ -165,6 +165,7 @@ async function searchbuttonclick() {
       });
   console.log(relatedvideos)
   store.commit("setRelatedVideos", relatedvideos)
+
   router.push("/searchpage")
 }
 

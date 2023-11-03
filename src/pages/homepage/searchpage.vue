@@ -16,7 +16,7 @@
                     </router-link>
                     <p style="margin-top: 0px;margin-left: 8px;font-size: 15px;color: lightgrey">{{video.videoName}}</p>
                     <el-row style="margin-top: -25px;margin-left: 8px">
-                      <p style="font-size: 14px;color: lightgrey">@用户名</p>
+                      <p style="font-size: 14px;color: lightgrey">@{{ video.username }}</p>
                       <p style="margin-left: 20px;font-size: 14px;color: lightgrey">· {{ formatMsgTime(video.createTime) }}</p>
                     </el-row>
 
@@ -217,11 +217,11 @@
                       <el-button style="margin-left: 40%;font-size: 14px;color:white;background-color: deeppink;border-color: deeppink">关注</el-button>
                     </el-row>
                     <el-row style="margin-top: 0px">
-                      <p style="color:lightgrey;font-size: 14px">抖音号: {{user.id}}</p>
-                      <p style="color:lightgrey;font-size: 14px;margin-left: 20px">0 获赞</p>
-                      <p style="color:lightgrey;font-size: 14px;margin-left: 20px">0 粉丝</p>
+                      <p style="color:lightgrey;font-size: 14px">抖音号: {{user.userId}}</p>
+                      <p style="color:lightgrey;font-size: 14px;margin-left: 20px">{{ user.likeNum }} 获赞</p>
+                      <p style="color:lightgrey;font-size: 14px;margin-left: 20px">{{user.fanNum}} 粉丝</p>
                     </el-row>
-                    <p style="color:lightgrey;margin-top: 0px;font-size: 14px">000</p>
+                    <p style="color:lightgrey;margin-top: 0px;font-size: 14px">{{ user.introduction }}</p>
 
                   </div>
                 </div>
