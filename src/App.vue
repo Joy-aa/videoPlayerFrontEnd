@@ -87,7 +87,7 @@
               <el-button
                   router="router" v-if="!store.state.isAut" class="login-button" @click="login_signin" style="font-size: 15px;">登录 / 注册
               </el-button>
-              <el-image v-else :src="avatar_url" class="avatar" ></el-image>
+              <el-image v-else :src="avatar_url" @click="login_out" class="avatar" ></el-image>
 <!--                <el-menu-->
 <!--                    mode="horizontal"-->
 <!--                    :ellipsis="false"-->

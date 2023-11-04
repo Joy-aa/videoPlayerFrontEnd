@@ -19,9 +19,9 @@ const store = createStore({
         modifyDatasetId(state,datasetId){
             state.datasetId=datasetId
         },
-        setUserId(state, userId) {
-            state.userId = userId
-            localStorage.setItem("userId", userId)
+        setUserId(state,newId) {
+            state.userId = newId
+            localStorage.setItem("currentUserId", newId)
         },
         setEmail(state,newEmail) {
             state.email = newEmail
@@ -32,42 +32,42 @@ const store = createStore({
             localStorage.setItem("username", newUsername)
         },
         getEmail(state){
-            console.log("getEmail", state.email)
+            // console.log("getEmail", state.email)
             return state.email
         },
         getUsername(state){
-            console.log("getUsername", state.username)
+            // console.log("getUsername", state.username)
             return state.username
         },
         setAccess(state, access){
             state.access = access
-            console.log('setAccess', state.access)
+            // console.log('setAccess', state.access)
             localStorage.setItem('access', access)
         },
         setVideosOfCategory(state, videos) {
             state.videos = videos
-            console.log('setVideosOfCategory', state.videos)
+            // console.log('setVideosOfCategory', state.videos)
         },
         getVideosOfCategory(state) {
             return state.videos
         },
         setHeights(state, heights) {
             state.heights = heights
-            console.log('setHeights', state.heights)
+            // console.log('setHeights', state.heights)
         },
         getHeights(state) {
             return state.heights
         },
         setRelatedUsers(state, relatedusers) {
             state.relatedusers = relatedusers
-            console.log('setRelatedUsers', state.relatedusers)
+            // console.log('setRelatedUsers', state.relatedusers)
         },
         getRelatedUsers(state) {
             return state.relatedusers
         },
         setRelatedVideos(state, relatedvideos) {
             state.relatedvideos = relatedvideos
-            console.log('setRelatedVideos', state.relatedvideos)
+            // console.log('setRelatedVideos', state.relatedvideos)
         },
         getRelatedVideos(state) {
             return state.relatedvideos
@@ -77,7 +77,7 @@ const store = createStore({
         },
         setUsersOfCategory(state, users) {
             state.users = users
-            console.log('setUsersOfCategory', state.users)
+            // console.log('setUsersOfCategory', state.users)
         },
 
         getImageList(state){
@@ -108,7 +108,7 @@ const store = createStore({
         return{
             isAut:false,
             username:'',
-            userId:-1,
+            userId:1,
             email:'',
             datasetId:1,
             imageList:[],

@@ -59,10 +59,8 @@ function loginIn() {
             console.log("登录成功！")
             const userInfo = res.data.data.user
             let access = userInfo.authority
-            console.log(userInfo)
-            localStorage.setItem("userId", userInfo.userId)
-            // store.commit('setUserId', userInfo.userId)
             store.commit("loginIn");
+            store.commit("setUserId",  userInfo.userId);
             store.commit("setEmail", userInfo.email)
             store.commit('setUsername', userInfo.username)
             store.commit('setAccess', access)

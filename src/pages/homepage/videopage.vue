@@ -10,7 +10,7 @@
       </div>
       <div>
               <div>
-                <!-- <p>{{ videoInfo.videoId }}</p> -->
+                <!-- <p>{{ store.state.currentuserid }}</p> -->
                 <video class="videodetail" width="90%" :src="videoInfo.videoPath" controls autoplay="autoplay"></video>
               </div>
 
@@ -65,7 +65,7 @@
             <div class="button-slide">
               <div class="headImage">
                   <img v-bind:src= "userInfo.headshot? userInfo.headshot:require('../../assets/img.png')" class="PbpHcHqa">
-                <div class="NRiH5zYV" data-e2e="feed-follow-icon">
+                <div class="NRiH5zYV" data-e2e="feed-follow-icon" v-if="relation.nofollow" @click="addFollow(currentUserId, userInfo.userId)">
                   <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                        viewBox="0 0 90 90" width="90" height="90" preserveAspectRatio="xMidYMid meet"
                        style="width: 100%; height: 100%; transform: translate3d(0px, 0px, 0px); content-visibility: visible;">
@@ -516,26 +516,26 @@
   margin: 0 auto;
   position: absolute;
   right: 0;
-  top:90px;
+  top:115px;
 }
 .likebutton{
-  width:100px;
-  height:100px;
+  width:60px;
+  height:60px;
   cursor: pointer;
 }
 .commentbutton{
-  width:100px;
-  height:100px;
+  width:60px;
+  height:60px;
   cursor: pointer;
 }
 .starbutton{
-  width:100px;
-  height:100px;
+  width:60px;
+  height:60px;
   cursor: pointer;
 }
 .forwardbutton{
-  width:100px;
-  height:100px;
+  width:60px;
+  height:60px;
   cursor: pointer;
 }
 .videodetail {
@@ -605,13 +605,44 @@ import { Delete, Star, Search, Share, StarFilled, Comment, Upload, ArrowUpBold, 
 import {computed, reactive, ref, toRaw} from "vue";
 import request from '@/api';
 import { useThrottledRefHistory } from '@vueuse/core';
-import { useStore} from 'vuex';
-// import {localStorage} from
+import {useStore} from 'vuex';
+import { useRoute, useRouter } from 'vue-router';
+// import * as qiniu from 'qiniu-js'
+const qiniu = require('qiniu-js');
+const accessKey = 'cjph6i_nsZJwxelLwEqaj4dlknNKEI94oVpRuRQF'
+const secretKey = 'ulCAHAVVI62MuiwlL9yHg-FNrbtRw5dZqJb1SyiL'
+
+// q = Auth(access_key, secret_key)
+// base_url = 'http://%s/%s' % ('s3604nf5a.hn-bkt.clouddn.com','BV12j411e7pm.mp4')
+// private_url = q.private_download_url(base_url, expires=3600)
+// console.log(private_url)
+
+
+async function uploadVideo(){
+  let token = ''
+  await request.post("/video/getVideoToken").then(res => {token = res.data})
+  console.log('jhggk',token)
+  const observable = qiniu.upload("../../img.png", '74983u4fkjf.jpg', token)
+  const observer = {
+    next(res){
+      // ...
+    },
+    error(err){
+      // ...
+    },
+    complete(res){
+      // ...
+    }
+  }
+  const subscription = observable.subscribe(observer) 
+  // console.log(subscription)
+}
+uploadVideo()
 
 const store = useStore();
+const route = useRoute();
 
-// console.log(store.state.userId)
-console.log(localStorage.getItem("userId"))
+const currentUserId = localStorage.getItem("currentUserId")
 
 function backTOHome(){
   router.push('/homepage')
@@ -641,7 +672,7 @@ async function getuser(userId) {
   .catch(err => {
     console.log(err)
   })
-  console.log(toRaw(userInfo))
+  // console.log(toRaw(userInfo))
 }
 
 function gettagrecord(videoId) {
@@ -698,15 +729,78 @@ async function getvideo(videoId){
   gettagrecord(toRaw(videoInfo.value).videoId)
   
 }
-getvideo(2)
+// console.log('视频id:',route.params.videoid)
+getvideo(route.params.videoid)
+
+const relation = reactive({
+  nofollow :true
+})
+
+function isFollow(currentUserId, videoUserId) {
+  const p = {
+    userid1: currentUserId,
+    kind: 0
+  }
+  request
+  .get("/relation/findFollows", {params: p})
+  .then(res => {
+    if(res.data.code == 1)
+      console.log(res.data.msg)
+    else {
+      const relations = res.data.data
+      // console.log("关系：",relations)
+      for(let i = 0; i < relations.length; i++) {
+        if(relations[i].user2id == videoUserId){
+          // console.log(relations[i])
+          relation.nofollow = false
+          break
+        }
+      }
+    }
+  })
+  .catch(err =>{
+    console.log(err)
+  })
+}
+isFollow(currentUserId, userInfo.userId)
+
+function addFollow(currentUserId, videoUserId) {
+  let requestData = new FormData();
+  requestData.append('userid1',currentUserId)
+  requestData.append('userid2',videoUserId)
+  requestData.append('kind',0)
+  request
+  .post("/relation/addRelation", requestData)
+  .then(res => {
+    if(res.data.code == 1)
+      console.log(res.data.msg)
+    else {
+      const relations = res.data.data
+      // console.log("关系：",relations)
+      for(let i = 0; i < relations.length; i++) {
+        if(relations[i].user2id == videoUserId){
+          // console.log(relations[i])
+          relation.nofollow = false
+          break
+        }
+      }
+    }
+  })
+  .catch(err =>{
+    console.log(err)
+  })
+}
 
 const test = reactive({
   fold :false
 })
 const changeFold=()=> {
   test.fold = !test.fold
-  console.log(test.fold)
+  // console.log(test.fold)
 }
+
+const videos = store.state.videos
+
 const comments = [
   {name: "用户1", head: require("../../assets/img.png"),
     content:"我儿子问我：“妈妈，你怎么不找个男朋友？” 我说找了男朋友爸爸怎么办， 他说“爸爸在家带我们，你和男朋友出去玩啊！”[微笑][微笑][微笑]",
