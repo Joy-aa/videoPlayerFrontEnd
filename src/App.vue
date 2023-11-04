@@ -194,26 +194,26 @@ async function handleMenuSelect(index) {
       .get("/tagrecord/findVideoByTag", {params: p})
       .then(res => {
         videos = res.data.data
-        console.log(res);
+        // console.log(res);
       })
       .catch(err => {
         console.log(err)
       });
-  console.log('当前页面类别' + index)
-  console.log(videos)
+  // console.log('当前页面类别' + index)
+  // console.log(videos)
   store.commit("setVideosOfCategory", videos)
 
   await request
       .get("/tagrecord/findUserOfVideoByTag", {params: p})
       .then(res => {
         users = res.data.data
-        console.log(res);
+        // console.log(res);
       })
       .catch(err => {
         console.log(err)
       });
-  console.log('当前页面类别' + index)
-  console.log(users)
+  // console.log('当前页面类别' + index)
+  // console.log(users)
   store.commit("setUsersOfCategory", users)
 
   for (var i = 0; i < videos.length; i++) {
@@ -246,7 +246,7 @@ function login_out(){
   Cookies.remove("userTicket")
   request.get("user/logout").then(
       res => {
-        console.log(res);
+        // console.log(res);
         //console.log(res.data.data.code);
         if (res.status === 200) {
           console.log("退出成功了");
@@ -264,9 +264,9 @@ async function login_init(){
   const _username = localStorage.getItem("username")
   const _email = localStorage.getItem("email")
   const access = localStorage.getItem('access')
-  console.log("localStorage", _username, access)
+  // console.log("localStorage", _username, access)
   if(_username!=null){
-    console.log("setUsername", _username)
+    // console.log("setUsername", _username)
     store.commit("loginIn")
     store.commit("setUsername", _username)
     store.commit("setEmail", _email)
@@ -291,6 +291,7 @@ async function login_init(){
   console.log('当前页面类别' + 1)
   console.log(videos)
   store.commit("setVideosOfCategory", videos)
+  localStorage.setItem("videos", JSON.stringify(videos))
 
   await request
       .get("/tagrecord/findUserOfVideoByTag", {params: p})
@@ -301,7 +302,7 @@ async function login_init(){
       .catch(err => {
         console.log(err)
       });
-  console.log(users)
+  // console.log(users)
   store.commit("setUsersOfCategory", users)
 
   for (var i = 0; i < videos.length; i++) {
@@ -309,9 +310,9 @@ async function login_init(){
   }
   store.commit("setHeights", heights)
 
-  console.log(store.state.videos)
-  console.log(store.state.users)
-  console.log(store.state.heights)
+  // console.log(store.state.videos)
+  // console.log(store.state.users)
+  // console.log(store.state.heights)
 }
 login_init()
 

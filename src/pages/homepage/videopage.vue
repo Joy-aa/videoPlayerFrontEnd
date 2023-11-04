@@ -5,12 +5,12 @@
         <div class="bFdMjgdW"></div>
         <svg width="18" height="18" fill="none" xmlns="http://www.w3.org/2000/svg" class="mcc8KhCO" viewBox="0 0 18 18">
           <path d="M17.448 17.448a1.886 1.886 0 01-2.668 0L9 11.668l-5.78 5.78A1.886 1.886 0 11.552 14.78L6.332 9 .552 3.22A1.886 1.886 0 113.22.552L9 6.332l5.78-5.78a1.886 1.886 0 112.668
-      2.668L11.668 9l5.78 5.78a1.886 1.886 0 010 2.668z" fill="#fff"></path>
+        2.668L11.668 9l5.78 5.78a1.886 1.886 0 010 2.668z" fill="#fff"></path>
         </svg>
       </div>
-      <div>
+      <div :key="route.params.index">
               <div>
-                <!-- <p>{{ store.state.currentuserid }}</p> -->
+                <!-- <p>{{ route.params.index }}</p> -->
                 <video class="videodetail" width="90%" :src="videoInfo.videoPath" controls autoplay="autoplay"></video>
               </div>
 
@@ -33,19 +33,13 @@
                           <span class="tag-span">#{{ tag.tagName }}</span>
                         </el-row>
                       </el-row>
-                      <!-- <span class="tag-span">
-                        <a href="https://www.douyin.com/search/%E7%94%9C%E5%A6%B9" class="B3AsdZT9 vStoQqaB e8ZKvWWv"
-                          target="_blank">
-                          <span>#甜妹</span>
-                        </a>
-                      </span> -->
                   </div>
                 </el-row>
               </div>
 
           <el-col :span="2" class="xslide">
             <div class="switch">
-              <div class="switch-prev">
+              <div class="switch-prev" @click="switchPreVideo(route.params.index)" :style="{cursor:(videoInfo.videoId == videos[0].videoId ? 'no-drop' : 'pointer')}">        
                 <svg width="26" height="26" fill="none" xmlns="http://www.w3.org/2000/svg" class="" viewBox="0 0 26 26">
                   <g filter="url(#newAbove_svg__filter0_d_1651_162618)">
                     <path d="M7.269 16.316a1.393 1.393 0 010-1.97l5.056-5.055a1.393 1.393 0 011.97 0l.011.011 5.045 5.045a1.393 1.393 0 11-1.97 1.97l-4.071-4.072-4.071 4.071a1.393 1.393 0 01-1.97 0z" fill="#fff">
@@ -54,7 +48,7 @@
                   </g>
                 </svg>
               </div>
-              <div class="switch-next">
+              <div class="switch-next" @click="switchNextVideo(route.params.index)" :style="{cursor:(videoInfo.videoId == videos[videos.length-1].videoId ? 'no-drop' : 'pointer')}">
                 <svg width="26" height="26" fill="none" xmlns="http://www.w3.org/2000/svg" class="" viewBox="0 0 26 26">
                   <g filter="url(#newBelow_svg__filter0_d_1646_162559)">
                     <path d="M7.269 9.29a1.393 1.393 0 000 1.97l5.056 5.056a1.393 1.393 0 001.97 0l.011-.011 5.045-5.045a1.393 1.393 0 10-1.97-1.97l-4.071 4.072L9.239 9.29a1.393 1.393 0 00-1.97 0z" fill="#fff"></path>
@@ -475,6 +469,7 @@
   border-radius: 32px;
   box-sizing: content-box;
   text-align: center;
+  cursor: pointer;
 }
 .switch-prev{
   position: relative;
@@ -602,21 +597,16 @@
 import { router } from '@/router';
 // import { ref } from 'vue'
 import { Delete, Star, Search, Share, StarFilled, Comment, Upload, ArrowUpBold, ArrowDownBold } from '@element-plus/icons-vue'
-import {computed, reactive, ref, toRaw} from "vue";
+import {onMounted, onUnmounted, onUpdated, computed, reactive, ref, toRaw} from "vue";
 import request from '@/api';
 import { useThrottledRefHistory } from '@vueuse/core';
 import {useStore} from 'vuex';
 import { useRoute, useRouter } from 'vue-router';
 // import * as qiniu from 'qiniu-js'
 const qiniu = require('qiniu-js');
-const accessKey = 'cjph6i_nsZJwxelLwEqaj4dlknNKEI94oVpRuRQF'
-const secretKey = 'ulCAHAVVI62MuiwlL9yHg-FNrbtRw5dZqJb1SyiL'
 
-// q = Auth(access_key, secret_key)
-// base_url = 'http://%s/%s' % ('s3604nf5a.hn-bkt.clouddn.com','BV12j411e7pm.mp4')
-// private_url = q.private_download_url(base_url, expires=3600)
-// console.log(private_url)
-
+const videos = JSON.parse(localStorage.getItem('videos'))
+console.log('当前所有视频列表',videos)
 
 async function uploadVideo(){
   let token = ''
@@ -634,15 +624,61 @@ async function uploadVideo(){
       // ...
     }
   }
-  const subscription = observable.subscribe(observer) 
-  // console.log(subscription)
+  const subscription = observable.subscribe(observer)
 }
-uploadVideo()
+// uploadVideo()
 
 const store = useStore();
 const route = useRoute();
 
 const currentUserId = localStorage.getItem("currentUserId")
+
+onwheel = (event) => {
+  // 取消默认动作，从而避免处理两次。
+  event.preventDefault();
+
+  const scrolldirection = event.deltaY
+  console.log('9uji',scrolldirection)
+  if(scrolldirection < 0 && route.params.index > 0) {
+    switchPreVideo(route.params.index)
+  }
+  else if(scrolldirection > 0 && route.params.index < videos.length - 1) {
+    switchNextVideo(route.params.index)
+  }
+};
+
+window.addEventListener(
+  "keydown",
+  function (event) {
+    //可以获取每个按键的名字
+    // let str = "KeyboardEvent: key='" + event.key + "' | code='" + event.code + "'";
+    // console.log(str)
+
+    if (event.defaultPrevented) {
+      return; // 如果事件已经在进行中，则不做任何事。
+    }
+
+    switch (event.key) {
+      case "ArrowUp":
+        if(route.params.index > 0) {
+          switchPreVideo(route.params.index)
+        }
+        break;
+      case "ArrowDown":
+        if(route.params.index < videos.length - 1) {
+          switchNextVideo(route.params.index)
+        }
+        break;
+      default:
+        return; // 什么都没按就退出吧。
+    }
+
+    // 取消默认动作，从而避免处理两次。
+    event.preventDefault();
+  },
+  true,
+);
+
 
 function backTOHome(){
   router.push('/homepage')
@@ -672,7 +708,8 @@ async function getuser(userId) {
   .catch(err => {
     console.log(err)
   })
-  // console.log(toRaw(userInfo))
+  console.log(toRaw(userInfo.value))
+  isFollow(currentUserId, toRaw(userInfo.value).userId)
 }
 
 function gettagrecord(videoId) {
@@ -700,6 +737,7 @@ function gettags(tagid) {
   const p = {
     tagId : tagid
   }
+  taglist.value = []
   request
   .get("/tag/findtagbyid", {params: p})
   .then(res => {
@@ -727,34 +765,41 @@ async function getvideo(videoId){
   // console.log(toRaw(videoInfo))
   getuser(toRaw(videoInfo.value).userId)
   gettagrecord(toRaw(videoInfo.value).videoId)
-  
 }
-// console.log('视频id:',route.params.videoid)
+// console.log('视频位置:',route.params.index)
+// onUpdated(() => {
+  
+// }),
 getvideo(route.params.videoid)
 
 const relation = reactive({
-  nofollow :true
+  nofollow :true,
+  nohate: true
 })
 
 function isFollow(currentUserId, videoUserId) {
   const p = {
     userid1: currentUserId,
-    kind: 0
+    userid2: videoUserId,
   }
   request
-  .get("/relation/findFollows", {params: p})
+  .get("/relation/findRelation", {params: p})
   .then(res => {
-    if(res.data.code == 1)
-      console.log(res.data.msg)
+    if(res.data.code == 1 || res.data.code == 2) {
+      console.log(p)
+      console.log(res.data.msg) 
+    }
     else {
-      const relations = res.data.data
-      // console.log("关系：",relations)
-      for(let i = 0; i < relations.length; i++) {
-        if(relations[i].user2id == videoUserId){
-          // console.log(relations[i])
+      // console.log('isFollow',res.data)
+      if(res.data.code == 3) {
+        if(currentUserId == videoUserId)
           relation.nofollow = false
-          break
-        }
+      }
+      else {
+        const relationdata = res.data.data
+        // console.log(relationdata)
+        if(relationdata.relation.kind == 0)
+          relation.nofollow = false
       }
     }
   })
@@ -762,7 +807,7 @@ function isFollow(currentUserId, videoUserId) {
     console.log(err)
   })
 }
-isFollow(currentUserId, userInfo.userId)
+
 
 function addFollow(currentUserId, videoUserId) {
   let requestData = new FormData();
@@ -775,15 +820,10 @@ function addFollow(currentUserId, videoUserId) {
     if(res.data.code == 1)
       console.log(res.data.msg)
     else {
-      const relations = res.data.data
-      // console.log("关系：",relations)
-      for(let i = 0; i < relations.length; i++) {
-        if(relations[i].user2id == videoUserId){
-          // console.log(relations[i])
+      const relationdata = res.data.data
+        // console.log(relationdata)
+        if(relationdata.relation.kind == 0)
           relation.nofollow = false
-          break
-        }
-      }
     }
   })
   .catch(err =>{
@@ -799,7 +839,15 @@ const changeFold=()=> {
   // console.log(test.fold)
 }
 
-const videos = store.state.videos
+async function switchPreVideo(index){
+  await router.push("/videopage/"+videos[parseInt(index)-1].videoId+'/'+(index-1));
+  getvideo(route.params.videoid)
+}
+
+async function switchNextVideo(index){
+  await router.push("/videopage/"+videos[parseInt(index)+1].videoId+'/'+(index+1));
+  getvideo(route.params.videoid)
+}
 
 const comments = [
   {name: "用户1", head: require("../../assets/img.png"),

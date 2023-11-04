@@ -47,7 +47,7 @@ const routes = [
         component: details
     },
     {
-        path: '/videopage/:videoid',
+        path: '/videopage/:videoid/:index',
         component: videopage
     },
     {

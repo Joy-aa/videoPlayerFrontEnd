@@ -4,7 +4,7 @@
     <router-view></router-view>
     <div class="video-container">
         <div v-for="(video, index) in store.state.videos" :key="index" @click="clickvideo"  :style="{ height: store.state.heights.at(index) + 80 + 'px' }" class="video-item_remain">
-          <router-link :to="`/videopage/${video.videoId}`">
+          <router-link :to="`/videopage/${video.videoId}/${index}`">
             <div class="video-content">
               <div class="video-info">
                 <video class="video-wrapper" :src="video.videoPath" autoplay="autoplay" :style="{ height: store.state.heights.at(index) + 'px' }" controls width="285"></video>
