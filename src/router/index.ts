@@ -25,7 +25,7 @@ import UserImgsegmentation from "@/pages/UserQuery/UserImgsegmentation.vue"
 import tcav from "@/pages/TCAV/tcav.vue"
 import Cookies from "js-cookie";
 import userpage from '/src/pages/homepage/userpage.vue'
-// import notloginuserpage from '/src/pages/homepage/notloginuserpage.vue'
+import notloginpage from '/src/pages/homepage/notloginuserpage.vue'
 // import newuploadvideo from '/src/pages/homepage/newuploadvideo.vue'
 
 const routes = [
@@ -57,10 +57,10 @@ const routes = [
         path: '/userpage/:userid',
         component: userpage
     },
-    // {
-    //     path: '/notloginuserpage/',
-    //     component: notloginuserpage
-    // },
+    {
+        path: '/notloginpage/',
+        component: notloginpage
+    },
     // {
     //     path: '/uploadvideo/:userid',
     //     component: newuploadvideo
