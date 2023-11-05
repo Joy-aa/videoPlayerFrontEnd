@@ -21,7 +21,7 @@
                 <div class="account-name">@{{ userInfo.username }}</div>
               </el-col>
               <el-col span="22">
-                <div class="video-create-time">--{{ videoInfo.createTime }}</div>
+                <div class="video-create-time">--{{ formatMsgTime(videoInfo.createTime) }}</div>
               </el-col>
             </div>
           </el-row>
@@ -191,7 +191,9 @@
                 </g>
               </svg>
             </div>
-            <div style="background: red; color: white;">{{ videoInfo.likeNum }}</div>
+            <div
+              style="color: white; font-family: PingFang SC, DFPKingGothicGB-Medium, sans-serif; font-weight: 500; text-shadow: rgba(0, 0, 0, 0.2) 0px 1px 1px; font-size: 20px;">
+              {{ videoInfo.likeNum }}</div>
             <div class="commentbutton" @click="changeFold">
               <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 100 100"
                 width="99" height="99" preserveAspectRatio="xMidYMid meet"
@@ -214,7 +216,9 @@
                 </g>
               </svg>
             </div>
-            <div style="background: red; color: white;">{{ videoInfo.likeNum }}</div>
+            <div
+              style="color: white; font-family: PingFang SC, DFPKingGothicGB-Medium, sans-serif; font-weight: 500; text-shadow: rgba(0, 0, 0, 0.2) 0px 1px 1px; font-size: 20px;">
+              {{ comments.length }}</div>
             <div class="starbutton" @click="starvideo(currentUserId, videoInfo.videoId)">
               <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-2 0 105 105"
                 width="99" height="99" preserveAspectRatio="xMidYMid meet"
@@ -349,8 +353,10 @@
                 </g>
               </svg>
             </div>
-            <div style="background: red; color: white;">{{ videoInfo.starNum }}</div>
-            <div class="forwardbutton" @click="forwardvideo(currentUserId, videoInfo.videoId)">
+            <div
+              style="color: white; font-family: PingFang SC, DFPKingGothicGB-Medium, sans-serif; font-weight: 500; text-shadow: rgba(0, 0, 0, 0.2) 0px 1px 1px; font-size: 20px;">
+              {{ videoInfo.starNum }}</div>
+            <div class="forwardbutton" @click="forwardvideo(videoInfo.videoId)">
               <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-5 0 105 99"
                 width="99" height="99" preserveAspectRatio="xMidYMid meet"
                 style="width: 100%; height: 100%; transform: translate3d(0px, 0px, 0px); content-visibility: visible;">
@@ -371,7 +377,9 @@
                 </g>
               </svg>
             </div>
-            <div style="background: red; color: white;">{{ videoInfo.shareNum }}</div>
+            <div
+              style="color: white; font-family: PingFang SC, DFPKingGothicGB-Medium, sans-serif; font-weight: 500; text-shadow: rgba(0, 0, 0, 0.2) 0px 1px 1px; font-size: 20px;">
+              {{ videoInfo.shareNum }}</div>
           </div>
         </el-col>
         <!-- 会弹出的登录界面 -->
@@ -385,8 +393,6 @@
 
       <div class="DZKZZklc">
         <button class="otZjcQr3" type="button" @click="changeFold">
-          <!-- <div class="button wrapper">ggdggdggrggsgsgrse
-          </div> -->
           <svg width="32" height="48" fill="none" xmlns="http://www.w3.org/2000/svg" class="RvwrvJd0" viewBox="0 0 32 48">
             <g filter="url(#arrow-left_svg__filter0_d_12_1532)" opacity="0.8">
               <path
@@ -402,22 +408,29 @@
         <div class="ALZRQqX4"></div>
         <div class="ALZRQqX5"></div>
       </div>
-      <div class="commentlist">
+      <div class="commentlist" key="{{ comments.length }}">
         <div v-for="(comment, index) in comments" :key="index">
           <div class="comment-container">
             <el-row align="middle">
-              <!--              <router-link :to="`/userpage/${user.id}`">-->
-              <el-image :src="comment.head" class="comment-item-avatar"> </el-image>
-              <!--              </router-link>-->
-              <p style="color:lightgrey;margin-left: 3%">{{ comment.name }}</p>
-              <el-button
-                style="margin-left: 40%;font-size: 14px;color:white;background-color: deeppink;border-color: hotpink; opacity: 0.8">关注</el-button>
+              <el-image :src="comment.user.headshot ? comment.user.headshot : require('../../assets/img.png')"
+                class="comment-item-avatar"> </el-image>
+              <p class="comment-item-username">{{ comment.user.username }}</p>
+              <!-- <el-button
+                style="margin-left: 40%;font-size: 14px;color:white;background-color: deeppink;border-color: hotpink; opacity: 0.8">关注</el-button> -->
             </el-row>
-            <el-col class="commentbar">
+            <div class="commentbar">
               <div class="commentcontent">{{ comment.content }}</div>
-              <div class="commenttime">{{ comment.createTime }}</div>
-              <el-row class="commentlikeordisliebutton">
-                <div class="like-button">
+              <div class="commenttime">--{{ formatMsgTime(comment.createTime) }}</div>
+              <el-row class="commentlikeordisliebutton" align="middle">
+                <div class="comment-like-button" @click="tolikecomment(comment.commentId, index)" v-if="comment.islike">
+                  <svg width="20" height="20" fill="none" xmlns="http://www.w3.org/2000/svg" class="UGHpJg4D"
+                    viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                      d="M7.646 4.168c-2.238 0-4.035 1.919-4.035 4.152l.002.13a.834.834 0 00-.001.073c.006.3.075.66.15.962.074.294.178.622.294.86.467 1.004 1.284 1.979 2.071 2.78a23.69 23.69 0 002.646 2.323l.015.012.012.01c.174.175.543.54 1.2.54h.019c.186 0 .63 0 1.028-.387l.033-.027c.033-.029.08-.067.14-.117l.003-.003c.436-.359 1.456-1.2 2.462-2.214.644-.646 1.312-1.396 1.822-2.17a7.94 7.94 0 00.2-.318.84.84 0 00.063-.13.956.956 0 01.11-.214.835.835 0 00.074-.144c.029-.073.05-.121.066-.154l.003-.007a.832.832 0 00.147-.29c.125-.444.21-.835.219-1.316a.82.82 0 00-.002-.067 5.39 5.39 0 00.002-.16c-.015-2.22-1.807-4.124-4.035-4.124-.845 0-1.667.262-2.316.789a4.029 4.029 0 00-2.392-.789zm7.076 4.153V8.424l-.002.07c0 .008 0 .022.002.039a3.065 3.065 0 01-.121.721 1.9 1.9 0 00-.078.144 3.297 3.297 0 00-.089.2c-.083.135-.137.24-.193.38a6.64 6.64 0 01-.124.195v.001c-.425.644-1.007 1.305-1.613 1.912l-.002.001a31.607 31.607 0 01-2.342 2.106l-.032.026-.12.1-.048-.046c-.05-.05-.119-.105-.152-.131l-.006-.005A22.003 22.003 0 017.32 11.96l-.003-.003c-.747-.76-1.408-1.577-1.753-2.323a3.149 3.149 0 01-.185-.555 3.468 3.468 0 01-.1-.553.964.964 0 000-.104V8.42a3.56 3.56 0 01-.001-.099c0-1.373 1.11-2.485 2.368-2.485.662 0 1.288.269 1.848.85a.833.833 0 001.282-.099c.33-.47.892-.751 1.578-.751 1.258 0 2.368 1.113 2.368 2.485z"
+                      fill="hotpink" fill-opacity="0.7" opacity="0.9"></path>
+                  </svg>
+                </div>
+                <div class="comment-like-button" @click="tolikecomment(comment.commentId, index)" v-else>
                   <svg width="20" height="20" fill="none" xmlns="http://www.w3.org/2000/svg" class="UGHpJg4D"
                     viewBox="0 0 20 20">
                     <path fill-rule="evenodd" clip-rule="evenodd"
@@ -425,7 +438,8 @@
                       fill="#fff" fill-opacity="0.7" opacity="0.9"></path>
                   </svg>
                 </div>
-                <div class="dislike-button">
+                <div class="commentlikenum">{{ comment.likeNum }}</div>
+                <div class="comment-dislike-button" @click="tohatecomment(comment.commentId, index)">
                   <svg width="20" height="20" fill="none" xmlns="http://www.w3.org/2000/svg" class="UGHpJg4D"
                     viewBox="0 0 20 20">
                     <path
@@ -434,8 +448,7 @@
                   </svg>
                 </div>
               </el-row>
-
-            </el-col>
+            </div>
           </div>
 
         </div>
@@ -443,25 +456,29 @@
 
       <div class="addCommentBar">
         <div class="pOcGUDMb" contenteditable="true">
-          <input type="text" placeholder="留下你的精彩评论吧" ref="userphone">
+          <textarea v-model="userinputcomment" placeholder="留下你的精彩评论吧" ></textarea>
         </div>
         <div class="ZYKj4kJN">
-          <div class="XAze1wis"><span class=""><svg width="36" height="36" fill="none" xmlns="http://www.w3.org/2000/svg"
-                class="" viewBox="0 0 36 36">
-                <path fill-rule="evenodd" clip-rule="evenodd"
-                  d="M10.559 10.14c-2.612 2.392-3.566 5.145-3.566 8.376C6.993 21.817 8.836 29 19.215 29c1.505 0 2.974-.21 4.405-.654 1.57-.487 2.783-1.277 3.798-2.173l.15-.133c.29-.258.606-.537.86-.898.426-.523.71-.905.741-1.198.032-.293.008-.551-.189-.74-.197-.19-.517-.267-.876-.123-.322.129-.663.434-1.02.753l-.125.11c-2.434 2.134-5.158 3.007-7.744 3.007-8.219 0-10.095-5.489-10.095-8.435 0-2.947.856-4.956 2.606-6.798 1.75-1.843 4.62-2.723 7.25-2.723 5.681 0 7.745 4.598 7.745 6.964 0 3.145-1.802 4.54-2.591 5.076-.592.402-1.213.517-1.549.517h-.01c-.365 0-.89 0-1.03-.517-.09-.34.08-1.06.263-1.828.097-.405.197-.824.262-1.207l.94-4.722c.014-.092.021-.177.021-.254 0-.72-.146-1.1-1.103-1.1-.46 0-.77.074-.931.222-.161.148-.274.44-.34.878-.365-.487-.734-.815-1.107-.984-.343-.155-.833-.233-1.468-.233-1.636 0-3.053.783-4.252 2.349-1.103 1.439-1.654 2.977-1.654 4.613 0 1.277.358 2.398 1.074 3.365.796 1.065 1.833 1.597 3.112 1.597 1.095 0 2.147-.366 3.155-1.1.453.74 1.23 1.177 2.323 1.111 5.654-.339 6.962-5.275 6.896-7.783C28.647 12.75 26.288 7 18.976 7c-3.382 0-5.806.747-8.417 3.14zm3.702 9.173c-.068-1.127.093-1.976.814-3.235 1.171-2.046 2.576-2.537 3.502-2.428.898.107 1.128.5 1.27.743l.014.023c.142.24.367.648.367 1.225 0 .938-.292 1.839-.922 3.398-.732 1.84-1.483 2.19-2.4 2.4-1.512.348-2.576-.999-2.645-2.126z"
-                  fill="#2F3035" fill-opacity="0.9"></path>
-              </svg></span><span class=""><svg width="36" height="36" fill="none" xmlns="http://www.w3.org/2000/svg"
-                class="" viewBox="0 0 36 36">
-                <path fill-rule="evenodd" clip-rule="evenodd"
-                  d="M27 18a9 9 0 11-18 0 9 9 0 0118 0zm-9 11c6.075 0 11-4.925 11-11S24.075 7 18 7 7 11.925 7 18s4.925 11 11 11zm-2-13.5c0 1.105-.672 2-1.5 2s-1.5-.895-1.5-2 .672-2 1.5-2 1.5.895 1.5 2zm5.5 2c.828 0 1.5-.895 1.5-2s-.672-2-1.5-2-1.5.895-1.5 2 .672 2 1.5 2zM18 22.03c-1.657 0-3-.96-3-2.143 0-1.183 6-1.183 6 0 0 1.184-1.343 2.143-3 2.143z"
-                  fill="#2F3035" fill-opacity="0.9"></path>
-              </svg></span><span class="OGIa7O6a"><svg width="36" height="36" fill="none"
-                xmlns="http://www.w3.org/2000/svg" class="" viewBox="0 0 36 36">
+          <div class="XAze1wis">
+            <svg @click="clearinput" width="36" height="36" fill="none" xmlns="http://www.w3.org/2000/svg"  viewBox="-8 0 36 18" :style="{ cursor :(userinputcomment ? 'pointer' : 'no-drop')}">
+              <path fill-rule="evenodd" clip-rule="evenodd" 
+                d="M17.448 17.448a1.886 1.886 0 01-2.668 0L9 11.668l-5.78 5.78A1.886 1.886 0 11.552 14.78L6.332 9 .552 3.22A1.886 1.886 0 113.22.552L9 6.332l5.78-5.78a1.886 1.886 0 112.668 2.668L11.668 9l5.78 5.78a1.886 1.886 0 010 2.668z" 
+                fill="white" fill-opacity="0.9"></path>
+            </svg>
+            <svg width="36" height="36" fill="none" xmlns="http://www.w3.org/2000/svg" class="" viewBox="0 0 36 36">
+              <path fill-rule="evenodd" clip-rule="evenodd"
+                d="M27 18a9 9 0 11-18 0 9 9 0 0118 0zm-9 11c6.075 0 11-4.925 11-11S24.075 7 18 7 7 11.925 7 18s4.925 11 11 11zm-2-13.5c0 1.105-.672 2-1.5 2s-1.5-.895-1.5-2 .672-2 1.5-2 1.5.895 1.5 2zm5.5 2c.828 0 1.5-.895 1.5-2s-.672-2-1.5-2-1.5.895-1.5 2 .672 2 1.5 2zM18 22.03c-1.657 0-3-.96-3-2.143 0-1.183 6-1.183 6 0 0 1.184-1.343 2.143-3 2.143z"
+                fill="white" fill-opacity="0.9"></path>
+            </svg>
+            <!-- <Emoji @chooseEmojiDefault="chooseEmojiDefault"></Emoji> -->
+            <span class="OGIa7O6a" @click="addcomment(currentUserId, videoInfo.videoId)" :style="{ cursor :(userinputcomment ? 'pointer' : 'no-drop')}">
+              <svg width="36" height="36" fill="none" xmlns="http://www.w3.org/2000/svg" class="" viewBox="0 0 36 36">
                 <path fill-rule="evenodd" clip-rule="evenodd"
                   d="M17.5 30C23.851 30 29 24.851 29 18.5S23.851 7 17.5 7 6 12.149 6 18.5 11.149 30 17.5 30zm-5.16-13.883a1.16 1.16 0 001.64 1.64l2.395-2.394v8.838a1.16 1.16 0 002.321 0v-8.839l1.028 1.028 1.368 1.368a1.16 1.16 0 001.64-1.641l-4.219-4.22a1.382 1.382 0 00-1.954 0l-4.22 4.22z"
-                  fill="#2F3035" fill-opacity="0.4"></path>
-              </svg></span></div>
+                  fill="white" fill-opacity="0.4"></path>
+              </svg>
+            </span>
+          </div>
         </div>
       </div>
     </div>
@@ -537,7 +554,7 @@
   transform-origin: right;
   transition: all .3s linear;
   width: 32px;
-  background-color: rgb(54, 52, 52, 0.9);
+  background-color: rgba(173, 36, 118, 0.284);
 }
 
 .otZjcQr3 .RvwrvJd0 {
@@ -548,7 +565,7 @@
 }
 
 .commentlist {
-  padding: 0 7px 0 16px;
+  padding: 0 7px 80px 16px;
   -ms-overflow-style: none;
   overflow: hidden scroll;
   scrollbar-width: none;
@@ -557,7 +574,8 @@
   flex-grow: 1;
   position: relative;
   top: 0px;
-  margin-top: 10px;
+  /* bottom: 100px; */
+  /* margin-top: 10px; */
 }
 
 .comment-container {
@@ -572,22 +590,64 @@
 }
 
 .comment-item-avatar {
-  width: 60px;
-  height: 60px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
 }
 
-.commentbar {}
+.comment-item-username {
+  color: lightgrey;
+  margin-left: 3%;
+  font-size: 15px;
+  font-family: PingFang SC, DFPKingGothicGB-Regular, sans-serif;
+}
+
+.commentbar {
+  margin-top: -15px;
+  margin-left: 11%;
+}
 
 .commentcontent {
   margin: 10px 0;
+  font-size: 18px;
+  font-family: PingFang SC, DFPKingGothicGB-Regular, sans-serif;
+  text-shadow: 0.5px 0.5px 1px rgb(117, 116, 116);
 }
 
 .commenttime {
   margin: 10px 0;
+  font-size: 13px;
+  font-family: PingFang SC, DFPKingGothicGB-Regular, sans-serif;
+  color:rgb(117, 116, 116);
+  /* text-shadow: 1px 1px 1px rgb(117, 116, 116); */
 }
 
-.addCommentBar{
+.commentlikeordisliebutton {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.comment-like-button{
+  cursor: pointer;
+}
+
+.commentlikenum {
+  margin-left: 3px;
+  margin-bottom: 3.5px;
+  color: lightgrey;
+  font-family: PingFang SC, DFPKingGothicGB-Medium, sans-serif;
+  font-weight: 500;
+  text-shadow: rgba(0, 0, 0, 0.2) 0px 1px 1px;
+  font-size: 13px;
+}
+
+.comment-dislike-button {
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.addCommentBar {
   /* background-color: hsla(0,0%,100%,.2); */
   align-items: center;
   background: #3d3f44;
@@ -595,41 +655,40 @@
   display: flex;
   /* justify-content: center; */
   /* min-height: 44px; */
-  /* position: relative; */
   width: 30%;
   text-shadow: rgba(0, 0, 0, 0.2) 0px 1px 1px;
   position: fixed;
   bottom: 0;
   left: 0;
-  /* height: 30%; */
 }
 
 .addCommentBar .pOcGUDMb {
   flex: 1 1;
-  /* flex-grow: 1; */
-  /* height: auto; */
+  flex-grow: 1;
+  max-height: 300px;
   /* overflow: hidden; */
   padding-left: 12px;
   /* width: 0; */
 }
 
-input{
-    outline-style: none ;
-    border: 1px solid #ccc; 
-    border-radius: 3px;
-    padding: 6px;
-    width: 350px;
-    font-size: 14px;
-    font-family: PingFang SC,DFPKingGothicGB-Regular,sans-serif;
-    /* box-sizing: content-box; */
-    /* line-height: 16px; */
+textarea {
+  outline-style: none;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  margin: 10px 5px;
+  width: 350px;
+  font-size: 14px;
+  font-family: PingFang SC, DFPKingGothicGB-Regular, sans-serif;
+  resize:none;
+  overflow-y:hidden;
 }
-input:focus{
-    border-color: #eaeef1;
-    /* outline: 0; */
-    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(11, 12, 12, 0.6);
-    box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(19, 20, 20, 0.6)
-}
+
+/* input:focus {
+  border-color: #eaeef1;
+  outline: 0;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(11, 12, 12, 0.6);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(19, 20, 20, 0.6)
+} */
 
 
 .side-pane-top {
@@ -953,6 +1012,7 @@ var userInfo = ref({
 
 var taglist = ref([])
 
+//更新视频用户的信息
 async function getuser(userId) {
   const p = {
     userId: userId
@@ -970,6 +1030,7 @@ async function getuser(userId) {
     })
   // console.log(toRaw(userInfo.value))
   isFollow(currentUserId, toRaw(userInfo.value).userId)
+  isStar(currentUserId, toRaw(videoInfo.value).videoId)
 }
 
 function gettagrecord(videoId) {
@@ -1025,11 +1086,8 @@ async function getvideo(videoId) {
   // console.log(toRaw(videoInfo))
   getuser(toRaw(videoInfo.value).userId)
   gettagrecord(toRaw(videoInfo.value).videoId)
+  getvideocomments(toRaw(videoInfo.value).videoId)
 }
-// console.log('视频位置:',route.params.index)
-// onUpdated(() => {
-
-// }),
 getvideo(route.params.videoid)
 
 const relation = reactive({
@@ -1100,45 +1158,180 @@ const changeFold = () => {
 
 async function switchPreVideo(index) {
   await router.push("/videopage/" + videos[parseInt(index) - 1].videoId + '/' + (index - 1));
+  test.fold = false
   getvideo(route.params.videoid)
 }
 
 async function switchNextVideo(index) {
   await router.push("/videopage/" + videos[parseInt(index) + 1].videoId + '/' + (index + 1));
+  test.fold = false
   getvideo(route.params.videoid)
 }
 
 function likevideo(videoId) {
   const button1 = document.getElementById('likebuttoncolor')
   button1.style.fill = 'rgb(255,0,0)'
+  //相当于预处理一下，每次等后端返回页面更新的太慢
+  videoInfo.value.likeNum += 1
   let requestData = new FormData();
   requestData.append('videoId', videoId)
   request
     .post("/video/addLikeNum", requestData)
     .then(res => {
-      videoInfo.value.likenum = res.data.data.likenum
+      videoInfo.value.likeNum = res.data.data.likeNum
     })
     .catch(err => {
       console.log(err)
     })
 }
 
-function starbuttoncolor() {
-  const button1 = document.getElementById('starbuttoncolor')
-  const button2 = document.getElementById('starbuttonbordercolor')
-  button1.style.fill = "rgb(255,255,0)"
-  button2.style.fill = "rgb(255,255,0)"
+function starbuttoncolor(flag) {
+  if (flag == 0) {
+    const button1 = document.getElementById('starbuttoncolor')
+    const button2 = document.getElementById('starbuttonbordercolor')
+    button1.style.fill = "rgb(255,255,0)"
+    button2.style.fill = "rgb(255,255,0)"
+  }
+  else {
+    const button1 = document.getElementById('starbuttoncolor')
+    const button2 = document.getElementById('starbuttonbordercolor')
+    button1.style.fill = "rgb(255,255,255)"
+    button2.style.fill = "rgb(255,255,255)"
+  }
 }
 
-function isStar(userId, videoId) {
+async function isStar(userId, videoId) {
+  let starRes = {}
   let requestData = new FormData();
-  requestData.append('userID', userId)
+  requestData.append('userId', userId)
   requestData.append('videoId', videoId)
-  request
+  await request
     .post("/star/isStar", requestData)
     .then(res => {
+      // console.log(res)
+      starbuttoncolor(res.data.code)
+      starRes = res.data
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  return starRes;
+}
+
+async function starvideo(userId, videoId) {
+  let starRes = await isStar(userId, videoId);
+  // console.log(starRes)
+  let requestData = new FormData();
+  requestData.append('userId', userId)
+  requestData.append('videoId', videoId)
+  // 已收藏，再点击则为取消收藏
+  if (starRes.code == 0) {
+    videoInfo.value.starNum -= 1
+    starbuttoncolor(1)
+    let requestData1 = new FormData();
+    requestData1.append('starId', starRes.data.star.starId)
+    request
+      .post("/star/delete", requestData1)
+      .then(res => {
+        if (res.data.code == 0) {
+          starbuttoncolor(res.data.code != 0 ? 0 : 1)
+          request
+            .post("/video/subStarNum", requestData)
+            .then(res => {
+              if (res.data.code == 0)
+                videoInfo.value.starNum = res.data.data.starNum
+              else
+                console.log(res)
+            })
+            .catch(err => {
+              console.log(err)
+            })
+        }
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }
+  // 未收藏，再点击则是添加收藏
+  else {
+    videoInfo.value.starNum += 1
+    starbuttoncolor(0)
+    request
+      .post("/star/add", requestData)
+      .then(res => {
+        if (res.data.code == 0) {
+          starbuttoncolor(res.data.code)
+          request
+            .post("/video/addStarNum", requestData)
+            .then(res => {
+              if (res.data.code == 0)
+                videoInfo.value.starNum = res.data.data.starNum
+              else
+                console.log(res)
+            })
+            .catch(err => {
+              console.log(err)
+            })
+        }
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }
+}
+
+function forwardvideo(videoId) {
+  const currenturl = window.location.href
+  navigator.clipboard.writeText(currenturl);
+  alert("转发链接已复制到剪切板!\n" + currenturl)
+  videoInfo.value.shareNum += 1
+  let requestData = new FormData();
+  requestData.append('videoId', videoId)
+  request
+    .post("/video/addShareNum", requestData)
+    .then(res => {
+      console.log(res)
+      if (res.data.code == 0)
+        videoInfo.value.shareNum = res.data.data.shareNum
+      else
+        console.log(res)
+    })
+    .catch(err => {
+      console.log(err)
+    })
+}
+
+var comments = ref([])
+
+function getvideocomments(videoId) {
+  comments.value = []
+  let requestData = new FormData();
+  requestData.append('videoId', videoId)
+  request
+    .post("/comment/showAll", requestData)
+    .then(res => {
       if (res.data.code == 0) {
-        starbuttoncolor()
+        var commentList = res.data.data.comments
+        for (let i = 0; i < commentList.length; i++) {
+          comments.value.push(commentList[i])
+          comments.value[i].islike = false
+          const p = {
+            userId: commentList[i].userId
+          }
+          console.log(p)
+          request
+            .get("/user/findUser", { params: p })
+            .then(res => {
+              // console.log("找到评论用户:",res)
+              if (res.data.code == 0)
+                comments.value[i].user = res.data.data
+
+            })
+            .catch(err => {
+              console.log(err)
+            })
+          console.log("当前视频所有评论:", toRaw(comments.value))
+        }
       }
     })
     .catch(err => {
@@ -1146,93 +1339,153 @@ function isStar(userId, videoId) {
     })
 }
 
-function starvideo(userId, videoId) {
-  starbuttoncolor()
+function formatMsgTime(timestamp) {
+  var dateTime = renderTime(timestamp)
+  // console.log(dateTime)
+  function renderTime(date) {
+    var dateee = new Date(date).toJSON();
+    return new Date(+new Date(dateee) + 8 * 3600 * 1000)
+  }
+  // console.log(dateTime) // 将传进来的字符串或者毫秒转为标准时间
+  var year = dateTime.getFullYear()
+  var month = dateTime.getMonth() + 1
+  var day = dateTime.getDate()
+  var hour = dateTime.getHours()
+  var minute = dateTime.getMinutes()
+  // var second = dateTime.getSeconds()
+  var millisecond = dateTime.getTime() // 将当前编辑的时间转换为毫秒
+  var now = new Date() // 获取本机当前的时间
+  var nowNew = now.getTime() // 将本机的时间转换为毫秒
+  var milliseconds = 0
+  var timeSpanStr
+  milliseconds = nowNew - millisecond
+  if (milliseconds <= 1000 * 60 * 1) { // 小于一分钟展示为刚刚
+    timeSpanStr = '刚刚'
+  } else if (1000 * 60 * 1 < milliseconds && milliseconds <= 1000 * 60 * 60) { // 大于一分钟小于一小时展示为分钟
+    timeSpanStr = Math.round((milliseconds / (1000 * 60))) + '分钟前'
+  } else if (1000 * 60 * 60 * 1 < milliseconds && milliseconds <= 1000 * 60 * 60 * 24) { // 大于一小时小于一天展示为小时
+    timeSpanStr = Math.round(milliseconds / (1000 * 60 * 60)) + '小时前'
+  } else if (1000 * 60 * 60 * 24 < milliseconds && milliseconds <= 1000 * 60 * 60 * 24 * 15) { // 大于一天小于十五天展示位天
+    timeSpanStr = Math.round(milliseconds / (1000 * 60 * 60 * 24)) + '天前'
+  } else if (milliseconds > 1000 * 60 * 60 * 24 * 15 && year === now.getFullYear()) {
+    timeSpanStr = month + '-' + day + ' ' + hour + ':' + minute
+  } else {
+    timeSpanStr = year + '-' + month + '-' + day + ' ' + hour + ':' + minute
+  }
+  return timeSpanStr
+}
+
+const tolikecomment = (commentId, commentidx) => {
+  if(!comments.value[commentidx].islike) {
+    likecomment(commentId, commentidx)
+    comments.value[commentidx].islike = !comments.value[commentidx].islike
+  }
+}
+
+const tohatecomment = (commentId, commentidx) => {
+  if(comments.value[commentidx].islike) {
+    dislikecomment(commentId, commentidx)
+    comments.value[commentidx].islike = !comments.value[commentidx].islike
+  }
+}
+
+function likecomment(commentId, commentidx) {
   let requestData = new FormData();
-  requestData.append('userID', userId)
+  requestData.append('commentId', commentId)
+  requestData.append('likeNum', comments.value[commentidx].likeNum)
+  comments.value[commentidx].likeNum += 1
+  request
+  .post("/comment/like", requestData)
+  .then(res => {
+    console.log("喜欢评论后的返回值",res)
+    if(res.data.code != 0)
+      comments.value[commentidx].likeNum -= 1
+  })
+  .catch(err => {
+    console.log(err)
+  })
+}
+
+function dislikecomment(commentId, commentidx) {
+  let requestData = new FormData();
+  requestData.append('commentId', commentId)
+  requestData.append('likeNum', comments.value[commentidx].likeNum)
+  comments.value[commentidx].likeNum -= 1
+  request
+  .post("/comment/dislike", requestData)
+  .then(res => {
+    console.log("不喜欢评论后的返回值", res)
+    if(res.data.code != 0)
+      comments.value[commentidx].likeNum += 1
+  })
+  .catch(err => {
+    console.log(err)
+  })
+}
+
+const userinputcomment = ref('')
+
+async function finduser(userId) {
+  let user = {}
+  const p = {
+    userId: userId
+  }
+  await request
+    .get("/user/findUser", { params: p })
+    .then(res => {
+      if (res.data.code != 1)
+        user = res.data.data
+    })
+    .catch(err => {
+      console.log(err)
+    })
+    return user
+}
+
+async function addcomment(userId, videoId) {
+  console.log('进入添加评论')
+
+  // 获取当前时间
+  const now = new Date();
+  // 格式化时间
+  const year = now.getFullYear();
+  const month = now.getMonth() + 1;
+  const day = now.getDate();
+  const hour = now.getHours();
+  const minute = now.getMinutes();
+  const second = now.getSeconds();
+  const currentTime = `${year}-${month >= 10 ? month : '0' + month}-${day >= 10 ? day : '0' + day} ${hour >= 10 ? hour : '0' + hour}:${minute >= 10 ? minute : '0' + minute}:${second >= 10 ? second : '0' + second}`;
+  console.log(currentTime)
+
+  const content = userinputcomment.value;
+  console.log("评论内容",content)
+
+  clearinput()
+  
+  let requestData = new FormData();
+  requestData.append('userId', userId)
   requestData.append('videoId', videoId)
+  requestData.append('createTime', currentTime)
+  requestData.append('content', content)
   request
-    .post("/star/add", requestData)
-    .then(res => {
-      videoInfo.value.likeNum = res.data.data.likeNum
-    })
-    .catch(err => {
-      console.log(err)
-    })
-  request
-    .post("/video/addStarNum", requestData)
-    .then(res => {
-      videoInfo.value.starNum = res.data.data.starNum
-    })
-    .catch(err => {
-      console.log(err)
-    })
+  .post("/comment/add", requestData)
+  .then( res=> {
+    if(res.data.code == 0) {
+      comments.value.push(res.data.data.comment)
+      comments.value[comments.value.length - 1].islike = false
+      comments.value[comments.value.length - 1].user = finduser(comments.value[comments.value.length - 1].userId)
+      console.log(toRaw(comments.value))
+    }
+  })
+  .catch(err => {
+    console.log(err)
+  })
 }
 
-function forwardvideo() {
-  console.log('进入转发')
-  const currenturl = window.location.href
-  navigator.clipboard.writeText(currenturl);
-  // let requestData = new FormData();
-  // requestData.append('userID',userId)
-  // requestData.append('videoId',videoId)
-  // request
-  // .post("/video/addShareNum", requestData)
-  // .then(res => {
-  //   videoInfo.value.shareNum = res.data.data.shareNum
-  // })
-  // .catch(err => {
-  //   console.log(err)
-  // })
-  alert("转发链接已复制到剪切板" + window.location.href)
+const clearinput = () => {
+  userinputcomment.value = ''
 }
 
-const comments = [
-  {
-    name: "用户1", head: require("../../assets/img.png"),
-    content: "我儿子问我：“妈妈，你怎么不找个男朋友？” 我说找了男朋友爸爸怎么办， 他说“爸爸在家带我们，你和男朋友出去玩啊！”[微笑][微笑][微笑]",
-    createTime: "2023-10-1", likenum: 201
-  },
-  {
-    name: "用户2", head: require("../../assets/img.png"),
-    content: "不是…我疑惑很久了，你们胡建人晚上都不碎觉的吗？为什么都是夜半三更在做饭？？？",
-    createTime: "2023-10-1", likenum: 2001
-  },
-  {
-    name: "用户3", head: require("../../assets/img.png"),
-    content: "豆沙小馒头是谁的童年不说了",
-    createTime: "2023-10-1", likenum: 411
-  },
-  {
-    name: "用户4", head: require("../../assets/img.png"),
-    content: "jgflkajhgkljglkajlkgjald",
-    createTime: "2023-10-1", likenum: 201
-  },
-  {
-    name: "用户5", head: require("../../assets/img.png"),
-    content: "感觉姐妹两个一起偷偷搞这些会很有趣，独生子女这种情况下 ，会有点羡慕",
-    createTime: "2023-10-1", likenum: 4831
-  },
-  {
-    name: "用户6", head: require("../../assets/img.png"),
-    content: "油的广告商什么时候才能看到",
-    createTime: "2023-10-1", likenum: 436
-  },
-  {
-    name: "用户4", head: require("../../assets/img.png"),
-    content: "jgflkajhgkljglkajlkgjald",
-    createTime: "2023-10-1", likenum: 201
-  },
-  {
-    name: "用户5", head: require("../../assets/img.png"),
-    content: "感觉姐妹两个一起偷偷搞这些会很有趣，独生子女这种情况下 ，会有点羡慕",
-    createTime: "2023-10-1", likenum: 4831
-  },
-  {
-    name: "用户6", head: require("../../assets/img.png"),
-    content: "油的广告商什么时候才能看到",
-    createTime: "2023-10-1", likenum: 436
-  },
-]
+import Emoji from "@/components/emoji.vue";
 
 </script>
