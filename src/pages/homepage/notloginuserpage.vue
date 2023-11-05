@@ -40,12 +40,10 @@
         </div>
       </div>
       <p class="wTV10cVL">
-        <span class="aH7rLkZZ">抖音号：<!-- -->89506608795</span>
+<!--        <span class="aH7rLkZZ">抖音号：&lt;!&ndash; &ndash;&gt;89506608795</span>-->
       </p>
     </div>
-    <div class="VYCEfmrZ">
-      <button type="button" class="GIg8IFtS">编辑资料</button>
-    </div>
+
   </div>
   <div class = "uservideoinfo" >
     <el-menu
@@ -173,8 +171,8 @@
   max-width: 1208px;
   position: relative;
   width: 100%;
-  background-image: linear-gradient(90deg,rgba(26,28,39,0),#1a1c27 calc(100% - 852px),rgba(32,32,53,.35) 64.63%,rgba(33,33,57,.2)),url(//lf3-cdn-tos.bytegoofy.com/obj/goofy/ies/douyin_web/image/dark_bg_default.29cfccfa.png);
   background-color: #2B2D40;
+  background-image: url("./assets/banner.jpg");
 
 }
 .showusrinfo .VYCEfmrZ {
@@ -215,9 +213,7 @@
   margin-left: 32px;
   min-height: 120px;
 
-
 }
-
 
 .usrinfo .usrinfo_name_row {
   display: flex;
