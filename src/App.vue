@@ -2,8 +2,8 @@
   <div class="common-layout" style="background-color: #2c3e50">
     <el-container>
       <el-aside class="el-aside" style="width:120px;">
-        <img class="menu-image" src="./assets/img.png" alt="Your Image">
-
+        <img class="menu-image" src="./assets/OIP.jpg" alt="Your Image" style="width:120px">>
+<!--        <img src="https://www-static.qbox.me/_next/static/media/logo.0fc18feaa621d2068a7180631f742256.jpg" style="display:none">-->
         <el-row>
           <el-col>
 
@@ -319,13 +319,17 @@ login_init()
 </script>
 
 <style>
-
+.common-layout{
+  background-image: url(assets/banner.jpg);
+}
 .menu-image {
   height: 80px;
   width: 120px;
 }
 .el-menu-vertical-demo {
   border-right:0!important;
+  background-image: url(assets/banner.jpg);
+  background-size: cover;
 }
 .search-input {
   margin-left: 60%;
@@ -351,6 +355,7 @@ login_init()
 }
 .el-aside {
   overflow: hidden;
+
 }
 .search-bar {
   width: 80%;
