@@ -147,7 +147,7 @@
       <li class="video-list" v-for="(video, index) in videoInfo" :key="index" >
         <div class = "video-item">
 <!--          <a :href=video.src class="B3AsdZT9 chmb2GX8 DiMJX01_" target="_blank" rel="noopener noreferrer">-->
-          <router-link :to="`/videopage/${video.videoId}`">
+          <router-link :to="`/videopage/${video.videoId}/${index}`">
 
           <div class="video-cover">
               <div class="cover-img">
@@ -967,6 +967,7 @@ import {onMounted, ref, toRaw} from 'vue';
 import request from "@/api";
 const qiniu = require('qiniu-js');
 
+
 import {useStore} from 'vuex';
 
 import axios from "axios";
@@ -997,13 +998,13 @@ const closeModal = () => {
   showModal.value = false;
 };
 
-
+let selectedFile = ref(null);
 const isHeadImageChosed = ref(false);
 const handleFileChange = (event) => {
   // let selectedFile = document.getElementById('upload-head-button');
-  let selectedFile = event.target.files[0];
+  selectedFile = event.target.files[0];
   // console.log(selectedFile.type)
-  uploadVideo(selectedFile);
+
   isHeadImageChosed.value = true;
   // console.log(event.target);
 };
@@ -1020,16 +1021,14 @@ const observer = {
   }
 }
 // 上传头像到七牛云服务器中，其中头像以 userid命名。
-async function uploadVideo(newheadshot){
+async function uploadVideo(newheadshot,fileName){
   let token = ''
   await request.post("/video/getVideoToken").then(res => {token = res.data})
-  // console.log('jhggk',token)
-  console.log(newheadshot.name);
-  const uploadfilename = newheadshot.name;
-  const file_type = uploadfilename.substring((uploadfilename.lastIndexOf('.')));
-  var key = userId + file_type;
+
+
+  var key = fileName;
   console.log(key);
-  const observable = qiniu.upload(newheadshot, key, token)
+  const observable = qiniu.upload(newheadshot,key,token)
   const subscription = observable.subscribe(observer)
   console.log(subscription)
 
@@ -1136,6 +1135,7 @@ async function handleMenuSelect(index) {
   else if(index === 'likes'){
     //处理喜欢点击事件
     resetVideoInfo();
+    getuserstarvideos(userId);
 
   }
   else if(index === 'star'){
@@ -1157,40 +1157,72 @@ async function handleMenuSelect(index) {
 
 const username = ref('');
 const bio = ref('');
-const url = ref('');
-async function getHeadShotUrl(fileName){
-  const p = {
-    fileName: fileName
-  }
-  // console.log(p)
-  await request
-      .get("/video/getDownLoadVideoUrl", {params: p})
-      .then(res => {
-        // console.log(res)
-        if(res.data.code != 1)
-          url.value =  res.data.data
-      })
-      .catch(err => {
-        console.log(err)
-      })
-  console.log(url.value)
-}
+let url = ref('');
+// async function getHeadShotUrl(fileName){
+//   const p = {
+//     fileName: fileName
+//   }
+//   console.log(fileName)
+//   await request
+//       .get("/video/getDownLoadVideoUrl", {params: p})
+//       .then(res => {
+//         // console.log(res)
+//         if(res.data!=="")
+//           console.log(res.data)
+//           url.value =  res.data
+//       })
+//       .catch(err => {
+//         console.log(err)
+//       })
+//
+// }
+// async function deleteHeadShot(fileName){
+//   let formData = new FormData();
+//   formData.append('fileName',fileName);
+//   console.log(fileName)
+//   await request
+//       .post("/video/deleteQiniu", formData)
+//       .then(res => {
+//         console.log(res)
+//       })
+//       .catch(err => {
+//         console.log(err)
+//       })
+//
+// }
 
+// let newHeadShotName = ref('');
+function generateRandomString(length) {
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let randomString = '';
+
+  for (let i = 0; i < length; i++) {
+    const randomIndex = Math.floor(Math.random() * characters.length);
+    randomString += characters.charAt(randomIndex);
+  }
+
+  return randomString;
+}
 async function saveChanges (){
   let formData = new FormData();
   await getuser(userId);
   console.log(userInfo.value.email)
+  console.log(userInfo.value.headshot)
   formData.append('email',userInfo.value.email);
   formData.append('username',username.value);
   formData.append("introduction",bio.value);
+  // console.log(isHeadImageChosed.value);
   if(isHeadImageChosed.value){
-    const fileName = userId + '.jpg';
-    await getHeadShotUrl(fileName);
-    formData.append('headshot',url)
+    const fileName =  generateRandomString(10) + '.jpg';
+    console.log(fileName);
+    await uploadVideo(selectedFile,fileName);
+    formData.append('headshotname',fileName)
   }
-  else formData.append('headshot',userInfo.value.headshot)
-  request
-      .post('/user/updateUser', formData)
+  else {
+    formData.append('headshotname',userInfo.value.headshotname)
+  }
+  await request
+      .post('/user/updateUserHeadShot', formData)
       .then(res =>{
         if(res.data.code !=0)
           console.log(res.data.msg)
@@ -1204,6 +1236,7 @@ async function saveChanges (){
       .catch(error => {
         console.error(error);
       })
+
   closeModal();
 }
 
