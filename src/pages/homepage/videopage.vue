@@ -506,7 +506,7 @@
   background-image: linear-gradient(to top, rgb(54, 52, 52, 0.9), rgba(57, 56, 56, 0.9)), url("@/assets/back.png");
   filter: blur(10px);
   background-size: 100% 100%;
-  z-index: -1;
+  /*z-index: -1;*/
 }
 
 .videoFullShow {
@@ -515,7 +515,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  /*z-index: 101;*/
+  z-index: 101;
 }
 
 .slide-bar {

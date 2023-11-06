@@ -218,13 +218,6 @@
   max-width: 1208px;
 //position: fixed;
   width: 100%;
-//background-color: #2B2D40;
-//position: ;
-//top:0;
-//left:0;
-//width: 100%;
-//height: 100%;
-//background-image: linear-gradient(90deg,rgba(26,28,39,0),#1a1c27 calc(100% - 852px),rgba(32,32,53,.35) 64.63%,rgba(33,33,57,.2)),url(//lf3-cdn-tos.bytegoofy.com/obj/goofy/ies/douyin_web/image/dark_bg_default.29cfccfa.png);
   /*background-image: url("./assets/banner.jpg");*/
 
 
@@ -269,7 +262,6 @@
   margin-left: 32px;
   min-height: 120px;
   position: relative;
-  /*z-index: -2;*/
 
 }
 
