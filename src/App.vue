@@ -19,7 +19,7 @@
               <template v-if="userId != null">
                 <router-link :to="`/userpage/${userId}`">
                   <el-menu-item style="color: white" >
-                    <i class="el-icon-document"></i>
+<!--                    <i class="el-icon-document"></i>-->
                     <span>我的</span>
                   </el-menu-item>
                 </router-link>
@@ -27,7 +27,7 @@
               <template v-else>
                 <router-link :to="`/notloginpage/`">
                   <el-menu-item style="color: white" >
-                    <i class="el-icon-document"></i>
+<!--                    <i class="el-icon-document"></i>-->
                     <span>我的</span>
                   </el-menu-item>
                 </router-link>
