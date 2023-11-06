@@ -422,7 +422,7 @@
           <div class="comment-container">
             <el-row align="middle">
               <el-image :src="comment.user.headshot ? comment.user.headshot : require('../../assets/img.png')"
-                class="comment-item-avatar"> </el-image>
+                class="comment-item-avatar" @click="routeToUser(comment.user.userId)"> </el-image>
               <p class="comment-item-username">{{ comment.user.username }}</p>
               <!-- <el-button
                 style="margin-left: 40%;font-size: 14px;color:white;background-color: deeppink;border-color: hotpink; opacity: 0.8">关注</el-button> -->
@@ -613,6 +613,7 @@
 }
 
 .comment-item-avatar {
+  cursor:pointer;
   width: 40px;
   height: 40px;
   border-radius: 50%;
@@ -1061,9 +1062,8 @@ console.log('当前所有视频列表', videos)
 
 
 function routeToUser(userId) {
-
+  router.push("/userpage/" + userId)
 }
-
 
 const store = useStore();
 const route = useRoute();
@@ -1207,6 +1207,7 @@ async function getvideo(videoId) {
   getuser(toRaw(videoInfo.value).userId)
   gettagrecord(toRaw(videoInfo.value).videoId)
   getvideocomments(toRaw(videoInfo.value).videoId)
+  addHistory(currentUserId, toRaw(videoInfo.value).videoId)
   // changeBackgroud(toRaw(videoInfo.value).introduction)
   // const filename = toRaw(videoInfo.value).introduction
   // const key = filename.substring(0, filename.indexOf('.')) + '.jpg'
@@ -1214,6 +1215,35 @@ async function getvideo(videoId) {
   // console.log(imgLink)
 }
 getvideo(route.params.videoid)
+
+function addHistory(userId, videoId) {
+  // 获取当前时间
+  const now = new Date();
+  // 格式化时间
+  const year = now.getFullYear();
+  const month = now.getMonth() + 1;
+  const day = now.getDate();
+  const hour = now.getHours();
+  const minute = now.getMinutes();
+  const second = now.getSeconds();
+  const currentTime = `${year}-${month >= 10 ? month : '0' + month}-${day >= 10 ? day : '0' + day} ${hour >= 10 ? hour : '0' + hour}:${minute >= 10 ? minute : '0' + minute}:${second >= 10 ? second : '0' + second}`;
+  // console.log(currentTime)
+
+  let requestData = new FormData();
+  requestData.append('userId', userId)
+  requestData.append('videoId', videoId)
+  requestData.append('watchTime', currentTime)
+
+  request
+  .post("/history/add", requestData)
+  .then(res => {
+    if(res.data.code == 0)
+      console.log("已添加一条历史记录")
+  })
+  .catch(err => {
+    console.log(err)
+  })
+}
 
 const relation = reactive({
   nofollow: true,
