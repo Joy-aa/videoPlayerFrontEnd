@@ -531,6 +531,7 @@ async function saveChanges(){
         console.error(error);
       })
   await addTagRecord();
+  await addVideoPage();
   closeModal();
 }
 function openFilePicker(){
@@ -598,6 +599,27 @@ async function addTagRecord(){
         console.error(error);
       })
 }
+async function addVideoPage(){
+  const p = {
+    videoId: uploadvideoid.value
+  }
+
+  await request
+      .get('/video/addVideoPage', {params: p})
+      .then(res =>{
+        if(res.data.code !=0)
+          console.log(res.data.msg)
+        else {
+          console.log("封面增加成功")
+          console.log(res.data.msg)
+        }
+      })
+      .catch(error => {
+        console.error(error);
+      })
+}
+
+
 let likesInfo = ref([]);
 
 async function getlikesInfo(userId) {
@@ -620,6 +642,7 @@ async function getlikesInfo(userId) {
   store.commit("setdUsersLikeInfo", likesInfo)
   // console.log(userInfo.value.email)
 }
+
 getlikesInfo(userId)
 
 
@@ -2996,7 +3019,7 @@ el-input{
 
 .close-button {
   position: absolute;
-  top: 60px;
+  top: 130px;
   right: 405px;
   border: none;
   cursor: pointer;
