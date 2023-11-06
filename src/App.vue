@@ -72,8 +72,8 @@
         </el-row>
       </el-aside>
       <el-container>
-        <el-header>
-          <div class="container" style="margin-top: 20px">
+        <el-header class="header">
+          <div class="container" style="margin-top: 10px">
             <el-row align="middle">
               <div class="AFTy15pW">
                 <div class="lPytbapz XClSex3D">
@@ -82,7 +82,7 @@
                                                                           maxlength="100"
                                                                           placeholder="搜索你感兴趣的内容"
                                                                           v-model="searchcontent"
-                                                                          ></form>
+                  ></form>
                   <button class="rB8dMXOc" @click="searchbuttonclick" data-e2e="searchbar-button" type="button">
                     <svg width="18" height="18" fill="none" xmlns="http://www.w3.org/2000/svg" class="FhOy97Hs">
                       <path fill-rule="evenodd" clip-rule="evenodd"
@@ -94,34 +94,59 @@
               </div>
 
               <el-button class="upload-button" :icon="Upload" @click="uploadbuttonclick">发布</el-button>
-<!--                  <el-button v-if="!store.state.isAut" index="/signin" style="font-size: 15px;">登录 / 注册</el-button>-->
+
+            <!--                  <el-button v-if="!store.state.isAut" index="/signin" style="font-size: 15px;">登录 / 注册</el-button>-->
 <!--                  <el-button v-if="store.state.isAut" index="user" style="font-size: 15px;">{{store.state.username}}</el-button>-->
 
               <el-button
                   router="router" v-if="!store.state.isAut" class="login-button" @click="login_signin" style="font-size: 15px;">登录 / 注册
               </el-button>
-              <el-image v-else :src="avatar_url" @click="login_out" class="avatar" ></el-image>
-<!--                <el-menu-->
-<!--                    mode="horizontal"-->
+
+                <el-image v-else :src="avatar_url" class="avatar" @click="click_avatar"></el-image>
+
+
+<!--                <el-menu v-if="isOptionsVisible"-->
+<!--                    mode="vertical"-->
+<!--                    class="options-box"-->
 <!--                    :ellipsis="false"-->
 <!--                    router="router"-->
 <!--                    default-active="1"-->
-<!--                    class="el-menu-vertical-demo"-->
 <!--                    @open="handleOpen"-->
 <!--                    @close="handleClose"-->
-<!--                    background-color="#2c3e50"-->
-<!--                    text-color="#fff"-->
-<!--                    active-text-color="#ffd04b">-->
-<!--                  <el-menu-item v-if="!store.state.isAut" class="right" index="/signin" style="font-size: 15px;">登录 / 注册</el-menu-item>-->
-<!--                  <el-menu-item v-else class="right">-->
-<!--                    <template #title>{{store.state.username}}</template>-->
-<!--&lt;!&ndash;                    <el-menu-item index="user" style="font-size: 15px">个人信息</el-menu-item>&ndash;&gt;-->
-<!--&lt;!&ndash;                    <el-menu-item index="" @click="login_out" style="font-size: 15px">退出登陆</el-menu-item>&ndash;&gt;-->
-<!--                  </el-menu-item>-->
+<!--                >-->
+<!--                  <el-menu-item style="height: 20px">个人信息</el-menu-item>-->
+<!--                  <el-menu-item @click="login_out" style="height: 20px">退出登录</el-menu-item>-->
 <!--                </el-menu>-->
+
+
+<!--              <el-menu-->
+<!--                  v-else-->
+<!--                  class="menu"-->
+<!--                  mode="horizontal"-->
+<!--                  :ellipsis="false"-->
+<!--                  router="router"-->
+<!--                  default-active="1"-->
+<!--                  @open="handleOpen"-->
+<!--                  @close="handleClose">-->
+<!--                  <el-image :src="avatar_url" class="avatar" ></el-image>-->
+<!--                  <el-sub-menu>-->
+<!--                    <el-menu-item style="font-size: 15px">个人信息</el-menu-item>-->
+<!--                    <el-menu-item @click="login_out" style="font-size: 15px">退出登录</el-menu-item>-->
+<!--                  </el-sub-menu>-->
+
+<!--              </el-menu>-->
             </el-row>
           </div>
 
+          <div v-if="isOptionsVisible" class="options-box">
+            <el-menu class="twoitem" style="height:30px;margin-left:0px;background-color: #475669; border-color: #475669">
+              <el-menu-item @click="clickuserinfo" style="height:15px;margin-top:8px;color:white;font-size: 15px">个人信息</el-menu-item>
+              <el-menu-item @click="login_out" style="height:15px;margin-top:13px;color:white;font-size: 15px">退出登录</el-menu-item>
+            </el-menu>
+            <!--              <span style="color:lightgrey;font-size: 15px">个人信息</span>-->
+            <!--              <span @click="login_out" style="color:lightgrey;font-size: 15px">退出登录</span>-->
+
+          </div>
         </el-header>
         <el-main>
 
@@ -136,7 +161,7 @@
 
 
 <script setup lang="ts" >
-import {ref} from "vue";
+import {ref, toRaw} from "vue";
 import store from './store'
 import request from "@/api";
 import Cookies from 'js-cookie'
@@ -146,7 +171,7 @@ import { useRoute, useRouter } from 'vue-router';
 const activeMenu = ref('/');
 const route = useRoute();
 const router = useRouter();
-
+const isOptionsVisible = ref(false);
 const searchcontent = ref("请搜索")
 async function searchbuttonclick() {
   console.log(searchcontent.value)
@@ -188,6 +213,17 @@ async function searchbuttonclick() {
   router.push("/searchpage")
 }
 
+async function clickuserinfo() {
+  isOptionsVisible.value = false
+  router.push("/userpage/" + localStorage.getItem("currentUserId"))
+}
+
+function click_avatar() {
+  console.log("click avatar")
+  console.log(isOptionsVisible.value)
+  isOptionsVisible.value = isOptionsVisible.value != true;
+  console.log(isOptionsVisible.value)
+}
 function uploadbuttonclick() {
 // 处理按钮点击事件
 }
@@ -345,6 +381,7 @@ login_init()
   height: 80px;
   width: 120px;
 }
+
 .el-menu-vertical-demo {
   border-right:0!important;
   background-image: url(assets/banner.jpg);
@@ -633,7 +670,7 @@ el-input{
   --divider-background: linear-gradient(180deg,rgba(6,7,22,.6),rgba(6,7,22,0));
   box-sizing: border-box;
   /*margin: 0;*/
-  margin-left: 40%;
+  margin-left: 50%;
   padding: 0;
   font-family: PingFang SC,DFPKingGothicGB-Regular,sans-serif;
   outline: none;
@@ -2605,7 +2642,7 @@ el-input{
 
 .upload-button {
   /*margin-left: 3%;*/
-  margin-left: 20%;
+  margin-left: 10%;
 }
 .login-button {
   /*width: 50px;*/
@@ -2620,6 +2657,23 @@ el-input{
   border-radius: 50%;
   margin-left: 2%;
   /*background-color: red;*/
+}
+.options-box {
+  /*width: 100px;*/
+  height: 60px;
+  margin-left: 90%;
+  width: 100px;
+  color: #475669;
+  background-color: #475669; /* 背景颜色 */
+  border-radius: 8px; /* 圆角半径 */
+  padding: 2px; /* 内边距，用于放置文本 */
+}
+.header {
+  z-index: 1000;
+  position: relative;
+}
+.options-box .el-menu-item:hover {
+  background-color: #475669; /* 设置悬停时的背景颜色 */
 }
 .el-aside {
   overflow: hidden;
