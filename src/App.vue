@@ -16,56 +16,68 @@
                 text-color="#fff"
                 active-text-color="#ffd04b">
 
-              <el-menu-item style="color: white" @click="handleMenuSelect(1)">
-                <i class="el-icon-menu"></i>
-                <span>首页</span>
-              </el-menu-item>
-              <el-menu-item style="color: white" @click="handleMenuSelect(2)">
-                <i class="el-icon-document"></i>
-                <span>推荐</span>
-              </el-menu-item>
-              <el-menu-item style="color: white" @click="handleMenuSelect(3)">
-                <i class="el-icon-document"></i>
-                <span>本地</span>
-              </el-menu-item>
-              <el-menu-item style="color: white" @click="handleMenuSelect(4)">
-                <i class="el-icon-setting"></i>
-                <span>知识</span>
-              </el-menu-item>
+                  <el-menu-item
+                      v-for="(tag, index) in tagList"
+                      :key="index"
+                      :index="tag.tagId"
+                      style="color: white"
+                      @click="handleMenuSelect(tag.tagId)"
 
-              <el-menu-item style="color: white" @click="handleMenuSelect(5)">
-                <i class="el-icon-menu"></i>
-                <span>娱乐</span>
-              </el-menu-item>
-              <el-menu-item style="color: white" @click="handleMenuSelect(6)">
-                <i class="el-icon-document"></i>
-                <span>游戏</span>
-              </el-menu-item>
-              <el-menu-item style="color: white" @click="handleMenuSelect(7)">
-                <i class="el-icon-document"></i>
-                <span>二次元</span>
-              </el-menu-item>
-              <el-menu-item style="color: white" @click="handleMenuSelect(8)">
-                <i class="el-icon-setting"></i>
-                <span>美食</span>
-              </el-menu-item>
+                  >
+                    <span>
+                      {{ tag.tagName }}
+                    </span>
+                  </el-menu-item>
+<!--              <el-menu-item style="color: white" @click="handleMenuSelect(1)">-->
+<!--                <i class="el-icon-menu"></i>-->
+<!--                <span>首页</span>-->
+<!--              </el-menu-item>-->
+<!--              <el-menu-item style="color: white" @click="handleMenuSelect(2)">-->
+<!--                <i class="el-icon-document"></i>-->
+<!--                <span>推荐</span>-->
+<!--              </el-menu-item>-->
+<!--              <el-menu-item style="color: white" @click="handleMenuSelect(3)">-->
+<!--                <i class="el-icon-document"></i>-->
+<!--                <span>本地</span>-->
+<!--              </el-menu-item>-->
+<!--              <el-menu-item style="color: white" @click="handleMenuSelect(4)">-->
+<!--                <i class="el-icon-setting"></i>-->
+<!--                <span>知识</span>-->
+<!--              </el-menu-item>-->
 
-              <el-menu-item style="color: white" @click="handleMenuSelect(9)">
-                <i class="el-icon-menu"></i>
-                <span>体育</span>
-              </el-menu-item>
-              <el-menu-item style="color: white" @click="handleMenuSelect(10)">
-                <i class="el-icon-document"></i>
-                <span>时尚</span>
-              </el-menu-item>
-              <el-menu-item style="color: white" @click="handleMenuSelect(11)">
-                <i class="el-icon-document"></i>
-                <span>财经</span>
-              </el-menu-item>
-              <el-menu-item style="color: white" @click="handleMenuSelect(12)">
-                <i class="el-icon-setting"></i>
-                <span>健康</span>
-              </el-menu-item>
+<!--              <el-menu-item style="color: white" @click="handleMenuSelect(5)">-->
+<!--                <i class="el-icon-menu"></i>-->
+<!--                <span>娱乐</span>-->
+<!--              </el-menu-item>-->
+<!--              <el-menu-item style="color: white" @click="handleMenuSelect(6)">-->
+<!--                <i class="el-icon-document"></i>-->
+<!--                <span>游戏</span>-->
+<!--              </el-menu-item>-->
+<!--              <el-menu-item style="color: white" @click="handleMenuSelect(7)">-->
+<!--                <i class="el-icon-document"></i>-->
+<!--                <span>二次元</span>-->
+<!--              </el-menu-item>-->
+<!--              <el-menu-item style="color: white" @click="handleMenuSelect(8)">-->
+<!--                <i class="el-icon-setting"></i>-->
+<!--                <span>美食</span>-->
+<!--              </el-menu-item>-->
+
+<!--              <el-menu-item style="color: white" @click="handleMenuSelect(9)">-->
+<!--                <i class="el-icon-menu"></i>-->
+<!--                <span>体育</span>-->
+<!--              </el-menu-item>-->
+<!--              <el-menu-item style="color: white" @click="handleMenuSelect(10)">-->
+<!--                <i class="el-icon-document"></i>-->
+<!--                <span>时尚</span>-->
+<!--              </el-menu-item>-->
+<!--              <el-menu-item style="color: white" @click="handleMenuSelect(11)">-->
+<!--                <i class="el-icon-document"></i>-->
+<!--                <span>财经</span>-->
+<!--              </el-menu-item>-->
+<!--              <el-menu-item style="color: white" @click="handleMenuSelect(12)">-->
+<!--                <i class="el-icon-setting"></i>-->
+<!--                <span>健康</span>-->
+<!--              </el-menu-item>-->
 
             </el-menu>
           </el-col>
@@ -102,7 +114,7 @@
                   router="router" v-if="!store.state.isAut" class="login-button" @click="login_signin" style="font-size: 15px;">登录 / 注册
               </el-button>
 
-                <el-image v-else :src="avatar_url" class="avatar" @click="click_avatar"></el-image>
+                <img v-else v-bind:src="headshot? headshot:require('./assets/img.png')"  class="avatar" @click="click_avatar">
 
 
 <!--                <el-menu v-if="isOptionsVisible"-->
@@ -136,17 +148,19 @@
 
 <!--              </el-menu>-->
             </el-row>
+
+            <div v-if="isOptionsVisible" class="options-box">
+              <el-menu class="twoitem" style="height:30px;margin-left:0px;background-color: #475669; border-color: #475669">
+                <el-menu-item @click="clickuserinfo" style="height:15px;margin-top:8px;color:white;font-size: 15px">个人信息</el-menu-item>
+                <el-menu-item @click="log_out" style="height:15px;margin-top:13px;color:white;font-size: 15px">退出登录</el-menu-item>
+              </el-menu>
+              <!--              <span style="color:lightgrey;font-size: 15px">个人信息</span>-->
+              <!--              <span @click="login_out" style="color:lightgrey;font-size: 15px">退出登录</span>-->
+
+            </div>
           </div>
 
-          <div v-if="isOptionsVisible" class="options-box">
-            <el-menu class="twoitem" style="height:30px;margin-left:0px;background-color: #475669; border-color: #475669">
-              <el-menu-item @click="clickuserinfo" style="height:15px;margin-top:8px;color:white;font-size: 15px">个人信息</el-menu-item>
-              <el-menu-item @click="login_out" style="height:15px;margin-top:13px;color:white;font-size: 15px">退出登录</el-menu-item>
-            </el-menu>
-            <!--              <span style="color:lightgrey;font-size: 15px">个人信息</span>-->
-            <!--              <span @click="login_out" style="color:lightgrey;font-size: 15px">退出登录</span>-->
 
-          </div>
         </el-header>
         <el-main>
 
@@ -173,6 +187,9 @@ const route = useRoute();
 const router = useRouter();
 const isOptionsVisible = ref(false);
 const searchcontent = ref("请搜索")
+const headshot = ref("")
+const tagList = ref([])
+
 async function searchbuttonclick() {
   console.log(searchcontent.value)
   const p = {
@@ -213,7 +230,7 @@ async function searchbuttonclick() {
   router.push("/searchpage")
 }
 
-async function clickuserinfo() {
+function clickuserinfo() {
   isOptionsVisible.value = false
   router.push("/userpage/" + localStorage.getItem("currentUserId"))
 }
@@ -231,15 +248,13 @@ function uploadbuttonclick() {
 function login_signin() {
   if (!store.state.isAut)
     router.push("/signin")
-  // else
-  //   router.push("/userinfo")
 }
 
-async function handleMenuSelect(index) {
-  console.log("父组件" + index)
-  activeMenu.value = index;
+async function handleMenuSelect(tagId) {
+  console.log("父组件" + tagId)
+  activeMenu.value = tagId;
   const p = {
-    tagId : index,
+    tagId : tagId,
   }
 
   var videos = ""
@@ -267,8 +282,6 @@ async function handleMenuSelect(index) {
       .catch(err => {
         console.log(err)
       });
-  // console.log('当前页面类别' + index)
-  // console.log(users)
   store.commit("setUsersOfCategory", users)
 
   for (var i = 0; i < videos.length; i++) {
@@ -289,17 +302,18 @@ const ifsignoruser = () => {
     // 没有存储用户信息
     router.push({ name: '/signin' });
   }
-  // else {
-  //   // 存储了用户信息
-  //   router.push({ name: '/user' });
-  // }
 };
 
-function login_out(){
+// function aaa() {
+//   router.push("/homepage")
+// };
+
+async function log_out(){
+  isOptionsVisible.value = false
   console.log("login out")
   store.commit("loginOut")
-  Cookies.remove("userTicket")
-  request.get("user/logout").then(
+
+  await request.get("user/logout").then(
       res => {
         // console.log(res);
         //console.log(res.data.data.code);
@@ -312,7 +326,12 @@ function login_out(){
     console.log(err);
     console.log("logout error");
   });
-  location.reload()  //刷新当前页面
+  Cookies.remove("userTicket")
+  router.push("/homepage")
+  // location.reload()  //刷新当前页面
+  // window.location.reload();
+
+  // router.push("/signin")
 }
 
 async function login_init(){
@@ -327,6 +346,36 @@ async function login_init(){
     store.commit("setEmail", _email)
     store.commit('setAccess', access)
   }
+  let p1 = {
+    userId: localStorage.getItem("currentUserId")
+  }
+  await request
+  .get("/user/findUserUpdatHeadShot", {params: p1})
+  .then(res => {
+    // console.log(res)
+    if(res.data.code != 1) {
+      localStorage.setItem("headshot", res.data.data.headshot)
+      headshot.value = res.data.data.headshot
+      console.log("xxxxxxxxxxxxxxxxxxxxxx")
+      console.log(headshot.value)
+    }
+  })
+  .catch(err => {
+    console.log(err)
+  })
+
+  await request
+      .get("/tag/getalltag")
+      .then(res => {
+        // console.log(res)
+        if(res.data.code != 1) {
+          localStorage.setItem("tagList", res.data.data)
+          tagList.value = res.data.data
+        }
+      })
+      .catch(err => {
+        console.log(err)
+      })
 
   const p = {
     tagId : 1,
@@ -952,7 +1001,7 @@ el-input{
   height: 100%;
   overflow: hidden;
   position: relative;
-  z-index: 50;
+  /*z-index: 50;*/
   -webkit-app-region: no-drag;
 }
 .lPytbapz {
@@ -1230,7 +1279,7 @@ el-input{
   flex-shrink: 1;
   height: 40px;
   width: 100%;
-  z-index: 100;
+  /*z-index: 100;*/
   border-radius: 12px;
   -webkit-app-region: no-drag;
   background-color: var(--color-bg-b0);
@@ -1509,7 +1558,7 @@ el-input{
   line-height: 22px;
   margin: 0;
   outline: none;
-  z-index: 100;
+  /*z-index: 100;*/
   -webkit-app-region: no-drag;
   color: var(--color-text-t4);
   padding: 0 12px;
@@ -1792,7 +1841,7 @@ el-input{
   flex-shrink: 1;
   height: 40px;
   width: 100%;
-  z-index: 100;
+  /*z-index: 100;*/
   border-radius: 12px;
   -webkit-app-region: no-drag;
   background-color: var(--color-bg-b0);
@@ -2071,7 +2120,7 @@ el-input{
   display: flex;
   height: 100%;
   justify-content: center;
-  z-index: 50;
+  /*z-index: 50;*/
   -webkit-app-region: no-drag;
   width: 69px;
   border-bottom-right-radius: 12px!important;
@@ -2667,9 +2716,11 @@ el-input{
   background-color: #475669; /* 背景颜色 */
   border-radius: 8px; /* 圆角半径 */
   padding: 2px; /* 内边距，用于放置文本 */
+  position: relative;
+  z-index: 100;
 }
 .header {
-  z-index: 1000;
+  /*z-index: 5;*/
   position: relative;
 }
 .options-box .el-menu-item:hover {

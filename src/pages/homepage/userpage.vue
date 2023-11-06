@@ -225,7 +225,7 @@
   //width: 100%;
   //height: 100%;
   //background-image: linear-gradient(90deg,rgba(26,28,39,0),#1a1c27 calc(100% - 852px),rgba(32,32,53,.35) 64.63%,rgba(33,33,57,.2)),url(//lf3-cdn-tos.bytegoofy.com/obj/goofy/ies/douyin_web/image/dark_bg_default.29cfccfa.png);
-  background-image: url("./assets/banner.jpg");
+  /*background-image: url("./assets/banner.jpg");*/
 
 
 }
@@ -239,12 +239,12 @@
 }
 
 .GIg8IFtS {
-
   border-radius: 12px;
   color: var(--btn-color)!important;
   height: 33px;
-  top: auto;
-  bottom: auto;
+  top: 60px;
+  position: relative;
+  /*bottom: 0;*/
 }
 
 .showuseravatar {
@@ -269,7 +269,7 @@
   margin-left: 32px;
   min-height: 120px;
   position: relative;
- z-index: 0;
+ /*z-index: -2;*/
 
 }
 
