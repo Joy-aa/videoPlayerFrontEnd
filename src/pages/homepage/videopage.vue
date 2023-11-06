@@ -35,7 +35,16 @@
               </el-row>
             </div>
           </el-row>
+
+          <div class="xgplayer-setting-label">
+            <button aria-checked="true" class="xg-switch" aria-labelledby="xg-switch-pip" type="button">
+              <span class="xg-switch-inner"></span>
+            </button>
+            <span class="xgplayer-setting-title">高清</span>
+          </div>
         </div>
+
+        
 
         <el-col :span="2" class="xslide">
           <div class="switch">
@@ -64,7 +73,7 @@
           </div>
           <div class="button-slide">
             <div class="headImage">
-              <img v-bind:src="userInfo.headshot ? userInfo.headshot : require('../../assets/img.png')" class="PbpHcHqa">
+              <img v-bind:src="userInfo.headshot ? userInfo.headshot : require('../../assets/img.png')" class="PbpHcHqa"  @click="routeToUser(userInfo.userId)">
               <div class="NRiH5zYV" data-e2e="feed-follow-icon" v-if="relation.nofollow"
                 @click="addFollow(currentUserId, userInfo.userId)">
                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 90 90"
@@ -456,13 +465,14 @@
 
       <div class="addCommentBar">
         <div class="pOcGUDMb" contenteditable="true">
-          <textarea v-model="userinputcomment" placeholder="留下你的精彩评论吧" ></textarea>
+          <textarea v-model="userinputcomment" placeholder="留下你的精彩评论吧"></textarea>
         </div>
         <div class="ZYKj4kJN">
           <div class="XAze1wis">
-            <svg @click="clearinput" width="36" height="36" fill="none" xmlns="http://www.w3.org/2000/svg"  viewBox="-8 0 36 18" :style="{ cursor :(userinputcomment ? 'pointer' : 'no-drop')}">
-              <path fill-rule="evenodd" clip-rule="evenodd" 
-                d="M17.448 17.448a1.886 1.886 0 01-2.668 0L9 11.668l-5.78 5.78A1.886 1.886 0 11.552 14.78L6.332 9 .552 3.22A1.886 1.886 0 113.22.552L9 6.332l5.78-5.78a1.886 1.886 0 112.668 2.668L11.668 9l5.78 5.78a1.886 1.886 0 010 2.668z" 
+            <svg @click="clearinput" width="36" height="36" fill="none" xmlns="http://www.w3.org/2000/svg"
+              viewBox="-8 0 36 18" :style="{ cursor: (userinputcomment ? 'pointer' : 'no-drop') }">
+              <path fill-rule="evenodd" clip-rule="evenodd"
+                d="M17.448 17.448a1.886 1.886 0 01-2.668 0L9 11.668l-5.78 5.78A1.886 1.886 0 11.552 14.78L6.332 9 .552 3.22A1.886 1.886 0 113.22.552L9 6.332l5.78-5.78a1.886 1.886 0 112.668 2.668L11.668 9l5.78 5.78a1.886 1.886 0 010 2.668z"
                 fill="white" fill-opacity="0.9"></path>
             </svg>
             <svg width="36" height="36" fill="none" xmlns="http://www.w3.org/2000/svg" class="" viewBox="0 0 36 36">
@@ -471,7 +481,8 @@
                 fill="white" fill-opacity="0.9"></path>
             </svg>
             <!-- <Emoji @chooseEmojiDefault="chooseEmojiDefault"></Emoji> -->
-            <span class="OGIa7O6a" @click="addcomment(currentUserId, videoInfo.videoId)" :style="{ cursor :(userinputcomment ? 'pointer' : 'no-drop')}">
+            <span class="OGIa7O6a" @click="addcomment(currentUserId, videoInfo.videoId)"
+              :style="{ cursor: (userinputcomment ? 'pointer' : 'no-drop') }">
               <svg width="36" height="36" fill="none" xmlns="http://www.w3.org/2000/svg" class="" viewBox="0 0 36 36">
                 <path fill-rule="evenodd" clip-rule="evenodd"
                   d="M17.5 30C23.851 30 29 24.851 29 18.5S23.851 7 17.5 7 6 12.149 6 18.5 11.149 30 17.5 30zm-5.16-13.883a1.16 1.16 0 001.64 1.64l2.395-2.394v8.838a1.16 1.16 0 002.321 0v-8.839l1.028 1.028 1.368 1.368a1.16 1.16 0 001.64-1.641l-4.219-4.22a1.382 1.382 0 00-1.954 0l-4.22 4.22z"
@@ -502,11 +513,23 @@
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
-  background-image: linear-gradient(to top, rgb(54, 52, 52, 0.9), rgba(57, 56, 56, 0.9)), url("@/assets/back.png");
-  filter: blur(10px);
+  height: 120%;
+  background-color:  rgb(0, 0, 0);
   background-size: 100% 100%;
-  z-index: -1;
+}
+
+
+.videoFullShow::before{
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 120%;
+  background-image: linear-gradient(to left, rgb(54, 52, 52, 0.9), rgba(57, 56, 56, 0.8)), url("@/assets/back.png");
+  /* background-image: linear-gradient(to left, rgb(54, 52, 52, 0.9), rgba(57, 56, 56, 0.8)), url("http://s3604nf5a.hn-bkt.clouddn.com/BV12j411e7pm.jpg"); */
+  filter: blur(20px);
+  background-size: 100% 100%;
 }
 
 .videoFullShow {
@@ -515,7 +538,6 @@
   left: 0;
   width: 100%;
   height: 100%;
-  /*z-index: 101;*/
 }
 
 .slide-bar {
@@ -618,7 +640,7 @@
   margin: 10px 0;
   font-size: 13px;
   font-family: PingFang SC, DFPKingGothicGB-Regular, sans-serif;
-  color:rgb(117, 116, 116);
+  color: rgb(117, 116, 116);
   /* text-shadow: 1px 1px 1px rgb(117, 116, 116); */
 }
 
@@ -628,7 +650,7 @@
   align-items: center;
 }
 
-.comment-like-button{
+.comment-like-button {
   cursor: pointer;
 }
 
@@ -679,8 +701,8 @@ textarea {
   width: 350px;
   font-size: 14px;
   font-family: PingFang SC, DFPKingGothicGB-Regular, sans-serif;
-  resize:none;
-  overflow-y:hidden;
+  resize: none;
+  overflow-y: hidden;
 }
 
 /* input:focus {
@@ -803,7 +825,7 @@ textarea {
   right: 0;
   width: 50px;
   height: 50px;
-  top: 140px;
+  top: 120px;
 }
 
 .NRiH5zYV {
@@ -817,7 +839,7 @@ textarea {
   margin: 0 auto;
   position: absolute;
   right: 0;
-  top: 115px;
+  top: 80px;
 }
 
 .likebutton {
@@ -855,11 +877,97 @@ textarea {
 .videoinfodetail {
   position: fixed;
   left: 0;
-  bottom: 80px;
+  bottom: 95px;
   padding: 16px 95px 16px 16px;
   width: 100%;
-  /* z-index: 2; */
   height: 10%;
+}
+
+.xgplayer-setting-label{
+  white-space: normal;
+  user-select: none;
+  visibility: visible;
+  pointer-events: auto;
+  fill: #fff;
+  color: hsla(0,0%,100%,1);
+  cursor: pointer;
+  box-sizing: border-box;
+  outline: none;
+  border: 0;
+  font: inherit;
+  vertical-align: baseline;
+  align-items: center;
+  display:flex;
+  transform: none;
+  margin-top:7px;
+}
+
+.xg-switch{
+  white-space: normal;
+  visibility: visible;
+  pointer-events: auto;
+  fill: #fff;
+  font: inherit;
+  font-feature-settings: "tnum";
+  background-color: rgba(229,229,234,.9);
+  /* background-color: hotpink; */
+  border: 1px solid transparent;
+  border-radius: 50px;
+  box-sizing: border-box;
+  color: rgba(229,229,234,.9);
+  cursor: pointer;
+  display: inline-block;
+  font-size: 14px;
+  font-variant: tabular-nums;
+  line-height: 18px;
+  list-style: none;
+  margin: 0 0 0 2px;
+  outline: none;
+  padding: 0;
+  position: relative;
+  transition: all .36s;
+  user-select: none;
+  vertical-align: top;
+  margin-right: 0;
+  height: 20px;
+  width: 35px;
+}
+
+.xg-switch ::after{
+  height: 15px;
+  width: 15px;
+  background-color: hsl(0, 0%, 100%);
+  border-radius: 50px;
+  box-shadow: 0 2px 4px 0 rgba(0,35,11,.2);
+  box-sizing: border-box;
+  content: " ";
+  cursor: pointer;
+  left: 3px;
+  position: absolute;
+  top: 2px;
+  -webkit-transition: all .36s cubic-bezier(.78,.14,.15,.86);
+  transition: all .36s cubic-bezier(.78,.14,.15,.86);
+}
+
+.xgplayer-setting-title{
+    white-space: normal;
+    user-select: none;
+    visibility: visible;
+    fill: #fff;
+    cursor: pointer;
+    box-sizing: border-box;
+    outline: none;
+    border: 0;
+    font: inherit;
+    vertical-align: top;
+    font-family: PingFang SC,DFPKingGothicGB-Medium,sans-serif;
+    font-weight: 500;
+    color: #e4e4e6;
+    font-size: 18px;
+    line-height: 22px;
+    margin-left: 4px;
+    opacity: 1;
+    width: auto;
 }
 
 .account {
@@ -885,7 +993,10 @@ textarea {
 
 .video-create-time {
   font-family: PingFang SC, DFPKingGothicGB-Regular, sans-serif;
-  font-size: 12px;
+  font-size: 14px;
+  color: rgb(117, 116, 116);
+  padding-top: 6px;
+  padding-left: 5px;
 }
 
 .title {
@@ -928,25 +1039,30 @@ const qiniu = require('qiniu-js');
 const videos = JSON.parse(localStorage.getItem('videos'))
 console.log('当前所有视频列表', videos)
 
-async function uploadVideo() {
-  let token = ''
-  await request.post("/video/getVideoToken").then(res => { token = res.data })
-  console.log('jhggk', token)
-  const observable = qiniu.upload("../../img.png", '74983u4fkjf.jpg', token)
-  const observer = {
-    next(res) {
-      // ...
-    },
-    error(err) {
-      // ...
-    },
-    complete(res) {
-      // ...
-    }
-  }
-  const subscription = observable.subscribe(observer)
+// const imgLink = ref('http://s3604nf5a.hn-bkt.clouddn.com'+key)
+
+// function changeBackgroud(filename) {
+//   const key = filename.substring(0, filename.indexOf('.')) + '.jpg'
+//   const domain = 'http://s3604nf5a.hn-bkt.clouddn.com'
+//   imgLink = qiniu.imageMogr2({
+//   //  "auto-orient": true,      // 布尔值，是否根据原图EXIF信息自动旋正，便于后续处理，建议放在首位。
+//   //  strip: true,              // 布尔值，是否去除图片中的元信息
+//   //  thumbnail: '1000x1000',   // 缩放操作参数
+//   //  crop: '!300x400a10a10',   // 裁剪操作参数
+//   //  gravity: 'NorthWest',     // 裁剪锚点参数
+//   //  quality: 20,              // 图片质量，取值范围1-100
+//    rotate: 20,               // 旋转角度，取值范围1-360，缺省为不旋转。
+//    format: 'jpg',            // 新图的输出格式，取值范围：jpg，gif，png，webp等
+//    blur: '100x100'               // 高斯模糊参数
+//  }, key, domain)
+//  console.log(imgLink)
+// }
+
+
+function routeToUser(userId) {
+  
 }
-// uploadVideo()
+
 
 const store = useStore();
 const route = useRoute();
@@ -1019,7 +1135,7 @@ async function getuser(userId) {
   }
   // console.log(p)
   await request
-    .get("/user/findUser", { params: p })
+    .get("/user/findUserUpdatHeadShot", { params: p })
     .then(res => {
       // console.log(res)
       if (res.data.code != 1)
@@ -1066,9 +1182,12 @@ function gettags(tagid) {
       taglist.value.push(res.data.data)
     })
     .catch(err => {
+      videoId
       console.log(err)
     })
 }
+
+
 
 async function getvideo(videoId) {
   const p = {
@@ -1087,6 +1206,11 @@ async function getvideo(videoId) {
   getuser(toRaw(videoInfo.value).userId)
   gettagrecord(toRaw(videoInfo.value).videoId)
   getvideocomments(toRaw(videoInfo.value).videoId)
+  // changeBackgroud(toRaw(videoInfo.value).introduction)
+  // const filename = toRaw(videoInfo.value).introduction
+  // const key = filename.substring(0, filename.indexOf('.')) + '.jpg'
+  // const imgLink = ref("s3604nf5a.hn-bkt.clouddn.com/"+key)
+  // console.log(imgLink)
 }
 getvideo(route.params.videoid)
 
@@ -1108,14 +1232,12 @@ function isFollow(currentUserId, videoUserId) {
         console.log(res.data.msg)
       }
       else {
-        // console.log('isFollow',res.data)
         if (res.data.code == 3) {
           if (currentUserId == videoUserId)
             relation.nofollow = false
         }
         else {
           const relationdata = res.data.data
-          // console.log(relationdata)
           if (relationdata.relation.kind == 0)
             relation.nofollow = false
         }
@@ -1320,7 +1442,7 @@ function getvideocomments(videoId) {
           }
           console.log(p)
           request
-            .get("/user/findUser", { params: p })
+            .get("/user/findUserUpdatHeadShot", { params: p })
             .then(res => {
               // console.log("找到评论用户:",res)
               if (res.data.code == 0)
@@ -1365,9 +1487,9 @@ function formatMsgTime(timestamp) {
     timeSpanStr = Math.round((milliseconds / (1000 * 60))) + '分钟前'
   } else if (1000 * 60 * 60 * 1 < milliseconds && milliseconds <= 1000 * 60 * 60 * 24) { // 大于一小时小于一天展示为小时
     timeSpanStr = Math.round(milliseconds / (1000 * 60 * 60)) + '小时前'
-  } else if (1000 * 60 * 60 * 24 < milliseconds && milliseconds <= 1000 * 60 * 60 * 24 * 15) { // 大于一天小于十五天展示位天
+  } else if (1000 * 60 * 60 * 24 < milliseconds && milliseconds <= 1000 * 60 * 60 * 24 * 7) { // 大于一天小于十五天展示为天
     timeSpanStr = Math.round(milliseconds / (1000 * 60 * 60 * 24)) + '天前'
-  } else if (milliseconds > 1000 * 60 * 60 * 24 * 15 && year === now.getFullYear()) {
+  } else if (milliseconds > 1000 * 60 * 60 * 24 * 7 && year === now.getFullYear()) {
     timeSpanStr = month + '-' + day + ' ' + hour + ':' + minute
   } else {
     timeSpanStr = year + '-' + month + '-' + day + ' ' + hour + ':' + minute
@@ -1376,14 +1498,14 @@ function formatMsgTime(timestamp) {
 }
 
 const tolikecomment = (commentId, commentidx) => {
-  if(!comments.value[commentidx].islike) {
+  if (!comments.value[commentidx].islike) {
     likecomment(commentId, commentidx)
     comments.value[commentidx].islike = !comments.value[commentidx].islike
   }
 }
 
 const tohatecomment = (commentId, commentidx) => {
-  if(comments.value[commentidx].islike) {
+  if (comments.value[commentidx].islike) {
     dislikecomment(commentId, commentidx)
     comments.value[commentidx].islike = !comments.value[commentidx].islike
   }
@@ -1395,15 +1517,15 @@ function likecomment(commentId, commentidx) {
   requestData.append('likeNum', comments.value[commentidx].likeNum)
   comments.value[commentidx].likeNum += 1
   request
-  .post("/comment/like", requestData)
-  .then(res => {
-    console.log("喜欢评论后的返回值",res)
-    if(res.data.code != 0)
-      comments.value[commentidx].likeNum -= 1
-  })
-  .catch(err => {
-    console.log(err)
-  })
+    .post("/comment/like", requestData)
+    .then(res => {
+      console.log("喜欢评论后的返回值", res)
+      if (res.data.code != 0)
+        comments.value[commentidx].likeNum -= 1
+    })
+    .catch(err => {
+      console.log(err)
+    })
 }
 
 function dislikecomment(commentId, commentidx) {
@@ -1412,15 +1534,15 @@ function dislikecomment(commentId, commentidx) {
   requestData.append('likeNum', comments.value[commentidx].likeNum)
   comments.value[commentidx].likeNum -= 1
   request
-  .post("/comment/dislike", requestData)
-  .then(res => {
-    console.log("不喜欢评论后的返回值", res)
-    if(res.data.code != 0)
-      comments.value[commentidx].likeNum += 1
-  })
-  .catch(err => {
-    console.log(err)
-  })
+    .post("/comment/dislike", requestData)
+    .then(res => {
+      console.log("不喜欢评论后的返回值", res)
+      if (res.data.code != 0)
+        comments.value[commentidx].likeNum += 1
+    })
+    .catch(err => {
+      console.log(err)
+    })
 }
 
 const userinputcomment = ref('')
@@ -1431,7 +1553,7 @@ async function finduser(userId) {
     userId: userId
   }
   await request
-    .get("/user/findUser", { params: p })
+    .get("/user/findUserUpdatHeadShot", { params: p })
     .then(res => {
       if (res.data.code != 1)
         user = res.data.data
@@ -1439,7 +1561,7 @@ async function finduser(userId) {
     .catch(err => {
       console.log(err)
     })
-    return user
+  return user
 }
 
 async function addcomment(userId, videoId) {
@@ -1458,28 +1580,28 @@ async function addcomment(userId, videoId) {
   console.log(currentTime)
 
   const content = userinputcomment.value;
-  console.log("评论内容",content)
+  console.log("评论内容", content)
 
   clearinput()
-  
+
   let requestData = new FormData();
   requestData.append('userId', userId)
   requestData.append('videoId', videoId)
   requestData.append('createTime', currentTime)
   requestData.append('content', content)
   request
-  .post("/comment/add", requestData)
-  .then( res=> {
-    if(res.data.code == 0) {
-      comments.value.push(res.data.data.comment)
-      comments.value[comments.value.length - 1].islike = false
-      comments.value[comments.value.length - 1].user = finduser(comments.value[comments.value.length - 1].userId)
-      console.log(toRaw(comments.value))
-    }
-  })
-  .catch(err => {
-    console.log(err)
-  })
+    .post("/comment/add", requestData)
+    .then(res => {
+      if (res.data.code == 0) {
+        comments.value.push(res.data.data.comment)
+        comments.value[comments.value.length - 1].islike = false
+        comments.value[comments.value.length - 1].user = finduser(comments.value[comments.value.length - 1].userId)
+        console.log(toRaw(comments.value))
+      }
+    })
+    .catch(err => {
+      console.log(err)
+    })
 }
 
 const clearinput = () => {

@@ -7,12 +7,12 @@
         <el-tab-pane style="font-size: 16px" label="视频" name="first">
           <el-row>
             <!-- 四个视频-->
-            <div v-for="(video, index) in store.state.relatedvideos" :key="index" @click="clickvideo" class="video-item">
+            <div v-for="(video, index) in store.state.relatedvideos" :key="index" @click="clickvideo" :style="{ height: store.state.heights.at(index) + 'px' }" class="video-item">
 
                 <div class="video-content">
                   <div class="video-info">
                     <router-link :to="`/videopage/${video.id}`">
-                      <video :src="video.videoPath" autoplay="autoplay" controls width="285" height="480"></video>
+                      <video :src="video.videoPath" autoplay="autoplay" :style="{ height: store.state.heights.at(index) + 'px' }" controls width="285"></video>
                     </router-link>
                     <p style="margin-top: 0px;margin-left: 8px;font-size: 15px;color: lightgrey">{{video.videoName}}</p>
                     <el-row style="margin-top: -25px;margin-left: 8px">
@@ -204,7 +204,6 @@
 <!--        搜索用户-->
         <el-tab-pane style="font-size: 16px" label="用户" name="second">
           <el-row>
-            <!-- 四个视频-->
             <div v-for="(user, index) in store.state.relatedusers" :key="index" @click="clickuser" class="user-item">
 
                 <div class="user-content">
@@ -264,7 +263,7 @@
   /*top: 20px; !* 调整顶部距离 *!*/
   /*right: 20px; !* 调整右边距离 *!*/
   width: 285px; /* 调整矩形的宽度 */
-  height: 560px; /* 调整矩形的高度 */
+  /* height: 560px; 调整矩形的高度 */
   background-color: #475669; /* 背景颜色 */
   border-radius: 8px; /* 圆角半径 */
   /*padding: 10px; !* 内边距，用于放置文本 *!*/
