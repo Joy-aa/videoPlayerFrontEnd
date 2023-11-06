@@ -2,17 +2,17 @@
   <div class="searchpage">
 <!--    <router-view></router-view>-->
     <div class="search-container">
-      <el-tabs v-model="activeName" style="height: 20px;font-size: 20px" @tab-click="handleClick">
+      <el-tabs v-model=activeName style="height: 20px;font-size: 20px" @tab-click="handleClick">
 <!--        搜索视频-->
         <el-tab-pane style="font-size: 16px" label="视频" name="first">
           <el-row>
             <!-- 四个视频-->
-            <div v-for="(video, index) in store.state.relatedvideos" :key="index" @click="clickvideo" :style="{ height: store.state.heights.at(index) + 'px' }" class="video-item">
+            <div v-for="(video, index) in store.state.relatedvideos" :key="index" :style="{ height: store.state.heights.at(index) + 80 + 'px' }" class="video-item">
 
                 <div class="video-content">
                   <div class="video-info">
-                    <router-link :to="`/videopage/${video.id}`">
-                      <video :src="video.videoPath" autoplay="autoplay" :style="{ height: store.state.heights.at(index) + 'px' }" controls width="285"></video>
+                    <router-link :to="`/videopage/${video.videoId}/${index}`">
+                      <video :src="video.videoPath" autoplay="autoplay"  :style="{ height: store.state.heights.at(index) + 'px' }" controls width="285"></video>
                     </router-link>
                     <p style="margin-top: 0px;margin-left: 8px;font-size: 15px;color: lightgrey">{{video.videoName}}</p>
                     <el-row style="margin-top: -25px;margin-left: 8px">
@@ -204,16 +204,18 @@
 <!--        搜索用户-->
         <el-tab-pane style="font-size: 16px" label="用户" name="second">
           <el-row>
-            <div v-for="(user, index) in store.state.relatedusers" :key="index" @click="clickuser" class="user-item">
+            <div v-for="(user, index) in store.state.relatedusers" :key="index" class="user-item">
 
                 <div class="user-content">
                   <div class="user-info">
                     <el-row align="middle">
                       <router-link :to="`/userpage/${user.id}`">
-                        <el-image :src="user.avatar_url" class="avatar"> </el-image>
+                        <el-image :src="user.headshot" class="avatar"> </el-image>
                       </router-link>
                       <p style="color:lightgrey;margin-left: 3%">{{ user.username }}</p>
-                      <el-button style="margin-left: 40%;font-size: 14px;color:white;background-color: deeppink;border-color: deeppink">关注</el-button>
+                      <el-button v-if="user.follow === 0" @click="addFollow(currentUserId, user.userId)" style="margin-left: 40%;font-size: 14px; color:white;background-color: deeppink; border-color: deeppink">关注</el-button>
+                      <el-button v-else-if="user.follow === 1" @click="cancelFollow(currentUserId, user.userId)" style="margin-left: 40%;font-size: 14px; color:white;background-color: deeppink; border-color: deeppink">已关注</el-button>
+
                     </el-row>
                     <el-row style="margin-top: 0px">
                       <p style="color:lightgrey;font-size: 14px">抖音号: {{user.userId}}</p>
@@ -263,7 +265,7 @@
   /*top: 20px; !* 调整顶部距离 *!*/
   /*right: 20px; !* 调整右边距离 *!*/
   width: 285px; /* 调整矩形的宽度 */
-  /* height: 560px; 调整矩形的高度 */
+  /*height: 560px; !* 调整矩形的高度 *!*/
   background-color: #475669; /* 背景颜色 */
   border-radius: 8px; /* 圆角半径 */
   /*padding: 10px; !* 内边距，用于放置文本 *!*/
@@ -322,23 +324,106 @@
 </style>
 <script setup>
 
-import { reactive, onMounted, ref, onUnmounted } from "vue";
+import {reactive, onMounted, ref, onUnmounted, onUpdated} from "vue";
 import { Female, Edit, Search, Share, Upload } from '@element-plus/icons-vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import avatar_url from '@/assets/img.png'
 import '@fortawesome/fontawesome-free/css/all.css'
 import {Comment} from "@element-plus/icons";
+import request from "@/api";
 
 const router = useRouter()
 const store = useStore();
 const activeMenu = ref('/');
 
-const followNums = 10
-const fanNums = 10
-const likeNums = 10
-const userId = 1011
-const userAge = 23
+const currentUserId = ref(localStorage.getItem('currentUserId'))
+const relatedusers = ref()
+
+onUpdated(() => {
+  relatedusers.value = store.state.relatedusers
+})
+async function addFollow(currentUserId, relatedUserId) {
+  let requestData = new FormData();
+  requestData.append('userid1', currentUserId)
+  requestData.append('userid2', relatedUserId)
+  requestData.append('kind', 0)
+  await request
+      .post("/relation/addRelation", requestData)
+      .then(res => {
+        if (res.data.code == 1)
+          console.log(res.data.msg)
+        else {
+          const relationdata = res.data.data
+          // console.log(relationdata)
+          if (relationdata.relation.kind == 0)
+            console.log("change follow")
+        }
+      })
+      .catch(err => {
+        console.log(err)
+      })
+
+  const p1 = {
+    currentUserId: localStorage.getItem("currentUserId"),
+    content: localStorage.getItem("searchcontent")
+  }
+  var relatedusers = ""
+  await request
+      .get("/user/findUsers", {params: p1})
+      .then(res => {
+        relatedusers = res.data.data
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err)
+      });
+  console.log("findusers")
+  console.log(relatedusers)
+  store.commit("setRelatedUsers", relatedusers)
+  localStorage.setItem("relatedusers", relatedusers)
+  activeName.value = "second"
+  console.log("activenameaaaaaaaaaaaaaaaaaaaa")
+  console.log(activeName.value)
+}
+
+async function cancelFollow(currentUserId, relatedUserId) {
+  let requestData = new FormData();
+  requestData.append('userid1', currentUserId)
+  requestData.append('userid2', relatedUserId)
+  requestData.append('kind', 0)
+  await request
+      .post("/relation/deleteRelation", requestData)
+      .then(res => {
+        if (res.data.code == 1)
+          console.log(res.data.msg)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+
+  const p1 = {
+    currentUserId: localStorage.getItem("currentUserId"),
+    content: localStorage.getItem("searchcontent")
+  }
+  var relatedusers = ""
+  await request
+      .get("/user/findUsers", {params: p1})
+      .then(res => {
+        relatedusers = res.data.data
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err)
+      });
+  console.log("findusers")
+  console.log(relatedusers)
+  store.commit("setRelatedUsers", relatedusers)
+  localStorage.setItem("relatedusers", relatedusers)
+  activeName.value = "second"
+  console.log("activenameaaaaaaaaaaaaaaaaaaaa")
+  console.log(activeName.value)
+}
 
 function formatMsgTime (timestamp) {
   var dateTime = renderTime(timestamp)
@@ -376,17 +461,17 @@ function formatMsgTime (timestamp) {
   return timeSpanStr
 }
 
-const clickvideo = (index) => {
-  activeMenu.value = index;
-  router.go(index);
-};
+// const clickvideo = (index) => {
+//   activeMenu.value = index;
+//   router.go(index);
+// };
+//
+// const clickuser = (index) => {
+//   activeMenu.value = index;
+//   router.go(index);
+// };
 
-const clickuser = (index) => {
-  activeMenu.value = index;
-  router.go(index);
-};
-
-const activeName = 'first';
+const activeName = ref('first');
 function handleClick() {
 
 }

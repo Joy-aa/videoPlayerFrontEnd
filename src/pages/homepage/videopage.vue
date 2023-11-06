@@ -530,6 +530,7 @@
   /* background-image: linear-gradient(to left, rgb(54, 52, 52, 0.9), rgba(57, 56, 56, 0.8)), url("http://s3604nf5a.hn-bkt.clouddn.com/BV12j411e7pm.jpg"); */
   filter: blur(20px);
   background-size: 100% 100%;
+  /*z-index: -1;*/
 }
 
 .videoFullShow {
@@ -1060,7 +1061,7 @@ console.log('当前所有视频列表', videos)
 
 
 function routeToUser(userId) {
-  
+
 }
 
 

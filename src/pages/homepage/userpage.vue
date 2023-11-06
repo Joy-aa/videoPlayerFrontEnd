@@ -1,5 +1,5 @@
 <template>
-<!--  显示用户信息-->
+  <!--  显示用户信息-->
   <div class="showusrinfo">
     <div class="showuseravatar" data-e2e="live-avatar">
       <img v-bind:src="userInfo.headshot? userInfo.headshot:require('../../assets/img.png')" :alt="userInfo.username "   class="useravatar">
@@ -24,15 +24,15 @@
       <div class="eDwMD7wB">
         <div class="AULCPX_8 LEaniV4W" data-e2e="user-info-follow">
           <div class="Y150jDoF" style="color: white;">关注</div>
-          <div class="TxoC9G6_" style="color: white;">{{ getuserinfo().follow }}</div>
+          <div class="TxoC9G6_" style="color: white;">{{ store.state.userslikeinfo[0] }}</div>
         </div>
         <div class="AULCPX_8 LEaniV4W" data-e2e="user-info-fans">
           <div class="Y150jDoF" style="color: white;">粉丝</div>
-          <div class="TxoC9G6_" style="color: white;">{{ getuserinfo().fans }}</div>
+          <div class="TxoC9G6_" style="color: white;">{{ store.state.userslikeinfo[1] }}</div>
         </div>
         <div class="AULCPX_8 LEaniV4W" data-e2e="user-info-like">
           <div class="Y150jDoF" style="color: white;">获赞</div>
-          <div class="TxoC9G6_" style="color: white;">{{ getuserinfo().likes }}</div>
+          <div class="TxoC9G6_" style="color: white;">{{ store.state.userslikeinfo[2] }}</div>
         </div>
       </div>
       <p class="wTV10cVL">
@@ -41,18 +41,18 @@
     </div>
 
     <div class="VYCEfmrZ">
-      <button @click="openModal" class="GIg8IFtS" >修改资料</button>
+      <button @click="openModal" class="GIg8IFtS" style="margin-bottom: 10%">修改资料</button>
       <div v-if="showModal" class="edit-modal">
-        <div class="modal-content">
+        <div class="modal-content1">
           <div class = "close-button">
-              <svg width="36" height="36" fill="none" xmlns="http://www.w3.org/2000/svg" class="" viewBox="0 0 36 36" @click="closeModal">
-                <path d="M24.601 24.6a1.362 1.362 0 01-1.927 0L18.5 20.427l-4.174 4.175a1.362 1.362 0 01-1.927-1.927l4.174-4.174-4.174-4.175a1.362 1.362 0 011.927-1.926l4.174 4.174 4.174-4.174a1.362 1.362 0 111.927 1.927L20.427 18.5l4.174 4.174a1.362 1.362 0 010 1.927z" fill="#fff" fill-opacity="0.8"></path>
-              </svg>
-<!--            <button  @click="closeModal" >x</button>-->
+            <svg width="36" height="36" fill="none" xmlns="http://www.w3.org/2000/svg" class="" viewBox="0 0 36 36" @click="closeModal">
+              <path d="M24.601 24.6a1.362 1.362 0 01-1.927 0L18.5 20.427l-4.174 4.175a1.362 1.362 0 01-1.927-1.927l4.174-4.174-4.174-4.175a1.362 1.362 0 011.927-1.926l4.174 4.174 4.174-4.174a1.362 1.362 0 111.927 1.927L20.427 18.5l4.174 4.174a1.362 1.362 0 010 1.927z" fill="#fff" fill-opacity="0.8"></path>
+            </svg>
+            <!--            <button  @click="closeModal" >x</button>-->
           </div>
 
           <h3  style="color: white; margin-left: 45px;">编辑资料</h3>
-<!--            修改头像-->
+          <!--            修改头像-->
           <div >
             <div class="head-model">
               <img v-bind:src="userInfo.headshot? userInfo.headshot:require('../../assets/img.png')" :alt="userInfo.username "    class="head">
@@ -64,17 +64,17 @@
             </div>
             <div  style="font-size: 14px; color: #FFFFFF80; margin-top: 4px; text-align: center;" >点击修改头像</div>
           </div>
-<!--          修改用户名-->
+          <!--          修改用户名-->
           <div class="name-model">
             <div class="name-tips">名字</div>
             <div class="name-content">
               <input type="text"  v-model="username" placeholder="记得填写昵称"  maxlength="20"  >
-<!--              <input type="text" v-model="username" placeholder="记得填写昵称" maxlength="20" :value="userInfo.username" >-->
-<!--              <span class="Z0yinT0U">15/20</span>-->
+              <!--              <input type="text" v-model="username" placeholder="记得填写昵称" maxlength="20" :value="userInfo.username" >-->
+              <!--              <span class="Z0yinT0U">15/20</span>-->
             </div>
           </div>
 
-<!--          <input type="text" v-model="username" placeholder="用户名">-->
+          <!--          <input type="text" v-model="username" placeholder="用户名">-->
           <div class="intro-model">
             <div class="intro-tips">简介</div>
             <div class="intro-content">
@@ -99,19 +99,19 @@
 
     <el-header style="padding: 0 0px">
       <el-menu
-        mode="horizontal"
-        :ellipsis="false"
-        router="router"
-        default-active="works"
-        class="el-menu-vertical-demo"
-        @select="handleMenuSelect"
-        background-color = rgb(43,45,48)
-        text-color="#fff"
-        active-text-color="#ffd04b">
+          mode="horizontal"
+          :ellipsis="false"
+          router="router"
+          default-active="works"
+          class="el-menu-vertical-demo"
+          @select="handleMenuSelect"
+          background-color = rgb(43,45,48)
+          text-color="#fff"
+          active-text-color="#ffd04b">
         <el-menu-item index = "works">
           <i class="el-icon-menu"></i>
           <span>作品</span>
-<!--          <span v-if="videoInfo.length!=0">   {{   videoInfo.length }}</span>-->
+          <!--          <span v-if="videoInfo.length!=0">   {{   videoInfo.length }}</span>-->
         </el-menu-item>
         <el-menu-item index = "likes">
           <i class="el-icon-menu"></i>
@@ -126,61 +126,61 @@
           <span >观看历史</span>
         </el-menu-item>
 
-    </el-menu>
+      </el-menu>
     </el-header>
   </div>
-<!--增加一个空行，美观一点-->
+  <!--增加一个空行，美观一点-->
 
-<!--  <img v-if="selectedFile" src-->
+  <!--  <img v-if="selectedFile" src-->
 
-<!--  <div>-->
-<!--    <video controls>-->
-<!--      <source src = "src/assets/WeChat_20231025161539.mp4" type = "video/mp4">-->
-<!--    </video>-->
-<!--  </div>-->
+  <!--  <div>-->
+  <!--    <video controls>-->
+  <!--      <source src = "src/assets/WeChat_20231025161539.mp4" type = "video/mp4">-->
+  <!--    </video>-->
+  <!--  </div>-->
 
 
-<div class = 'FDSFDSG'>
-  <div class="sDAMysaM" style="height: 44px; padding: 0px;"></div>
-  <div v-if="videoInfo!=null" class = "showvideo">
-    <ul class="video-model" data-e2e="scroll-list">
-      <li class="video-list" v-for="(video, index) in videoInfo" :key="index" >
-        <div class = "video-item">
-<!--          <a :href=video.src class="B3AsdZT9 chmb2GX8 DiMJX01_" target="_blank" rel="noopener noreferrer">-->
-          <router-link :to="`/videopage/${video.videoId}`">
+  <div class = 'FDSFDSG'>
+    <div class="sDAMysaM" style="height: 44px; padding: 0px;"></div>
+    <div v-if="videoInfo!=null" class = "showvideo">
+      <ul class="video-model" data-e2e="scroll-list">
+        <li class="video-list" v-for="(video, index) in videoInfo" :key="index" >
+          <div class = "video-item">
+            <!--          <a :href=video.src class="B3AsdZT9 chmb2GX8 DiMJX01_" target="_blank" rel="noopener noreferrer">-->
+            <router-link :to="`/videopage/${video.videoId}/${index}`">
 
-          <div class="video-cover">
-              <div class="cover-img">
-                <img :src= video.pageshot  :alt=video.videoName class="">
-              </div>
-<!--              <div class="rhqAcHmo">-->
-<!--              </div>-->
-              <svg width="18" height="17" fill="none" xmlns="http://www.w3.org/2000/svg" class="" viewBox="0 0 24 24" id="svg_icon_digg">
-                <path d="M12.159 5.3l-.96.924a1.333 1.333 0 002.051-.159L12.16 5.3zm9.255 3.75h-1.333a1.333 1.333 0 002.54.566l-1.207-.567zm0 0l1.334-.001a1.333 1.333 0 00-2.54-.566l1.206.566zm0 .311l1.334.024c.003-.201-.039-.4-.123-.582l-1.21.558zm-.319 1.875l.998.885c.133-.15.231-.33.286-.524l-1.284-.36zm-.319.625l1.121.722c.047-.073.087-.15.12-.232l-1.24-.49zm-.319.625l1.145.682c.04-.067.074-.137.102-.21l-1.247-.472zm-3.248 3.976l-.943-.942-.003.003.946.94zm-5.216 4.207l.023-1.333h-.018l-.005 1.333zm-1.204-.654l.834-1.04a1.275 1.275 0 00-.043-.033l-.79 1.073zm-4.408-3.877l.958-.928-.005-.004-.953.932zm-3.182-4.269l1.21-.56a1.432 1.432 0 00-.017-.036l-1.193.596zm-.614-2.508l-.94-.945c-.26.258-.401.61-.393.975l1.333-.03zm13.404-7.27c-1.926 0-3.776.81-4.921 2.442l2.182 1.532c.577-.821 1.554-1.307 2.739-1.307V2.091zm6.759 6.958c0-3.743-3.014-6.958-6.76-6.958v2.667c2.18 0 4.093 1.925 4.093 4.291h2.667zm-.003.232c.001-.05.003-.13.003-.232H20.08l-.002.171 2.666.06zm-.12-.478a1.3 1.3 0 01.113.408c.006.054.006.093.006.1v-.03l-2.665-.06c0 .021-.002.075-.001.123 0 .024 0 .078.008.142.003.033.02.222.118.434l2.421-1.117zm-.246 2.794c.21-.751.354-1.406.369-2.212l-2.667-.047c-.008.48-.086.886-.27 1.538l2.568.72zm-.363.754a3.97 3.97 0 01.114-.266c.013-.028.02-.038.019-.037l-.014.02a.732.732 0 01-.043.053l-1.994-1.77a2.501 2.501 0 00-.362.56 6.522 6.522 0 00-.2.46l2.48.98zm-.312.607a1.71 1.71 0 01.075-.177c.018-.036.047-.088.118-.198l-2.242-1.444a4.08 4.08 0 00-.445.875l2.494.944zm-.319.562c.075-.117.147-.234.217-.352l-2.29-1.364c-.056.092-.113.185-.174.28l2.247 1.436zm-3.234 3.885c1.151-1.15 2.35-2.498 3.234-3.885l-2.247-1.436c-.736 1.154-1.784 2.348-2.872 3.436l1.886 1.885zm-4.134 3.716c.73-.603 2.443-2.014 4.137-3.719l-1.89-1.88c-1.595 1.604-3.218 2.943-3.943 3.54l1.696 2.059zm-.275.224c-.026.027-.042.04-.024.024l.06-.05c.057-.049.136-.113.239-.198l-1.696-2.058c-.157.13-.368.3-.464.397l1.885 1.885zM12 22.003c.286 0 1.061.023 1.742-.658l-1.885-1.885a.537.537 0 01.22-.117c.034-.01.052-.01.04-.009a2.463 2.463 0 01-.119.002L12 22.003zm-.03 0H12l-.002-2.667h.018l-.046 2.666zm-1.98-.925c.278.279.885.92 1.997.924l.011-2.666c-.019 0-.013-.002.008.004a.201.201 0 01.046.02c.006.003-.003-.002-.033-.029a3.343 3.343 0 01-.143-.138L9.99 21.078zm-.035-.022l.044.035.028.023.005.004a.448.448 0 01-.042-.04l1.886-1.885c-.085-.084-.204-.179-.253-.218l-1.668 2.08zm-4.532-3.99a39.936 39.936 0 004.576 4.023l1.58-2.147a37.31 37.31 0 01-4.24-3.732l-1.916 1.855zm-3.434-4.638c.772 1.67 2.123 3.296 3.438 4.642l1.907-1.864C6.09 13.932 4.99 12.566 4.41 11.31l-2.421 1.118zm-.737-3.037c.01.498.125 1.104.253 1.613.127.506.304 1.066.502 1.461l2.385-1.192c-.069-.138-.191-.48-.3-.918-.11-.435-.17-.817-.174-1.023l-2.666.059zm.003-.102v.022a1.298 1.298 0 01.062-.362c.026-.078.107-.313.327-.533l1.881 1.89a1.342 1.342 0 00.397-.955l-.001-.132-2.666.07zm-.004-.24c0 .106.002.188.004.24l2.666-.07a6.11 6.11 0 01-.003-.17H1.251zm6.76-6.958c-3.748 0-6.76 3.214-6.76 6.958h2.667c0-2.368 1.912-4.291 4.092-4.291V2.091zm5.108 2.283c-1.4-1.453-3.15-2.283-5.109-2.283v2.667c1.146 0 2.226.467 3.189 1.466l1.92-1.85z" fill="#fff"></path>
-              </svg>
+              <div class="video-cover">
+                <div class="cover-img">
+                  <img :src= video.pageshot  :alt=video.videoName class="">
+                </div>
+                <!--              <div class="rhqAcHmo">-->
+                <!--              </div>-->
+                <svg width="18" height="17" fill="none" xmlns="http://www.w3.org/2000/svg" class="" viewBox="0 0 24 24" id="svg_icon_digg">
+                  <path d="M12.159 5.3l-.96.924a1.333 1.333 0 002.051-.159L12.16 5.3zm9.255 3.75h-1.333a1.333 1.333 0 002.54.566l-1.207-.567zm0 0l1.334-.001a1.333 1.333 0 00-2.54-.566l1.206.566zm0 .311l1.334.024c.003-.201-.039-.4-.123-.582l-1.21.558zm-.319 1.875l.998.885c.133-.15.231-.33.286-.524l-1.284-.36zm-.319.625l1.121.722c.047-.073.087-.15.12-.232l-1.24-.49zm-.319.625l1.145.682c.04-.067.074-.137.102-.21l-1.247-.472zm-3.248 3.976l-.943-.942-.003.003.946.94zm-5.216 4.207l.023-1.333h-.018l-.005 1.333zm-1.204-.654l.834-1.04a1.275 1.275 0 00-.043-.033l-.79 1.073zm-4.408-3.877l.958-.928-.005-.004-.953.932zm-3.182-4.269l1.21-.56a1.432 1.432 0 00-.017-.036l-1.193.596zm-.614-2.508l-.94-.945c-.26.258-.401.61-.393.975l1.333-.03zm13.404-7.27c-1.926 0-3.776.81-4.921 2.442l2.182 1.532c.577-.821 1.554-1.307 2.739-1.307V2.091zm6.759 6.958c0-3.743-3.014-6.958-6.76-6.958v2.667c2.18 0 4.093 1.925 4.093 4.291h2.667zm-.003.232c.001-.05.003-.13.003-.232H20.08l-.002.171 2.666.06zm-.12-.478a1.3 1.3 0 01.113.408c.006.054.006.093.006.1v-.03l-2.665-.06c0 .021-.002.075-.001.123 0 .024 0 .078.008.142.003.033.02.222.118.434l2.421-1.117zm-.246 2.794c.21-.751.354-1.406.369-2.212l-2.667-.047c-.008.48-.086.886-.27 1.538l2.568.72zm-.363.754a3.97 3.97 0 01.114-.266c.013-.028.02-.038.019-.037l-.014.02a.732.732 0 01-.043.053l-1.994-1.77a2.501 2.501 0 00-.362.56 6.522 6.522 0 00-.2.46l2.48.98zm-.312.607a1.71 1.71 0 01.075-.177c.018-.036.047-.088.118-.198l-2.242-1.444a4.08 4.08 0 00-.445.875l2.494.944zm-.319.562c.075-.117.147-.234.217-.352l-2.29-1.364c-.056.092-.113.185-.174.28l2.247 1.436zm-3.234 3.885c1.151-1.15 2.35-2.498 3.234-3.885l-2.247-1.436c-.736 1.154-1.784 2.348-2.872 3.436l1.886 1.885zm-4.134 3.716c.73-.603 2.443-2.014 4.137-3.719l-1.89-1.88c-1.595 1.604-3.218 2.943-3.943 3.54l1.696 2.059zm-.275.224c-.026.027-.042.04-.024.024l.06-.05c.057-.049.136-.113.239-.198l-1.696-2.058c-.157.13-.368.3-.464.397l1.885 1.885zM12 22.003c.286 0 1.061.023 1.742-.658l-1.885-1.885a.537.537 0 01.22-.117c.034-.01.052-.01.04-.009a2.463 2.463 0 01-.119.002L12 22.003zm-.03 0H12l-.002-2.667h.018l-.046 2.666zm-1.98-.925c.278.279.885.92 1.997.924l.011-2.666c-.019 0-.013-.002.008.004a.201.201 0 01.046.02c.006.003-.003-.002-.033-.029a3.343 3.343 0 01-.143-.138L9.99 21.078zm-.035-.022l.044.035.028.023.005.004a.448.448 0 01-.042-.04l1.886-1.885c-.085-.084-.204-.179-.253-.218l-1.668 2.08zm-4.532-3.99a39.936 39.936 0 004.576 4.023l1.58-2.147a37.31 37.31 0 01-4.24-3.732l-1.916 1.855zm-3.434-4.638c.772 1.67 2.123 3.296 3.438 4.642l1.907-1.864C6.09 13.932 4.99 12.566 4.41 11.31l-2.421 1.118zm-.737-3.037c.01.498.125 1.104.253 1.613.127.506.304 1.066.502 1.461l2.385-1.192c-.069-.138-.191-.48-.3-.918-.11-.435-.17-.817-.174-1.023l-2.666.059zm.003-.102v.022a1.298 1.298 0 01.062-.362c.026-.078.107-.313.327-.533l1.881 1.89a1.342 1.342 0 00.397-.955l-.001-.132-2.666.07zm-.004-.24c0 .106.002.188.004.24l2.666-.07a6.11 6.11 0 01-.003-.17H1.251zm6.76-6.958c-3.748 0-6.76 3.214-6.76 6.958h2.667c0-2.368 1.912-4.291 4.092-4.291V2.091zm5.108 2.283c-1.4-1.453-3.15-2.283-5.109-2.283v2.667c1.146 0 2.226.467 3.189 1.466l1.92-1.85z" fill="#fff"></path>
+                </svg>
 
-              <span class="author-card-user-video-like">
+                <span class="author-card-user-video-like">
                 <svg width="18" height="17" viewBox="0 0 18 17" style="stroke: white">
                   <use xlink:href="#svg_icon_digg" ></use>
                 </svg>
                 <span>{{ video.likeNum }}</span>
               </span>
 
-            </div>
-          <p class="show-video-name">{{ video.videoName }}</p>
-<!--          </a>-->
-          </router-link>
+              </div>
+              <p class="show-video-name">{{ video.videoName }}</p>
+              <!--          </a>-->
+            </router-link>
 
-          <!--          <div class="lYacWPe5">-->
-<!--          </div>-->
-        </div>
-      </li>
-    </ul>
+            <!--          <div class="lYacWPe5">-->
+            <!--          </div>-->
+          </div>
+        </li>
+      </ul>
 
+
+    </div>
 
   </div>
-
-</div>
 
 
 
@@ -214,18 +214,11 @@
 
 .showusrinfo {
   display: flex;
-  //margin: 0px auto 0px;
+/* //margin: 0px auto 0px; */
   max-width: 1208px;
-  //position: fixed;
+/* //position: fixed; */
   width: 100%;
-  //background-color: #2B2D40;
-  //position: ;
-  //top:0;
-  //left:0;
-  //width: 100%;
-  //height: 100%;
-  //background-image: linear-gradient(90deg,rgba(26,28,39,0),#1a1c27 calc(100% - 852px),rgba(32,32,53,.35) 64.63%,rgba(33,33,57,.2)),url(//lf3-cdn-tos.bytegoofy.com/obj/goofy/ies/douyin_web/image/dark_bg_default.29cfccfa.png);
-  background-image: url("./assets/banner.jpg");
+  /*background-image: url("./assets/banner.jpg");*/
 
 
 }
@@ -239,20 +232,20 @@
 }
 
 .GIg8IFtS {
-
   border-radius: 12px;
   color: var(--btn-color)!important;
   height: 33px;
-  top: auto;
-  bottom: auto;
+  top: 60px;
+  position: relative;
+  /*bottom: 0;*/
 }
 
 .showuseravatar {
-    flex: none;
-    flex-grow: 0;
-    flex-shrink: 0;
-    flex-basis: auto;
-    width: 112px;
+  flex: none;
+  flex-grow: 0;
+  flex-shrink: 0;
+  flex-basis: auto;
+  width: 112px;
 }
 .useravatar{
   width: 112px;
@@ -268,7 +261,7 @@
   flex-wrap: wrap;
   margin-left: 32px;
   min-height: 120px;
-
+  position: relative;
 
 }
 
@@ -356,7 +349,7 @@
   line-height: 20px;
   margin-right: 20px
 }
- .UuBdeq3u {
+.UuBdeq3u {
   background-color:rgb(23,25,34);
   margin-top: -16px;
   padding-top: 16px
@@ -416,7 +409,7 @@ h2.OdX5EIvH {
 }
 
 
-//编辑资料弹窗css
+/* //编辑资料弹窗css */
 .me4sq_ea {
   display: flex;
   align-items: center;
@@ -433,7 +426,7 @@ h2.OdX5EIvH {
 .HFdVWNl1 {
 
   background: #fff;
-  //background: var(--color-bg-b1);
+/* //background: var(--color-bg-b1); */
   border-radius: 4px;
   height: 588px;
   left: 50%;
@@ -502,8 +495,8 @@ h2.OdX5EIvH {
 
 .I5fCASKY {
   color: #FFFFFF80;
-  //color: rgba(22,24,35,.6);
-  //color: var(--color-text-t3);
+/* //color: rgba(22,24,35,.6); */
+/* //color: var(--color-text-t3); */
   font-size: 12px;
   margin-top: 4px
 }
@@ -720,9 +713,9 @@ h2.OdX5EIvH {
   z-index: 999;
 }
 
-.modal-content {
+.modal-content1 {
   background-color: #252632;
-  //background-color: rgba(25,26,32);
+/* //background-color: rgba(25,26,32); */
   padding: 20px;
   border-radius: 5px;
   height: 588px;
@@ -730,8 +723,8 @@ h2.OdX5EIvH {
 
 }
 
-.modal-content input,
-.modal-content textarea {
+.modal-content1 input,
+.modal-content1 textarea {
   width: 100%;
   margin-bottom: 10px;
 }
@@ -846,7 +839,7 @@ h2.OdX5EIvH {
   height: 160px;
   line-height: 32px;
   outline: none;
-  //padding-left: 8px;
+/* //padding-left: 8px; */
   width: 80%;
 
 }
@@ -914,7 +907,7 @@ h2.OdX5EIvH {
   left: 0;
   width: 100%;
   height: 100%;
-  //object-fit: cover; /* 控制图片填充方式，可选值包括：fill, contain, cover, none, scale-down */
+/* //object-fit: cover; 控制图片填充方式，可选值包括：fill, contain, cover, none, scale-down */
 }
 .author-card-user-video-like {
   align-items: center;
@@ -931,20 +924,20 @@ h2.OdX5EIvH {
   position: absolute;
 }
 .show-video-name{
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 
-    color: white;
-    display: -webkit-box;
-    font-size: 14px;
-    font-weight: 500;
-    height: 44px;
-    line-height: 22px;
-    margin-top: 8px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    transition-duration: .35s;
-    transition-property: margin;
+  color: white;
+  display: -webkit-box;
+  font-size: 14px;
+  font-weight: 500;
+  height: 44px;
+  line-height: 22px;
+  margin-top: 8px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition-duration: .35s;
+  transition-property: margin;
 }
 
 </style>
@@ -967,6 +960,7 @@ import {onMounted, ref, toRaw} from 'vue';
 import request from "@/api";
 const qiniu = require('qiniu-js');
 
+
 import {useStore} from 'vuex';
 
 import axios from "axios";
@@ -979,7 +973,7 @@ const userId = localStorage.getItem("currentUserId")
 // const userId = 16
 
 function getuserinfo(){
-  // return { id: 1, name: 'cxy', src: require('E:\\videoPlayer\\videoPlayerFrontEnd\\src\\pages\\homepage\\assets\\en-ts.jpg'),follow: 10 ,fans : 50 , likes: 1000 }
+  return { id: 1, name: 'cxy', src: require('./assets/en-ts.jpg'),follow: 10 ,fans : 50 , likes: 1000 }
 }
 function getuser_videoinfo(){
   return { work_num: 5 }
@@ -997,13 +991,13 @@ const closeModal = () => {
   showModal.value = false;
 };
 
-
+let selectedFile = ref(null);
 const isHeadImageChosed = ref(false);
 const handleFileChange = (event) => {
   // let selectedFile = document.getElementById('upload-head-button');
-  let selectedFile = event.target.files[0];
+  selectedFile = event.target.files[0];
   // console.log(selectedFile.type)
-  uploadVideo(selectedFile);
+
   isHeadImageChosed.value = true;
   // console.log(event.target);
 };
@@ -1020,16 +1014,14 @@ const observer = {
   }
 }
 // 上传头像到七牛云服务器中，其中头像以 userid命名。
-async function uploadVideo(newheadshot){
+async function uploadVideo(newheadshot,fileName){
   let token = ''
-  await request.post("/video/getVideoToken").then(res => {token = res.data})
-  // console.log('jhggk',token)
-  console.log(newheadshot.name);
-  const uploadfilename = newheadshot.name;
-  const file_type = uploadfilename.substring((uploadfilename.lastIndexOf('.')));
-  var key = userId + file_type;
+  await request.post("/video/getHeadShotToken").then(res => {token = res.data})
+
+
+  var key = fileName;
   console.log(key);
-  const observable = qiniu.upload(newheadshot, key, token)
+  const observable = qiniu.upload(newheadshot,key,token)
   const subscription = observable.subscribe(observer)
   console.log(subscription)
 
@@ -1126,8 +1118,8 @@ async function handleMenuSelect(index) {
   //   getusersvideos(userId);
   // });
   if(index === 'works'){
-  //   处理作品点击事件
-  //   videoInfo = ref([])
+    //   处理作品点击事件
+    //   videoInfo = ref([])
     resetVideoInfo();
     getusersvideos(userId);
 
@@ -1136,6 +1128,7 @@ async function handleMenuSelect(index) {
   else if(index === 'likes'){
     //处理喜欢点击事件
     resetVideoInfo();
+    getuserstarvideos(userId);
 
   }
   else if(index === 'star'){
@@ -1157,40 +1150,72 @@ async function handleMenuSelect(index) {
 
 const username = ref('');
 const bio = ref('');
-const url = ref('');
-async function getHeadShotUrl(fileName){
-  const p = {
-    fileName: fileName
-  }
-  // console.log(p)
-  await request
-      .get("/video/getDownLoadVideoUrl", {params: p})
-      .then(res => {
-        // console.log(res)
-        if(res.data.code != 1)
-          url.value =  res.data.data
-      })
-      .catch(err => {
-        console.log(err)
-      })
-  console.log(url.value)
-}
+let url = ref('');
+// async function getHeadShotUrl(fileName){
+//   const p = {
+//     fileName: fileName
+//   }
+//   console.log(fileName)
+//   await request
+//       .get("/video/getDownLoadVideoUrl", {params: p})
+//       .then(res => {
+//         // console.log(res)
+//         if(res.data!=="")
+//           console.log(res.data)
+//           url.value =  res.data
+//       })
+//       .catch(err => {
+//         console.log(err)
+//       })
+//
+// }
+// async function deleteHeadShot(fileName){
+//   let formData = new FormData();
+//   formData.append('fileName',fileName);
+//   console.log(fileName)
+//   await request
+//       .post("/video/deleteQiniu", formData)
+//       .then(res => {
+//         console.log(res)
+//       })
+//       .catch(err => {
+//         console.log(err)
+//       })
+//
+// }
 
+// let newHeadShotName = ref('');
+function generateRandomString(length) {
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let randomString = '';
+
+  for (let i = 0; i < length; i++) {
+    const randomIndex = Math.floor(Math.random() * characters.length);
+    randomString += characters.charAt(randomIndex);
+  }
+
+  return randomString;
+}
 async function saveChanges (){
   let formData = new FormData();
   await getuser(userId);
   console.log(userInfo.value.email)
+  console.log(userInfo.value.headshot)
   formData.append('email',userInfo.value.email);
   formData.append('username',username.value);
   formData.append("introduction",bio.value);
+  // console.log(isHeadImageChosed.value);
   if(isHeadImageChosed.value){
-    const fileName = userId + '.jpg';
-    await getHeadShotUrl(fileName);
-    formData.append('headshot',url)
+    const fileName =  generateRandomString(10) + '.jpg';
+    console.log(fileName);
+    await uploadVideo(selectedFile,fileName);
+    formData.append('headshotname',fileName)
   }
-  else formData.append('headshot',userInfo.value.headshot)
-  request
-      .post('/user/updateUser', formData)
+  else {
+    formData.append('headshotname',userInfo.value.headshotname)
+  }
+  await request
+      .post('/user/updateUserHeadShot', formData)
       .then(res =>{
         if(res.data.code !=0)
           console.log(res.data.msg)
@@ -1204,6 +1229,7 @@ async function saveChanges (){
       .catch(error => {
         console.error(error);
       })
+
   closeModal();
 }
 
