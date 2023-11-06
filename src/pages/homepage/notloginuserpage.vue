@@ -78,13 +78,9 @@
 
   <div class="web-login-scan-code">
     <div class="web-login-scan-code_wrapper">
-      <h2>Oooops.... Please login first to get videos</h2>
-      <div class="agile_404_pos">
-        <h3><span>未</span>登录 </h3>
-        <img src="./assets/1.png" alt=" ">
-      </div>
-    <img alt="" src = "./assets/3.png"
-         class="web-login-scan-code__content__qrcode-wrapper__qrcode" tabindex="0" aria-label="二维码">
+      <h2>Oooops.... Please <span style="color: crimson">login</span> first to get videos</h2>
+    <img alt="" src = "./assets/404.png"
+         class="404_img" tabindex="0" aria-label="二维码">
     </div>
   </div>
   </div>
@@ -377,8 +373,12 @@ h2.OdX5EIvH {
   background-image: url(./assets/banner.jpg);
 }
 .web-login-scan-code_wrapper h2{
-  font-size:0.5em;
+  font-size:0.7em;
   color:#fff;
+  margin-bottom: 15px;
+}
+.web-login-scan-code_wrapper span{
+  font-size:1.5em;
   margin-bottom: 15px;
 }
 
