@@ -979,7 +979,7 @@ const userId = localStorage.getItem("currentUserId")
 // const userId = 16
 
 function getuserinfo(){
-  return { id: 1, name: 'cxy', src: require('E:\\videoPlayer\\videoPlayerFrontEnd\\src\\pages\\homepage\\assets\\en-ts.jpg'),follow: 10 ,fans : 50 , likes: 1000 }
+  return { id: 1, name: 'cxy', src: require('./assets/en-ts.jpg'),follow: 10 ,fans : 50 , likes: 1000 }
 }
 function getuser_videoinfo(){
   return { work_num: 5 }

@@ -166,6 +166,12 @@ async function searchbuttonclick() {
   console.log(relatedvideos)
   store.commit("setRelatedVideos", relatedvideos)
 
+  var heights = []
+  for (var i = 0; i < relatedvideos.length; i++) {
+    heights.push(Math.floor(Math.random()*200) + 280);
+  }
+  store.commit("setHeights", heights)
+
   router.push("/searchpage")
 }
 
