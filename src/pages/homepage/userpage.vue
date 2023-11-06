@@ -41,7 +41,7 @@
     </div>
 
     <div class="VYCEfmrZ">
-      <button @click="openModal" class="GIg8IFtS" >修改资料</button>
+      <button @click="openModal" class="GIg8IFtS" style="margin-bottom: 10%">修改资料</button>
       <div v-if="showModal" class="edit-modal">
         <div class="modal-content">
           <div class = "close-button">
@@ -268,7 +268,8 @@
   flex-wrap: wrap;
   margin-left: 32px;
   min-height: 120px;
-
+  position: relative;
+ z-index: 0;
 
 }
 
@@ -980,7 +981,7 @@ const userId = localStorage.getItem("currentUserId")
 // const userId = 16
 
 function getuserinfo(){
-  return { id: 1, name: 'cxy', src: require('E:\\videoPlayer\\videoPlayerFrontEnd\\src\\pages\\homepage\\assets\\en-ts.jpg'),follow: 10 ,fans : 50 , likes: 1000 }
+  return { id: 1, name: 'cxy', src: require('./assets/en-ts.jpg'),follow: 10 ,fans : 50 , likes: 1000 }
 }
 function getuser_videoinfo(){
   return { work_num: 5 }
