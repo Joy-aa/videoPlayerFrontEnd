@@ -215,12 +215,14 @@ const headshot = ref("")
 
 async function searchbuttonclick() {
   console.log(searchcontent.value)
-  const p = {
+  const p1 = {
+    currentUserId: localStorage.getItem("currentUserId"),
     content: searchcontent.value
   }
+  localStorage.setItem("searchcontent", searchcontent.value)
   var relatedusers = ""
   await request
-      .get("/user/findUsers", {params: p})
+      .get("/user/findUsers", {params: p1})
       .then(res => {
         relatedusers = res.data.data
         console.log(res);
@@ -228,12 +230,17 @@ async function searchbuttonclick() {
       .catch(err => {
         console.log(err)
       });
+  console.log("findusers")
   console.log(relatedusers)
   store.commit("setRelatedUsers", relatedusers)
+  localStorage.setItem("relatedusers", relatedusers)
 
+  const p2 = {
+    content: searchcontent.value
+  }
   var relatedvideos = ""
   await request
-      .get("/video/findVideoByName", {params: p})
+      .get("/video/findVideoByName", {params: p2})
       .then(res => {
         relatedvideos = res.data.data
         console.log(res);
