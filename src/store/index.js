@@ -98,6 +98,13 @@ const store = createStore({
         modifyshowHistory3DModelPath(state, ModelPath){
             state.showHistory3DModelPath = ModelPath
         },
+        setdUsersLikeInfo(state, userslikeinfo) {
+            state.userslikeinfo = userslikeinfo
+            // console.log('setRelatedUsers', state.relatedusers)
+        },
+        getUsersLikeInfo(state) {
+            return state.userslikeinfo
+        },
         // toggleIsCollapse(state){
         //     state.isCollapse = !state.isCollapse
         //     console.log('toggleIsCollapse', state.isCollapse)
@@ -123,7 +130,8 @@ const store = createStore({
             heights:[],
             users:[],
             relatedusers:[],
-            relatedvideos:[]
+            relatedvideos:[],
+            userslikeinfo:[]
             // isCollapse:true,
         }
     },

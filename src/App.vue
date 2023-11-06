@@ -594,6 +594,29 @@ async function addTagRecord(){
         console.error(error);
       })
 }
+let likesInfo = ref([]);
+
+async function getlikesInfo(userId) {
+  const p = {
+    userId: userId
+  }
+
+  // console.log(p)
+  await request
+      .get("/user/findUserlikesstars", {params: p})
+      .then(res => {
+        // console.log(res)
+        if(res.data.code != 1)
+          likesInfo.value = res.data.data
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  console.log(toRaw(likesInfo.value[0]))
+  store.commit("setdUsersLikeInfo", likesInfo)
+  // console.log(userInfo.value.email)
+}
+getlikesInfo(userId)
 
 
 login_init()
