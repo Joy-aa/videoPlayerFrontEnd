@@ -1,6 +1,5 @@
 For Chinese README.md,
-you can click https://github.com/Joy-aa/videoPlayerFrontEnd/README_CN.md
-
+you can click https://github.com/Joy-aa/videoPlayerFrontEnd/blob/main/README_CN.md
 
 <div align="center">
 
