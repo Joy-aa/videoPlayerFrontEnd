@@ -603,15 +603,15 @@ async function addVideoPage(){
   const p = {
     videoId: uploadvideoid.value
   }
-
+  console.log("添加视频封面开始，参数为:", p)
   await request
       .get('/video/addVideoPage', {params: p})
       .then(res =>{
         if(res.data.code !=0)
-          console.log(res.data.msg)
+          console.log(res)
         else {
           console.log("封面增加成功")
-          console.log(res.data.msg)
+          console.log(res)
         }
       })
       .catch(error => {
