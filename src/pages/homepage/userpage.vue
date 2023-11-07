@@ -1298,6 +1298,8 @@ async function getuserNoHead(userId, idx) {
       .catch(err => {
         console.log(err)
       })
+    
+  localStorage.setItem("videos", JSON.stringify(videoInfo.value))
 }
 
 
@@ -1326,7 +1328,7 @@ async function getusersvideos(userId){
         console.log(err)
       });
 
-  console.log(toRaw(videoInfo))
+  localStorage.setItem("videos", JSON.stringify(videoInfo.value))
 }
 //查询用户收藏的视频
 async function getuserstarvideos(userId){
@@ -1347,7 +1349,7 @@ async function getuserstarvideos(userId){
         console.log(err)
       });
 
-  console.log(toRaw(videoInfo))
+  localStorage.setItem("videos", JSON.stringify(videoInfo.value))
 }
 //
 //查询用户浏览历史的视频
