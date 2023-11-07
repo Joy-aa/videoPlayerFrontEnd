@@ -1177,7 +1177,6 @@ import { router } from '@/router';
 import {onMounted, onUpdated, ref, toRaw} from 'vue';
 import request from "@/api";
 const qiniu = require('qiniu-js');
-import {  onMounted, onUnmounted } from 'vue';
 
 import {useStore} from 'vuex';
 import axios from "axios";
@@ -1557,15 +1556,7 @@ function formatMsgTime (timestamp) {
   }
   return timeSpanStr
 }
-let timer;
-onMounted(() => {
-  timer = setInterval(() => {
-    getuser(userId);
-  }, 5000); // 每隔1秒执行一次
-});
-onUnmounted(() => {
-  clearInterval(timer);
-});
+
 // async function saveChanges (){
 //   let formData = new FormData();
 //   await getuser(userId);
