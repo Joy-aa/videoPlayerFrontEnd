@@ -125,6 +125,7 @@
   <li><a href="https://cn.vuejs.org/">Vue.js</a></li>
   <li><a href="https://www.sass.hk/">SASS</a></li>
   <li><a href="https://element-plus.org/zh-CN/">Element UI</a></li>
+  <li><a href="https://vuex.vuejs.org/">VueX</a></li>
 </ul>
 
 <!-- 功能点 -->
@@ -144,7 +145,7 @@
   * 上传你自制的短视频。
   * 添加视频名称、介绍和标签。
 - 个人信息
-  * 查看和编辑个人信息。
+  * 查看和编辑个人信息：编辑头像，昵称，个人简介。
   * 查看您上传的视频、喜爱的视频和查看历史记录。
 - 视频页面
   * 视频播放：播放、暂停、进度条拖放。
