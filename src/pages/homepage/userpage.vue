@@ -214,9 +214,9 @@
 
 .showusrinfo {
   display: flex;
-//margin: 0px auto 0px;
+/* //margin: 0px auto 0px; */
   max-width: 1208px;
-//position: fixed;
+/* //position: fixed; */
   width: 100%;
   /*background-image: url("./assets/banner.jpg");*/
 
@@ -409,7 +409,7 @@ h2.OdX5EIvH {
 }
 
 
-//编辑资料弹窗css
+/* //编辑资料弹窗css */
 .me4sq_ea {
   display: flex;
   align-items: center;
@@ -426,7 +426,7 @@ h2.OdX5EIvH {
 .HFdVWNl1 {
 
   background: #fff;
-//background: var(--color-bg-b1);
+/* //background: var(--color-bg-b1); */
   border-radius: 4px;
   height: 588px;
   left: 50%;
@@ -495,8 +495,8 @@ h2.OdX5EIvH {
 
 .I5fCASKY {
   color: #FFFFFF80;
-//color: rgba(22,24,35,.6);
-//color: var(--color-text-t3);
+/* //color: rgba(22,24,35,.6); */
+/* //color: var(--color-text-t3); */
   font-size: 12px;
   margin-top: 4px
 }
@@ -715,7 +715,7 @@ h2.OdX5EIvH {
 
 .modal-content1 {
   background-color: #252632;
-//background-color: rgba(25,26,32);
+/* //background-color: rgba(25,26,32); */
   padding: 20px;
   border-radius: 5px;
   height: 588px;
@@ -839,7 +839,7 @@ h2.OdX5EIvH {
   height: 160px;
   line-height: 32px;
   outline: none;
-//padding-left: 8px;
+/* //padding-left: 8px; */
   width: 80%;
 
 }
@@ -907,7 +907,7 @@ h2.OdX5EIvH {
   left: 0;
   width: 100%;
   height: 100%;
-//object-fit: cover; /* 控制图片填充方式，可选值包括：fill, contain, cover, none, scale-down */
+/* //object-fit: cover; 控制图片填充方式，可选值包括：fill, contain, cover, none, scale-down */
 }
 .author-card-user-video-like {
   align-items: center;
