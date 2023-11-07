@@ -209,9 +209,8 @@
                 <div class="user-content">
                   <div class="user-info">
                     <el-row align="middle">
-                      <router-link :to="`/userpage/${user.userId}`">
-                        <el-image :src="user.headshot" class="avatar"> </el-image>
-                      </router-link>
+
+                      <el-image :src="user.headshot" @click="clickavatar(user.userId)" class="avatar"> </el-image>
                       <p style="color:lightgrey;margin-left: 3%">{{ user.username }}</p>
                       <el-button v-if="user.follow === 0" @click="addFollow(currentUserId, user.userId)" style="margin-left: 40%;font-size: 14px; color:white;background-color: deeppink; border-color: deeppink">关注</el-button>
                       <el-button v-else-if="user.follow === 1" @click="cancelFollow(currentUserId, user.userId)" style="margin-left: 40%;font-size: 14px; color:white;background-color: deeppink; border-color: deeppink">已关注</el-button>
@@ -348,6 +347,13 @@ const relatedusers = ref()
 onUpdated(() => {
   relatedusers.value = store.state.relatedusers
 })
+async function clickavatar(searchId) {
+  store.commit("setSearchId", searchId)
+
+  router.push("/userpage/" + searchId)
+
+}
+
 async function addFollow(currentUserId, relatedUserId) {
   let requestData = new FormData();
   requestData.append('userid1', currentUserId)

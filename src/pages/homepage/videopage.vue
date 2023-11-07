@@ -1073,6 +1073,7 @@ console.log('当前所有视频列表', videos)
 
 function routeToUser(userId) {
   router.push("/userpage/" + userId)
+  store.commit("setSearchId", userId)
 }
 
 const store = useStore();

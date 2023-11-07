@@ -1174,19 +1174,22 @@ h2.OdX5EIvH {
 // }
 
 import { router } from '@/router';
-import {onMounted, ref, toRaw} from 'vue';
+import {onMounted, onUpdated, ref, toRaw} from 'vue';
 import request from "@/api";
 const qiniu = require('qiniu-js');
 
 
 import {useStore} from 'vuex';
-
 import axios from "axios";
+import {useRoute} from "vue-router";
 
 const store = useStore();
+const route = useRoute();
 
-const userId = localStorage.getItem("currentUserId")
-
+const userId = store.state.searchId
+// onMounted(() => {
+//   userId.value = store.state.searchId
+// })
 
 // const userId = 16
 
@@ -1246,9 +1249,23 @@ async function uploadVideo(newheadshot,fileName){
 }
 // 开始写js
 
+import { onUnmounted } from 'vue';
+let timer;
+onUpdated(() => {
+  getuser(store.state.searchId);
+  // timer = setInterval(() => {
+  //   getuser(store.state.searchId);
+  // }, 5000); // 每隔1秒执行一次
+});
+onUnmounted(() => {
+  clearInterval(timer);
+});
+
 const userInfo = ref({})
 //查询用户信息
 async function getuser(userId) {
+  console.log("zzzzzzzzzzzzzzzzzzzzzzzzzz")
+  console.log(userId)
   const p = {
     userId: userId
   }
@@ -1259,7 +1276,10 @@ async function getuser(userId) {
         // console.log(res)
         if(res.data.code != 1) {
           userInfo.value = res.data.data
-          store.commit("setHeadshot", userInfo.value.headshot)
+          if (store.state.userId === store.state.searchId) {
+            store.commit("setHeadshot", userInfo.value.headshot)
+          }
+
         }
 
       })
