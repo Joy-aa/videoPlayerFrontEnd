@@ -149,7 +149,7 @@
             <div class="video-content">
               <div class="video-info">
                 <router-link :to="`/videopage/${video.videoId}/${index}`">
-                  <img class="pageshot-info" :src="video.pageshot" alt="loading fail">
+                  <img class="pageshot-info" :src="video.pageshot" alt="loading fail" style =" border-radius: 15px;">
                 </router-link>
                 <p style="margin-left: 5px;font-size: 15px;color: lightgrey">{{video.videoName.substring(0, 35) + "..."}}</p>
                 <el-row style="margin-top: 3px">
@@ -1123,11 +1123,12 @@ h2.OdX5EIvH {
   /*top: 20px; !* 调整顶部距离 *!*/
   /*right: 20px; !* 调整右边距离 *!*/
   /*width: 300px; !* 调整矩形的宽度 *!*/
-  height: 400px; /* 调整矩形的高度 */
+  height: 450px; /* 调整矩形的高度 */
   background-color: #475669; /* 背景颜色 */
   border-radius: 15px; /* 圆角半径 */
   /*padding: 10px; !* 内边距，用于放置文本 *!*/
-  margin-right: 20px;
+  margin-left: 10px;
+  margin-top: 20px;
   /*margin-bottom: auto;*/
   /*display: grid;*/
   /*grid-template-columns: repeat(4, 1fr); !* 每行4列 *!*/

@@ -75,12 +75,11 @@
               <el-button class="upload-button" :icon="Upload" @click="openModal">发布</el-button>
               <div v-if="showModal" class="edit-modal">
                 <div class="modal-content">
-                  <div class = "close-button">
-                    <svg width="36" height="36" fill="none" xmlns="http://www.w3.org/2000/svg" class="" viewBox="0 0 36 36" @click="closeModal">
-                      <path d="M24.601 24.6a1.362 1.362 0 01-1.927 0L18.5 20.427l-4.174 4.175a1.362 1.362 0 01-1.927-1.927l4.174-4.174-4.174-4.175a1.362 1.362 0 011.927-1.926l4.174 4.174 4.174-4.174a1.362 1.362 0 111.927 1.927L20.427 18.5l4.174 4.174a1.362 1.362 0 010 1.927z" fill="#fff" fill-opacity="0.8"></path>
-                    </svg>
-                    <!--            <button  @click="closeModal" >x</button>-->
-                  </div>
+<!--                  <div class = "close-button">-->
+<!--                    <svg width="36" height="36" fill="none" xmlns="http://www.w3.org/2000/svg" class="" viewBox="0 0 36 36" @click="closeModal">-->
+<!--                      <path d="M24.601 24.6a1.362 1.362 0 01-1.927 0L18.5 20.427l-4.174 4.175a1.362 1.362 0 01-1.927-1.927l4.174-4.174-4.174-4.175a1.362 1.362 0 011.927-1.926l4.174 4.174 4.174-4.174a1.362 1.362 0 111.927 1.927L20.427 18.5l4.174 4.174a1.362 1.362 0 010 1.927z" fill="#fff" fill-opacity="0.8"></path>-->
+<!--                    </svg>-->
+<!--                  </div>-->
 
                   <h3  style="color: white; margin-left: 45px;">上传视频</h3>
                   <!--            修改头像-->
@@ -88,8 +87,11 @@
                     <div class="head-model">
 
                       <div class="layui-upload-drag" @click="openFilePicker" @dragover.prevent @drop="handleFileDrop"  >
+                        <p v-if="!fileSelect">点击上传，或将文件拖拽到此处</p>
+                        <p v-else>已接收到视频</p>
                         <input type="file"  @change="handleFileChange" id = "upload-video-button" style="display: none" required>
-                        <p>点击上传，或将文件拖拽到此处</p>
+
+<!--                        <p>已接收到上传文件</p>-->
                       </div>
                     </div>
 
@@ -452,8 +454,8 @@ async function login_init(){
 }
 // 上传视频功能
 
-const showModal = ref(false);
-// const selectedFile = ref(null);
+let showModal = ref(false);
+let fileSelect = ref(false);
 
 const bio = ref('');
 const videoName = ref('');
@@ -482,7 +484,7 @@ const observer = {
   }
 }
 
-// 上传头像到七牛云服务器中，其中头像以 userid命名。
+// 上传视频到七牛云服务器中
 
 let key = ref('')
 async function uploadVideo(videoFile){
@@ -544,12 +546,16 @@ function openFilePicker(){
 const handleFileChange = (event) =>  {
   selectedFile= event.target.files[0];
   validateFile(selectedFile);
+  fileSelect.value = true;
+
+  console.log(selectedFile.name);
 
 };
 
 const handleFileDrop= (event) =>   {
   event.preventDefault();
   selectedFile = event.dataTransfer.files[0];
+  fileSelect.value = true;
   validateFile(selectedFile);
 }
 
