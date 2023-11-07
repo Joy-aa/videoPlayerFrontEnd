@@ -1,6 +1,6 @@
 <div align="center">
 
-  <h1>QNY-Fronted</h1>
+  <h1>QNY-FrontEnd</h1>
 
   <p>
     An online video website using Qiniu Cloud storage and video framing technology! 
