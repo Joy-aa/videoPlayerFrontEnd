@@ -59,6 +59,13 @@ const store = createStore({
         getHeights(state) {
             return state.heights
         },
+        setHeadshot(state, headshot) {
+            state.headshot = headshot
+            // console.log('setHeights', state.heights)
+        },
+        getHeadshot(state) {
+            return state.headshot
+        },
         setRelatedUsers(state, relatedusers) {
             state.relatedusers = relatedusers
             // console.log('setRelatedUsers', state.relatedusers)
@@ -132,7 +139,8 @@ const store = createStore({
             users:[],
             relatedusers:[],
             relatedvideos:[],
-            userslikeinfo:[]
+            userslikeinfo:[],
+            headshot:"",
             // isCollapse:true,
         }
     },

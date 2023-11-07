@@ -129,7 +129,7 @@
                   router="router" v-if="!store.state.isAut" class="login-button" @click="login_signin" style="font-size: 15px;">登录 / 注册
               </el-button>
 
-                <img v-else v-bind:src="headshot? headshot:require('./assets/img.png')"  class="avatar" @click="click_avatar">
+                <img v-else v-bind:src="store.state.headshot? store.state.headshot: require('./assets/img.png')"  class="avatar" @click="click_avatar">
 
 
 <!--                <el-menu v-if="isOptionsVisible"-->
@@ -388,6 +388,8 @@ async function login_init(){
       headshot.value = res.data.data.headshot
       console.log("xxxxxxxxxxxxxxxxxxxxxx")
       console.log(headshot.value)
+      store.commit("setHeadshot", headshot.value)
+
     }
   })
   .catch(err => {
