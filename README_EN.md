@@ -209,9 +209,9 @@ See `README.md` for ways to get started.
 
 Yuxin Wang - 22251259@zju.edu.cn
 
-Jia Wang - 22251277@zju.edu.cn
+Jia Wang - 22251133@zju.edu.cn
 
-Xinyuan Cheng - 22251133@zju.edu.cn
+Xinyuan Cheng - 22251277@zju.edu.cn
 
 Project Link: [https://github.com/Joy-aa/videoPlayerFrontEnd](https://github.com/Joy-aa/videoPlayerFrontEnd)
 
