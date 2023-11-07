@@ -153,7 +153,7 @@
                 </router-link>
                 <p style="margin-left: 5px;font-size: 15px;color: lightgrey">{{video.videoName.substring(0, 35) + "..."}}</p>
                 <el-row style="margin-top: 3px">
-                  <p style="margin-left: 5px;font-size: 14px;color: lightgrey">@{{ userListInfo[index] }}</p>
+                  <p style="margin-left: 5px;font-size: 14px;color: lightgrey">@{{ video.user }}</p>
                   <p style="margin-left: 20px;font-size: 14px;color: lightgrey">· {{ formatMsgTime(video.createTime) }}</p>
                 </el-row>
                 <el-row class="likecommentstar">
@@ -1271,6 +1271,7 @@ getuser(userId);
 
 //查询用户信息（不需要头像）
 async function getuserNoHead(userId) {
+  let user = ''
   const p = {
     userId: userId
   }
@@ -1278,22 +1279,21 @@ async function getuserNoHead(userId) {
       .get("/user/findUser", {params: p})
       .then(res => {
         if(res.data.code != 1)
-        userListInfo.value.push(res.data.data)
+          user = res.data.data.username
       })
       .catch(err => {
         console.log(err)
       })
-  // console.log(toRaw(userInfo))
+  return user
 }
 
 
 //查询用户发布的视频
-const videoInfo = ref([])
-var userListInfo = ref([])
+var videoInfo = ref([])
+// var userListInfo = ref([])
 
 async function getusersvideos(userId){
   videoInfo.value = []
-  userListInfo.value = []
   const p = {
     userid: userId
   }
@@ -1303,11 +1303,11 @@ async function getusersvideos(userId){
         var videoList = res.data.data
         for (let i = 0; i < videoList.length; i++) {
           videoInfo.value.push(videoList[i])
-          // videoInfo
-          getuserNoHead(videoList[i].userId)
+          videoInfo.value[i].user = getuserNoHead(videoList[i].userId)
+          // getuserNoHead(videoList[i].userId)
           // console.log("所有用户信息",toRaw(userListInfo.value))
         }
-        // console.log("所有用户信息",userListInfo)
+        console.log("所有用户信息", toRaw(videoInfo.value))
       })
       .catch(err => {
         console.log(err)
@@ -1318,7 +1318,6 @@ async function getusersvideos(userId){
 //查询用户收藏的视频
 async function getuserstarvideos(userId){
   videoInfo.value = []
-  userListInfo.value = []
   const p = {
     userId : userId
   }
@@ -1328,7 +1327,7 @@ async function getuserstarvideos(userId){
         var videoList = res.data.data
         for (let i = 0; i < videoList.length; i++) {
           videoInfo.value.push(videoList[i])
-          getuserNoHead(videoList[i].userId)
+          videoInfo.value[i].user = getuserNoHead(videoList[i].userId)
         }
       })
       .catch(err => {
@@ -1341,7 +1340,6 @@ async function getuserstarvideos(userId){
 //查询用户浏览历史的视频
 async function getuserhistotyvideos(userId){
   videoInfo.value = []
-  userListInfo.value = []
   const p = {
     userId : userId
   }
@@ -1351,7 +1349,7 @@ async function getuserhistotyvideos(userId){
         var videoList = res.data.data
         for (let i = 0; i < videoList.length; i++) {
           videoInfo.value.push(videoList[i])
-          getuserNoHead(videoList[i].userId)
+          videoInfo.value[i].user = getuserNoHead(videoList[i].userId)
         }
       })
       .catch(err => {
