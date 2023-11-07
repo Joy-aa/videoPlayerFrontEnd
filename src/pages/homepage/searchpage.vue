@@ -209,7 +209,7 @@
                 <div class="user-content">
                   <div class="user-info">
                     <el-row align="middle">
-                      <router-link :to="`/userpage/${user.id}`">
+                      <router-link :to="`/userpage/${user.userId}`">
                         <el-image :src="user.headshot" class="avatar"> </el-image>
                       </router-link>
                       <p style="color:lightgrey;margin-left: 3%">{{ user.username }}</p>

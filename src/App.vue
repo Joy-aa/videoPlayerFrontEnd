@@ -166,8 +166,8 @@
 
             <div v-if="isOptionsVisible" class="options-box">
               <el-menu class="twoitem" style="height:30px;margin-left:0px;background-color: #475669; border-color: #475669">
-                <el-menu-item @click="clickuserinfo" style="height:15px;margin-top:8px;color:white;font-size: 15px">个人信息</el-menu-item>
-                <el-menu-item @click="log_out" style="height:15px;margin-top:13px;color:white;font-size: 15px">退出登录</el-menu-item>
+                <el-menu-item @click="clickuserinfo" style="height:25px;margin-top:8px;color:white;font-size: 15px">个人信息</el-menu-item>
+                <el-menu-item @click="log_out" style="height:25px;margin-top:13px;color:white;font-size: 15px">退出登录</el-menu-item>
               </el-menu>
               <!--              <span style="color:lightgrey;font-size: 15px">个人信息</span>-->
               <!--              <span @click="login_out" style="color:lightgrey;font-size: 15px">退出登录</span>-->
@@ -2914,7 +2914,7 @@ el-input{
 }
 .options-box {
   /*width: 100px;*/
-  height: 60px;
+  height: 80px;
   margin-left: 90%;
   width: 100px;
   color: #475669;
