@@ -477,19 +477,28 @@ const closeModal = () => {
 };
 const isVideoChosed = ref(false);
 
-const observer = {
-  next(res){
-    // ...
-  },
-  error(err){
-    // ...
-  },
-  complete(res){
-    // ...
-  }
-}
 
-// 上传视频到七牛云服务器中
+let isover = ref(false)
+const observer = {  
+  next(res) {  
+    console.log(res)
+    // if(JSON.parse(res).total.percent > 90)
+    //   isover.value = true
+  },  
+  error(err) {  
+    // handle error  
+  },  
+  complete(res) {  
+    console.log(res)
+    if(res != null)
+      isover.value = true 
+  },
+};  
+
+// 上传头像到七牛云服务器中，其中头像以 userid命名。
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 let key = ref('')
 async function uploadVideo(videoFile){
@@ -502,9 +511,16 @@ async function uploadVideo(videoFile){
   key = uploadfilename;
   console.log(key);
   const observable = qiniu.upload(videoFile,key,token)
-  const subscription = observable.subscribe(observer)
-  console.log(subscription)
-
+  let subscription = observable.subscribe(observer)
+  // let par = observer.complete()
+  // let par2 = observer.next()
+  while(!isover.value) {
+    console.log(isover.value)
+    observer.next()
+    observer.complete()
+    await sleep(1000); // 等待1秒钟（1000毫秒）
+  }
+  console.log("out!!!!!")
 }
 let selectedFile = ref('');
 async function saveChanges(){
@@ -542,6 +558,7 @@ async function saveChanges(){
   await addTagRecord();
   await addVideoPage();
   closeModal();
+  location.reload(true);
 }
 function openFilePicker(){
   const fileInput = document.getElementById('upload-video-button');
@@ -616,15 +633,15 @@ async function addVideoPage(){
   const p = {
     videoId: uploadvideoid.value
   }
-
+  console.log("添加视频封面开始，参数为:", p)
   await request
       .get('/video/addVideoPage', {params: p})
       .then(res =>{
         if(res.data.code !=0)
-          console.log(res.data.msg)
+          console.log(res)
         else {
           console.log("封面增加成功")
-          console.log(res.data.msg)
+          console.log(res)
         }
       })
       .catch(error => {

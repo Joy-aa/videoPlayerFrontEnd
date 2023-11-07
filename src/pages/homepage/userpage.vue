@@ -44,12 +44,12 @@
       <button @click="openModal" class="GIg8IFtS" style="margin-bottom: 10%">修改资料</button>
       <div v-if="showModal" class="edit-modal">
         <div class="modal-content1">
-          <div class = "close-button">
-            <svg width="36" height="36" fill="none" xmlns="http://www.w3.org/2000/svg" class="" viewBox="0 0 36 36" @click="closeModal">
-              <path d="M24.601 24.6a1.362 1.362 0 01-1.927 0L18.5 20.427l-4.174 4.175a1.362 1.362 0 01-1.927-1.927l4.174-4.174-4.174-4.175a1.362 1.362 0 011.927-1.926l4.174 4.174 4.174-4.174a1.362 1.362 0 111.927 1.927L20.427 18.5l4.174 4.174a1.362 1.362 0 010 1.927z" fill="#fff" fill-opacity="0.8"></path>
-            </svg>
-            <!--            <button  @click="closeModal" >x</button>-->
-          </div>
+<!--          <div class = "close-button">-->
+<!--            <svg width="36" height="36" fill="none" xmlns="http://www.w3.org/2000/svg" class="" viewBox="0 0 36 36" @click="closeModal">-->
+<!--              <path d="M24.601 24.6a1.362 1.362 0 01-1.927 0L18.5 20.427l-4.174 4.175a1.362 1.362 0 01-1.927-1.927l4.174-4.174-4.174-4.175a1.362 1.362 0 011.927-1.926l4.174 4.174 4.174-4.174a1.362 1.362 0 111.927 1.927L20.427 18.5l4.174 4.174a1.362 1.362 0 010 1.927z" fill="#fff" fill-opacity="0.8"></path>-->
+<!--            </svg>-->
+<!--            &lt;!&ndash;            <button  @click="closeModal" >x</button>&ndash;&gt;-->
+<!--          </div>-->
 
           <h3  style="color: white; margin-left: 45px;">编辑资料</h3>
           <!--            修改头像-->
@@ -153,7 +153,7 @@
                 </router-link>
                 <p style="margin-left: 5px;font-size: 15px;color: lightgrey">{{video.videoName.substring(0, 35) + "..."}}</p>
                 <el-row style="margin-top: 3px">
-                  <p style="margin-left: 5px;font-size: 14px;color: lightgrey">@{{ store.state.users.at(index) }}</p>
+                  <p style="margin-left: 5px;font-size: 14px;color: lightgrey">@{{ video.user }}</p>
                   <p style="margin-left: 20px;font-size: 14px;color: lightgrey">· {{ formatMsgTime(video.createTime) }}</p>
                 </el-row>
                 <el-row class="likecommentstar">
@@ -1177,7 +1177,7 @@ import { router } from '@/router';
 import {onMounted, onUpdated, ref, toRaw} from 'vue';
 import request from "@/api";
 const qiniu = require('qiniu-js');
-
+import {  onMounted, onUnmounted } from 'vue';
 
 import {useStore} from 'vuex';
 import axios from "axios";
@@ -1222,30 +1222,41 @@ const handleFileChange = (event) => {
   isHeadImageChosed.value = true;
   // console.log(event.target);
 };
-
+let isover = ref(false)
 const observer = {
-  next(res){
-    // ...
+  next(res) {
+    console.log(res)
+    // if(JSON.parse(res).total.percent > 90)
+    //   isover.value = true
   },
-  error(err){
-    // ...
+  error(err) {
+    // handle error
   },
-  complete(res){
-    // ...
-  }
+  complete(res) {
+    console.log(res)
+    if(res != null)
+      isover.value = true
+  },
+};
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
 }
 // 上传头像到七牛云服务器中，其中头像以 userid命名。
 async function uploadVideo(newheadshot,fileName){
   let token = ''
   await request.post("/video/getHeadShotToken").then(res => {token = res.data})
-
-
   var key = fileName;
   console.log(key);
   const observable = qiniu.upload(newheadshot,key,token)
   const subscription = observable.subscribe(observer)
-  console.log(subscription)
+  while(!isover.value) {
+    console.log(isover.value)
+    observer.next()
+    observer.complete()
+    await sleep(1000); // 等待1秒钟（1000毫秒）
 
+  }
+  console.log("out!!!!!")
 }
 // 开始写js
 
@@ -1292,18 +1303,44 @@ async function getuser(userId) {
 }
 getuser(userId);
 
+//查询用户信息（不需要头像）
+async function getuserNoHead(userId, idx) {
+  let user = ''
+  const p = {
+    userId: userId
+  }
+  await request
+      .get("/user/findUser", {params: p})
+      .then(res => {
+        if(res.data.code != 1)
+        videoInfo.value[idx].user = res.data.data.username
+      })
+      .catch(err => {
+        console.log(err)
+      })
+}
+
 
 //查询用户发布的视频
-const videoInfo = ref([])
+var videoInfo = ref([])
+// var userListInfo = ref([])
 
 async function getusersvideos(userId){
+  videoInfo.value = []
   const p = {
     userid: userId
   }
   await request
       .get("/video/findVideoByUser", {params: p})
       .then(res => {
-        videoInfo.value =  res.data.data;
+        var videoList = res.data.data
+        for (let i = 0; i < videoList.length; i++) {
+          videoInfo.value.push(videoList[i])
+          getuserNoHead(videoList[i].userId, i)
+          // getuserNoHead(videoList[i].userId)
+          // console.log("所有用户信息",toRaw(userListInfo.value))
+        }
+        console.log("所有用户信息", toRaw(videoInfo.value))
       })
       .catch(err => {
         console.log(err)
@@ -1313,13 +1350,18 @@ async function getusersvideos(userId){
 }
 //查询用户收藏的视频
 async function getuserstarvideos(userId){
+  videoInfo.value = []
   const p = {
     userId : userId
   }
   await request
       .get("/star/getUserStarVideo", {params: p})
       .then(res => {
-        videoInfo.value =  res.data.data;
+        var videoList = res.data.data
+        for (let i = 0; i < videoList.length; i++) {
+          videoInfo.value.push(videoList[i])
+          getuserNoHead(videoList[i].userId, i)
+        }
       })
       .catch(err => {
         console.log(err)
@@ -1328,15 +1370,20 @@ async function getuserstarvideos(userId){
   console.log(toRaw(videoInfo))
 }
 //
-//查询用户收藏的视频
+//查询用户浏览历史的视频
 async function getuserhistotyvideos(userId){
+  videoInfo.value = []
   const p = {
     userId : userId
   }
   await request
       .get("/history/getUserHistoryVideo", {params: p})
       .then(res => {
-        videoInfo.value =  res.data.data;
+        var videoList = res.data.data
+        for (let i = 0; i < videoList.length; i++) {
+          videoInfo.value.push(videoList[i])
+          getuserNoHead(videoList[i].userId, i)
+        }
       })
       .catch(err => {
         console.log(err)
@@ -1510,7 +1557,15 @@ function formatMsgTime (timestamp) {
   }
   return timeSpanStr
 }
-
+let timer;
+onMounted(() => {
+  timer = setInterval(() => {
+    getuser(userId);
+  }, 5000); // 每隔1秒执行一次
+});
+onUnmounted(() => {
+  clearInterval(timer);
+});
 // async function saveChanges (){
 //   let formData = new FormData();
 //   await getuser(userId);
