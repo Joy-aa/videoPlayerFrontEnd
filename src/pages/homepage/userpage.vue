@@ -1177,7 +1177,7 @@ import { router } from '@/router';
 import {onMounted, onUpdated, ref, toRaw} from 'vue';
 import request from "@/api";
 const qiniu = require('qiniu-js');
-import {  onMounted, onUnmounted } from 'vue';
+import { onUnmounted } from 'vue';
 
 import {useStore} from 'vuex';
 import axios from "axios";
@@ -1260,17 +1260,17 @@ async function uploadVideo(newheadshot,fileName){
 }
 // 开始写js
 
-import { onUnmounted } from 'vue';
-let timer;
-onUpdated(() => {
-  getuser(store.state.searchId);
-  // timer = setInterval(() => {
-  //   getuser(store.state.searchId);
-  // }, 5000); // 每隔1秒执行一次
-});
-onUnmounted(() => {
-  clearInterval(timer);
-});
+// import { onUnmounted } from 'vue';
+// let timer;
+// onUpdated(() => {
+//   getuser(store.state.searchId);
+//   // timer = setInterval(() => {
+//   //   getuser(store.state.searchId);
+//   // }, 5000); // 每隔1秒执行一次
+// });
+// onUnmounted(() => {
+//   clearInterval(timer);
+// });
 
 const userInfo = ref({})
 //查询用户信息
