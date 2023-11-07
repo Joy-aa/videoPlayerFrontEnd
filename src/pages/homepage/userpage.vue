@@ -1174,7 +1174,7 @@ h2.OdX5EIvH {
 // }
 
 import { router } from '@/router';
-import {onMounted, onUpdated, ref, toRaw} from 'vue';
+import {onMounted, onUnmounted, onUpdated, ref, toRaw} from 'vue';
 import request from "@/api";
 const qiniu = require('qiniu-js');
 
@@ -1259,17 +1259,17 @@ async function uploadVideo(newheadshot,fileName){
 }
 // 开始写js
 
-import { onUnmounted } from 'vue';
-let timer;
-onUpdated(() => {
-  getuser(store.state.searchId);
-  // timer = setInterval(() => {
-  //   getuser(store.state.searchId);
-  // }, 5000); // 每隔1秒执行一次
-});
-onUnmounted(() => {
-  clearInterval(timer);
-});
+// import { onUnmounted } from 'vue';
+// let timer;
+// onUpdated(() => {
+//   getuser(store.state.searchId);
+//   // timer = setInterval(() => {
+//   //   getuser(store.state.searchId);
+//   // }, 5000); // 每隔1秒执行一次
+// });
+// onUnmounted(() => {
+//   clearInterval(timer);
+// });
 
 const userInfo = ref({})
 //查询用户信息
@@ -1317,6 +1317,8 @@ async function getuserNoHead(userId, idx) {
       .catch(err => {
         console.log(err)
       })
+    
+  localStorage.setItem("videos", JSON.stringify(videoInfo.value))
 }
 
 
@@ -1345,7 +1347,7 @@ async function getusersvideos(userId){
         console.log(err)
       });
 
-  console.log(toRaw(videoInfo))
+  localStorage.setItem("videos", JSON.stringify(videoInfo.value))
 }
 //查询用户收藏的视频
 async function getuserstarvideos(userId){
@@ -1366,7 +1368,7 @@ async function getuserstarvideos(userId){
         console.log(err)
       });
 
-  console.log(toRaw(videoInfo))
+  localStorage.setItem("videos", JSON.stringify(videoInfo.value))
 }
 //
 //查询用户浏览历史的视频

@@ -1335,12 +1335,14 @@ const changeFold = () => {
 async function switchPreVideo(index) {
   await router.push("/videopage/" + videos[parseInt(index) - 1].videoId + '/' + (parseInt(index) - 1));
   test.fold = false
+  relation.nofollow = true
   getvideo(route.params.videoid)
 }
 
 async function switchNextVideo(index) {
   await router.push("/videopage/" + videos[parseInt(index) + 1].videoId + '/' + (parseInt(index) + 1));
   test.fold = false
+  relation.nofollow = true
   getvideo(route.params.videoid)
 }
 
