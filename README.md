@@ -1,48 +1,214 @@
+<div align="center">
 
-# videoPlayerFrontEnd
-短视频播放平台-前端
+  <h1>QNY-FrontEnd</h1>
 
-# 分支管理
-请大家新建分支后，在自己的分支上进行开发功能，功能完成之后再提交pull request进行合并。
+  <p>
+    An online video website using Qiniu Cloud storage and video framing technology! 
+  </p>
 
-**不要直接提交到main分支**
 
-如果分支要进行`pull`操作，但是本地有更改，要记得先把本地更改进行`commit`，不然本地代码会被覆盖
+<!-- Badges -->
 
-## 开发参照
+</div>
 
-每个页面在`pages`文件夹下，单独建立一个页面文件夹，用于存储页面相关文件（内起文件夹`assets`存放图片，`components`存放只在当前页面使用的组件）。为了避免文件夹冗余，如果有几个相关页面，也可以在外面套一个文件夹，如：用户的注册和登录界面可以放一块。
+<br />
 
-[//]: # (最好每个页面单独写一个README在其目录下用于介绍)
-## 新建页面的步骤
-1. 在`pages`中新建文件夹，参照`example`文件夹
-2. 在[router/index.js](./src/router/index.js)中定义该页面的路由
-3. 运行项目之后，在地址拦输入入对应地址，即可访问调试，如`example`为`http://localhost:8080/#/example`
+<!-- Table of Contents -->
+# :notebook_with_decorative_cover: Table of Contents
 
-## Project setup
+- [About the Project](#star2-about-the-project)
+    * [Screenshots](#camera-screenshots)
+    * [Tech Stack](#space_invader-tech-stack)
+    * [Features](#dart-features)
+- [Prerequisites](#bangbang-prerequisites)
+- [Getting Started](#toolbox-getting-started)
+- [Contributing](#wave-contributing)
+- [Contact](#handshake-contact)
+- [Acknowledgements](#gem-acknowledgements)
 
+<!-- About the Project -->
+## :star2: About the Project
+
+<!-- Screenshots -->
+### :camera: Screenshots
+
+<div align="center"> 
+  <img src="src/assets/readmeimg.png" alt="screenshot" />
+</div>
+
+[//]: # (<!-- Project Structure -->)
+
+[//]: # (### :key: Project Structure)
+
+[//]: # ()
+[//]: # (│  ***config files**  )
+
+[//]: # (│  babel.config.js   )
+
+[//]: # (│  jsconfig.json  )
+
+[//]: # (│  package-lock.json  )
+
+[//]: # (│  package.json  )
+
+[//]: # (│  README.md  )
+
+[//]: # (│  tsconfig.json  )
+
+[//]: # (│  vue.config.js  )
+
+[//]: # (│  ***npm library**  )
+
+[//]: # (├─node_modules  )
+
+[//]: # (│  ***public files**  )
+
+[//]: # (├─public  )
+
+[//]: # (│  ***source files**  )
+
+[//]: # (└─src  )
+
+[//]: # (│  ***program entrance file**  )
+
+[//]: # (│     App.vue   )
+
+[//]: # (│     main.ts  )
+
+[//]: # (│     shims-vue.d.ts  )
+
+[//]: # (│  ***login api files**  )
+
+[//]: # (├─api  )
+
+[//]: # (│  ***related images**  )
+
+[//]: # (├─assets  )
+
+[//]: # (├─components  )
+
+[//]: # (│  ***main pages**  )
+
+[//]: # (├─pages  )
+
+[//]: # (│  ├─homepage  )
+
+[//]: # (│  ├─loginIn  )
+
+[//]: # (│  └─user  )
+
+[//]: # (│  ***router files**  )
+
+[//]: # (├─router  )
+
+[//]: # (│      index.ts  )
+
+[//]: # (│  ***storage files**  )
+
+[//]: # (├─store  )
+
+[//]: # (│      index.js  )
+
+[//]: # (│  ***util files**  )
+
+[//]: # (└─utils)
+
+<!-- TechStack -->
+### :space_invader: Tech Stack
+
+<ul>
+  <li><a href="https://nodejs.org/en">Node.js</a></li>
+  <li><a href="https://cn.vuejs.org/">Vue.js</a></li>
+  <li><a href="https://www.sass.hk/">SASS</a></li>
+  <li><a href="https://element-plus.org/zh-CN/">Element UI</a></li>
+</ul>
+
+<!-- Features -->
+### :dart: Features
+
+- Account system
+    * Login, Logout and Signin.
+    * picture verification code.
+- Home page
+    * Content classification: Video content classification page, such as popular videos and sports channels.
+    * Video framing: video cover display.
+- Search
+    * Enter keywords in the search bar to find specific videos, users.
+      The search results will display relevant videos and relevant users.
+- Upload video
+    * Upload your homemade short video.
+    * Add an introduction and label.
+- Personal information
+    * View and edit personal profile information.
+    * View your uploaded videos, favorite videos and view history.
+- Video Page
+    * Video playback: play, pause, progress bar drag and drop.
+    * Video switching: You can scroll through videos using the up and down keys.
+    * Volume adjustment, full screen, playback speed adjustment, download.
+    * Add watermark.
+    * Follow other users.
+    * View Like, Comments, Share, Star of videos.
+    * Like, Comments, Share, Star the video.
+
+<!-- Prerequisites -->
+### :bangbang: Prerequisites
+
+Before running this project, you should ensure that you have cloned our backend project locally.
+Please refer to https://github.com/Joy-aa/videoPlayerBackEnd/README.md
+
+<!-- Getting Started -->
+## 	:toolbox: Getting Started
+
+Before starting, ensure that you have installed Node.js and NPM.
+You can find it on the [Node.js official website]（ https://nodejs.org/ ）Download and install them from.
+
+Clone the project
+
+```bash
+  git clone https://github.com/Joy-aa/videoPlayerFrontEnd.git
 ```
-npm install
+
+Go to the project directory
+
+```bash
+  cd videoPlayerFrontEnd
 ```
 
-### Compiles and hot-reloads for development
+Install dependencies
 
+```bash
+  npm install
 ```
-npm run serve
-```
-
-### Compiles and minifies for production
-
-```
-npm run build
+```bash
+  npm run serve
 ```
 
-### Lints and fixes files
+The project will be http://localhost:8080 Run on.
+You can access this URL in a browser to view the application.
 
-```
-npm run lint
-```
+<!-- Contributing -->
+## :wave: Contributing
 
-### Customize configuration
+<a href="https://github.com/Joy-aa/videoPlayerFrontEnd/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=Louis3797/awesome-readme-template" />
+</a>
 
-See [Configuration Reference](https://cli.vuejs.org/config/).
+Contributions are always welcome!
+
+See `README.md` for ways to get started.
+
+<!-- Contact -->
+## :handshake: Contact
+
+Yuxin Wang - 22251259@qq.com
+
+Jia Wang -
+
+Xinyuan Cheng -
+
+Project Link: [https://github.com/Joy-aa/videoPlayerFrontEnd](https://github.com/Joy-aa/videoPlayerFrontEnd)
+
+<!-- Acknowledgments -->
+## :gem: Acknowledgements
+
+- [Qiniu](https://www.qiniu.com/)
