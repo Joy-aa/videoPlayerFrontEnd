@@ -34,13 +34,13 @@
 ### :camera: Screenshots
 
 <div align="center"> 
-  <img src="https://placehold.co/600x400?text=Your+Screenshot+here" alt="screenshot" />
+  <img src="src/assets/readmeimg.png" alt="screenshot" />
 </div>
 
 <!-- Project Structure -->
 ### :key: Project Structure
 
-***config files**  
+│  ***config files**  
 │  babel.config.js   
 │  jsconfig.json  
 │  package-lock.json  
@@ -90,9 +90,29 @@
 <!-- Features -->
 ### :dart: Features
 
-- Feature 1
-- Feature 2
-- Feature 3
+- Account system
+  * Login, Logout and Signin.
+  * picture verification code.
+- Home page
+  * Content classification: Video content classification page, such as popular videos and sports channels.
+  * Video framing: video cover display.
+- Search
+  * Enter keywords in the search bar to find specific videos, users.
+    The search results will display relevant videos and relevant users.
+- Upload video
+  * Upload your homemade short video.
+  * Add an introduction and label.
+- Personal information
+  * View and edit personal profile information.
+  * View your uploaded videos, favorite videos and view history.
+- Video Page
+  * Video playback: play, pause, progress bar drag and drop.
+  * Video switching: You can scroll through videos using the up and down keys.
+  * Volume adjustment, full screen, playback speed adjustment, download.
+  * Add watermark.
+  * Follow other users.
+  * View Like, Comments, Share, Star of videos.
+  * Like, Comments, Share, Star the video.
 
 <!-- Prerequisites -->
 ### :bangbang: Prerequisites
