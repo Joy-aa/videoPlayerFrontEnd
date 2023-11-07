@@ -625,7 +625,7 @@ h2.OdX5EIvH {
   background-color: #2B2D40;
   display: flex;
   width: 100%;
-  height: 100vh;
+  height: 500vh;
 
 }
 
