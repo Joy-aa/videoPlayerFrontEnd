@@ -207,9 +207,9 @@
 
 王宇鑫 - 22251259@qq.com
 
-王佳 - 22251277@zju.edu.cn
+王佳 - 22251133@zju.edu.cn
 
-程心媛 - 22251133@zju.edu.cn
+程心媛 - 22251277@zju.edu.cn
 
 项目链接: [https://github.com/Joy-aa/videoPlayerFrontEnd](https://github.com/Joy-aa/videoPlayerFrontEnd)
 
