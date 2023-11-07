@@ -3,17 +3,17 @@
   <div class="holly-main">
     <router-view></router-view>
     <div class="video-container">
-        <div v-for="(video, index) in store.state.videos" :key="index" @click="clickvideo"  :style="{ height: store.state.heights.at(index) + 80 + 'px' }" class="video-item_remain">
+        <div v-for="(video, index) in store.state.videos" class="video-item" :key="index" @click="clickvideo" >
           <router-link :to="`/videopage/${video.videoId}/${index}`">
             <div class="video-content">
               <div class="video-info">
-                <video class="video-wrapper" :src="video.videoPath" autoplay="autoplay" :style="{ height: store.state.heights.at(index) + 'px' }" controls width="285"></video>
-                <p style="margin-left: 5px;font-size: 15px;color: lightgrey">{{video.videoName}}</p>
+                <img class="pageshot-info" :src="video.pageshot" alt="loading fail">
+                <p style="margin-left: 5px;font-size: 15px;color: lightgrey">{{video.videoName.substring(0, 35) + "..."}}</p>
                 <el-row style="margin-top: 3px">
                   <p style="margin-left: 5px;font-size: 14px;color: lightgrey">@{{ store.state.users.at(index) }}</p>
                   <p style="margin-left: 20px;font-size: 14px;color: lightgrey">· {{ formatMsgTime(video.createTime) }}</p>
                 </el-row>
-                <el-row>
+                <el-row class="likecommentstar">
                   <div class="likebutton" style="margin-left: 0px;margin-top: 0px;width: 30px;height: 30px">
                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-5 0 95 100" width="99" height="99" preserveAspectRatio="xMidYMid meet" style="width: 100%; height: 100%; transform: translate3d(0px, 0px, 0px); content-visibility: visible;">
                       <g clip-path="url(#__lottie_element_1328)">
@@ -219,33 +219,27 @@
   display: flex;
   flex-wrap: wrap;
   /*justify-content: flex-start;*/
-  align-self: end;
-  /*justify-content: space-between; !* 水平排列，四列 *!*/
+  /*align-self: end;*/
+  justify-content: flex-start; /* 水平排列，四列 */
   /*border-radius: 10%;*/
   /*margin: 0px; !* 为了填充每个video-item之间的空间，-8px 是 margin 的负值 *!*/
 }
 
-.video-item_remain {
-  /*flex: 0 1 calc(25%); !* 四个一行，每个占 25% 的宽度，16px 是 margin 的值 *!*/
+.video-item {
+  flex: 0 1 calc(25%); /* 四个一行，每个占 25% 的宽度，16px 是 margin 的值 */
   /*margin: 0px;*/
   border-radius: 10%;
-  /*margin-top: 20px;*/
-
+  margin-top: 10px;
 }
 
-.video-content {
-  /*vertical-align: top;*/
-  /*position: relative;*/
-  /*horiz-align: center;*/
-}
 .video-info {
   /*position: absolute;*/
   /*top: 20px; !* 调整顶部距离 *!*/
   /*right: 20px; !* 调整右边距离 *!*/
-  width: 285px; /* 调整矩形的宽度 */
-  /*height: 560px; !* 调整矩形的高度 *!*/
+  /*width: 300px; !* 调整矩形的宽度 *!*/
+  height: 400px; /* 调整矩形的高度 */
   background-color: #475669; /* 背景颜色 */
-  border-radius: 8px; /* 圆角半径 */
+  border-radius: 15px; /* 圆角半径 */
   /*padding: 10px; !* 内边距，用于放置文本 *!*/
   margin-right: 20px;
   /*margin-bottom: auto;*/
@@ -261,6 +255,20 @@
   /*grid-gap: 10px; !* 添加水平和垂直间距，可以根据需要调整 *!*/
   /*color: #fff; !* 文本颜色 *!*/
   /*font-size: 12px; !* 文本大小 *!*/
+}
+.pageshot-info {
+  width: 100%;
+  height: 300px;
+}
+
+
+.likecommentstar {
+  position: relative;
+  padding-bottom: 5%;
+}
+
+.video-content {
+  position: relative;
 }
 
 </style>
@@ -281,11 +289,7 @@ const store = useStore();
 const activeMenu = ref('/');
 
 const videos = ref();
-const followNums = 10
-const fanNums = 10
-const likeNums = 10
-const userId = 1011
-const userAge = 23
+
 
 const clickvideo = (index) => {
   activeMenu.value = index;

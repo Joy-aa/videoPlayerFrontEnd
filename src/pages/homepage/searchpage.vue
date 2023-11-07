@@ -7,14 +7,14 @@
         <el-tab-pane style="font-size: 16px" label="视频" name="first">
           <el-row>
             <!-- 四个视频-->
-            <div v-for="(video, index) in store.state.relatedvideos" :key="index" :style="{ height: store.state.heights.at(index) + 80 + 'px' }" class="video-item">
+            <div v-for="(video, index) in store.state.relatedvideos" class="video-item" :key="index">
 
                 <div class="video-content">
                   <div class="video-info">
                     <router-link :to="`/videopage/${video.videoId}/${index}`">
-                      <video :src="video.videoPath" autoplay="autoplay"  :style="{ height: store.state.heights.at(index) + 'px' }" controls width="285"></video>
+                      <img class="pageshot-info" :src="video.pageshot" alt="loading fail">
                     </router-link>
-                    <p style="margin-top: 0px;margin-left: 8px;font-size: 15px;color: lightgrey">{{video.videoName}}</p>
+                    <p style="margin-top: 0px;margin-left: 8px;font-size: 15px;color: lightgrey">{{video.videoName.substring(0, 35) + "..."}}</p>
                     <el-row style="margin-top: -25px;margin-left: 8px">
                       <p style="font-size: 14px;color: lightgrey">@{{ video.username }}</p>
                       <p style="margin-left: 20px;font-size: 14px;color: lightgrey">· {{ formatMsgTime(video.createTime) }}</p>
@@ -209,7 +209,7 @@
                 <div class="user-content">
                   <div class="user-info">
                     <el-row align="middle">
-                      <router-link :to="`/userpage/${user.id}`">
+                      <router-link :to="`/userpage/${user.userId}`">
                         <el-image :src="user.headshot" class="avatar"> </el-image>
                       </router-link>
                       <p style="color:lightgrey;margin-left: 3%">{{ user.username }}</p>
@@ -237,10 +237,10 @@
 </template>
 
 <style scoped>
-.video-container {
+.search-container {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between; /* 水平排列，四列 */
+  justify-content: flex-start; /* 水平排列，四列 */
   /*border-radius: 10%;*/
   /*margin: 0px; !* 为了填充每个video-item之间的空间，-8px 是 margin 的负值 *!*/
 }
@@ -252,6 +252,7 @@
   flex: 0 1 calc(25%); /* 四个一行，每个占 25% 的宽度，16px 是 margin 的值 */
   /*margin: 0px;*/
   border-radius: 10%;
+  margin-top: 10px;
 }
 .avatar {
   width: 60px;
@@ -264,15 +265,19 @@
   /*position: absolute;*/
   /*top: 20px; !* 调整顶部距离 *!*/
   /*right: 20px; !* 调整右边距离 *!*/
-  width: 285px; /* 调整矩形的宽度 */
-  /*height: 560px; !* 调整矩形的高度 *!*/
+  /*width: 300px; !* 调整矩形的宽度 *!*/
+  height: 400px; /* 调整矩形的高度 */
   background-color: #475669; /* 背景颜色 */
-  border-radius: 8px; /* 圆角半径 */
+  border-radius: 15px; /* 圆角半径 */
   /*padding: 10px; !* 内边距，用于放置文本 *!*/
   margin-left: 20px;
-  margin-bottom: 15px;
+  margin-bottom: 30px;
   /*color: #fff; !* 文本颜色 *!*/
   /*font-size: 12px; !* 文本大小 *!*/
+}
+.pageshot-info {
+  width: 100%;
+  height: 300px;
 }
 .video-content {
   position: relative;
