@@ -61,12 +61,9 @@
 │      index.html  
 │
 └─src  
-│  App.vue  
-│  background.jpg  
+│  App.vue   
 │  main.ts  
 │  shims-vue.d.ts  
-│  temp.vue  
-│  test.vue  
 │
 ├─api  
 │      index.js   
@@ -74,24 +71,14 @@
 │      test.js  
 │
 ├─assets
-│  │  algorithm.jpg
-│  │  algorithm2.jpg
 │  │  back.png
-│  │  background.jpg
-│  │  background1 - 副本.jpg
-│  │  background1.jpg
-│  │  background2.jpg
-│  │  background3.jpg
-│  │  background4.jpg
 │  │  banner.jpg
-│  │  cifar_aside.jpg
 │  │  img.png
 │  │  OIP.jpg
 │  │  qiniu.jpg
 │  │  qiniulogo.jpg
 │  │  qiniuyun.png
 │  │  script.js
-│  │  tool.jpg
 │  │  WeChat_20231025161539.mp4
 │  │
 │  └─css
@@ -105,89 +92,15 @@
 │  ├─homepage
 │  │  │  homepage.vue
 │  │  │  notloginuserpage.vue
-│  │  │  README.md
 │  │  │  searchpage.vue
 │  │  │  style.css
 │  │  │  userpage.vue
 │  │  │  videopage.vue
 │  │  │
 │  │  └─assets
-│  │          1.png
-│  │          3.png
 │  │          404.png
-│  │          admin.jpg
-│  │          agriculture.jpg
-│  │          agriculture_back.jpg
 │  │          banner.jpg
-│  │          crane_back.jpg
-│  │          crane_detection.jpg
-│  │          dataset.jpg
-│  │          deploy.jpg
-│  │          edu-em.jpg
 │  │          edu-ts.jpg
-│  │          education.jpg
-│  │          education_back.jpg
-│  │          en-em.jpg
-│  │          en-ts.jpg
-│  │          enterprise.jpg
-│  │          enterprise_back.jpg
-│  │          estate-em1.jpg
-│  │          estate-em2.jpg
-│  │          estate.jpg
-│  │          estate_back.jpg
-│  │          ex-fc.jpg
-│  │          ex-fd.jpg
-│  │          ex-fgir.jpg
-│  │          ex-ic.jpg
-│  │          ex-is.jpg
-│  │          ex-mkia.jpg
-│  │          ex-od.jpg
-│  │          ex-sg.jpg
-│  │          ex-ts.jpg
-│  │          fac-em.jpg
-│  │          fac-ic.jpg
-│  │          fac-ob.jpg
-│  │          factory.jpg
-│  │          factory_back.jpg
-│  │          fence_back.jpg
-│  │          fence_detection.jpg
-│  │          financial.jpg
-│  │          financial_back.jpg
-│  │          flow_back.jpg
-│  │          gan.jpeg
-│  │          gan.jpg
-│  │          general.jpg
-│  │          general_back.jpg
-│  │          generate.jpg
-│  │          gov-em1.jpg
-│  │          gov-em2.jpg
-│  │          gov-em3.jpg
-│  │          government.jpg
-│  │          government_back.jpg
-│  │          head.jpg
-│  │          health-em.jpg
-│  │          health-is.jpg
-│  │          health-ts.jpg
-│  │          healthcare.jpg
-│  │          healthcare_back.jpg
-│  │          helmet_back.jpg
-│  │          helmet_detection.jpg
-│  │          info-em.jpg
-│  │          info-ts.jpg
-│  │          information.jpg
-│  │          information_back.jpg
-│  │          more.jpg
-│  │          neural_style.jpg
-│  │          plus.png
-│  │          QRcode.png
-│  │          retail-em.jpg
-│  │          retail-od.jpg
-│  │          retail.jpg
-│  │          retail_back.jpg
-│  │          task.jpg
-│  │          test.jpg
-│  │          test_res.jpg
-│  │          train.jpg
 │  │
 │  ├─loginIn
 │  │  │  login.vue
@@ -198,17 +111,8 @@
 │  │          verificationCode.vue
 │  │          verificationEmail.vue
 │  │
-│  ├─user
-│  │      AdminInfo.vue
-│  │      README.md
-│  │
-│  └─UserQuery
-│      │  UserImgclassification.vue
-│      │  UserImgsegmentation.vue
-│      │  UserQuery.vue
-│      │
-│      └─components
-│              UserimgPreviewer.vue
+│  └─user
+│        AdminInfo.vue
 │
 ├─router
 │      index.ts
