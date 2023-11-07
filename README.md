@@ -124,6 +124,7 @@ you can click https://github.com/Joy-aa/videoPlayerFrontEnd/blob/main/README_CN.
   <li><a href="https://cn.vuejs.org/">Vue.js</a></li>
   <li><a href="https://www.sass.hk/">SASS</a></li>
   <li><a href="https://element-plus.org/zh-CN/">Element UI</a></li>
+  <li><a href="https://vuex.vuejs.org/">VueX</a></li>
 </ul>
 
 <!-- Features -->
@@ -135,9 +136,11 @@ you can click https://github.com/Joy-aa/videoPlayerFrontEnd/blob/main/README_CN.
 - Home page
     * Content classification: Video content classification page, such as popular videos and sports channels.
     * Video framing: video cover display.
+    * Video info display.
 - Search
     * Enter keywords in the search bar to find specific videos, users.
       The search results will display relevant videos and relevant users.
+    * Follow/Unfollow related users.
 - Upload video
     * Upload your homemade short video.
     * Add an introduction and label.
@@ -152,6 +155,7 @@ you can click https://github.com/Joy-aa/videoPlayerFrontEnd/blob/main/README_CN.
     * Follow other users.
     * View Like, Comments, Share, Star of videos.
     * Like, Comments, Share, Star the video.
+    * Like comments of videos.
 
 <!-- Prerequisites -->
 ### :bangbang: Prerequisites
@@ -203,11 +207,11 @@ See `README.md` for ways to get started.
 <!-- Contact -->
 ## :handshake: Contact
 
-Yuxin Wang - 22251259@qq.com
+Yuxin Wang - 22251259@zju.edu.cn
 
-Jia Wang -
+Jia Wang - 22251277@zju.edu.cn
 
-Xinyuan Cheng -
+Xinyuan Cheng - 22251133@zju.edu.cn
 
 Project Link: [https://github.com/Joy-aa/videoPlayerFrontEnd](https://github.com/Joy-aa/videoPlayerFrontEnd)
 
