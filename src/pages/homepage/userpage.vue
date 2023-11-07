@@ -1257,8 +1257,11 @@ async function getuser(userId) {
       .get("/user/findUserUpdatHeadShot", {params: p})
       .then(res => {
         // console.log(res)
-        if(res.data.code != 1)
+        if(res.data.code != 1) {
           userInfo.value = res.data.data
+          store.commit("setHeadshot", userInfo.value.headshot)
+        }
+
       })
       .catch(err => {
         console.log(err)
