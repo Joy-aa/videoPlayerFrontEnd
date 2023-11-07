@@ -167,7 +167,7 @@ Please refer to https://github.com/Joy-aa/videoPlayerBackEnd/README.md
 ## 	:toolbox: Getting Started
 
 Before starting, ensure that you have installed Node.js and NPM.
-You can find it on the [Node.js official website]（ https://nodejs.org/ ）Download and install them from.
+You can find it on the [Node.js official website]( https://nodejs.org/)Download and install them from.
 
 Clone the project
 
