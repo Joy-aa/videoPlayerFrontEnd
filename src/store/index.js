@@ -7,10 +7,11 @@ const store = createStore({
         },
         loginOut(state){
             state.isAut=false
-            localStorage.removeItem("username")
+            // localStorage.removeItem("username")
             state.access=-1
-            localStorage.removeItem("access")
-            localStorage.removeItem("email")
+            // localStorage.removeItem("access")
+            // localStorage.removeItem("email")
+            localStorage.clear()
         },
         getAut(state){
             // console.log("getAut", state.isAut)

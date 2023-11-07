@@ -36,11 +36,13 @@
             </div>
           </el-row>
 
-          <div class="xgplayer-setting-label">
-            <button aria-checked="true" class="xg-switch" aria-labelledby="xg-switch-pip" type="button">
+          <div class="xgplayer-setting-label" @click="getWaterMarkVideo(videoInfo.videoId)">
+            <button aria-checked="true" class="xg-switch" aria-labelledby="xg-switch-pip" type="button" 
+            :style="{ backgroundColor : (whichvideo.isWater ? 'hotpink' : 'rgba(229,229,234,.9)'), 
+            transform: (whichvideo.isWater ? 'rotate(180deg)' : 'rotate(0deg)')}">
               <span class="xg-switch-inner"></span>
             </button>
-            <span class="xgplayer-setting-title">高清</span>
+            <span class="xgplayer-setting-title">水印</span>
           </div>
         </div>
 
@@ -911,7 +913,7 @@ textarea {
   fill: #fff;
   font: inherit;
   font-feature-settings: "tnum";
-  background-color: rgba(229,229,234,.9);
+  /* background-color: rgba(229,229,234,.9); */
   /* background-color: hotpink; */
   border: 1px solid transparent;
   border-radius: 50px;
@@ -1037,6 +1039,14 @@ import { useRoute, useRouter } from 'vue-router';
 import clipboard from 'clipboard';
 
 const qiniu = require('qiniu-js');
+
+// const key = "IMG_0089.JPG"
+// const domain = 'http://s3pdkrdb8.hd-bkt.clouddn.com'
+
+// qiniu.imageInfo(key, domain).then(res => {
+//   console.log(res)
+// })
+
 
 const videos = JSON.parse(localStorage.getItem('videos'))
 console.log('当前所有视频列表', videos)
@@ -1217,32 +1227,35 @@ async function getvideo(videoId) {
 getvideo(route.params.videoid)
 
 function addHistory(userId, videoId) {
-  // 获取当前时间
-  const now = new Date();
-  // 格式化时间
-  const year = now.getFullYear();
-  const month = now.getMonth() + 1;
-  const day = now.getDate();
-  const hour = now.getHours();
-  const minute = now.getMinutes();
-  const second = now.getSeconds();
-  const currentTime = `${year}-${month >= 10 ? month : '0' + month}-${day >= 10 ? day : '0' + day} ${hour >= 10 ? hour : '0' + hour}:${minute >= 10 ? minute : '0' + minute}:${second >= 10 ? second : '0' + second}`;
-  // console.log(currentTime)
+  if(userId != null) {
+    // 获取当前时间
+    const now = new Date();
+    // 格式化时间
+    const year = now.getFullYear();
+    const month = now.getMonth() + 1;
+    const day = now.getDate();
+    const hour = now.getHours();
+    const minute = now.getMinutes();
+    const second = now.getSeconds();
+    const currentTime = `${year}-${month >= 10 ? month : '0' + month}-${day >= 10 ? day : '0' + day} ${hour >= 10 ? hour : '0' + hour}:${minute >= 10 ? minute : '0' + minute}:${second >= 10 ? second : '0' + second}`;
+    // console.log(currentTime)
 
-  let requestData = new FormData();
-  requestData.append('userId', userId)
-  requestData.append('videoId', videoId)
-  requestData.append('watchTime', currentTime)
+    let requestData = new FormData();
+    requestData.append('userId', userId)
+    requestData.append('videoId', videoId)
+    requestData.append('watchTime', currentTime)
 
-  request
-  .post("/history/add", requestData)
-  .then(res => {
-    if(res.data.code == 0)
-      console.log("已添加一条历史记录")
-  })
-  .catch(err => {
-    console.log(err)
-  })
+    request
+    .post("/history/add", requestData)
+    .then(res => {
+      if(res.data.code == 0)
+        console.log("已添加一条历史记录")
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  }
+  
 }
 
 const relation = reactive({
@@ -1251,54 +1264,63 @@ const relation = reactive({
 })
 
 function isFollow(currentUserId, videoUserId) {
-  const p = {
-    userid1: currentUserId,
-    userid2: videoUserId,
-  }
-  request
-    .get("/relation/findRelation", { params: p })
-    .then(res => {
-      if (res.data.code == 1 || res.data.code == 2) {
-        console.log(p)
-        console.log(res.data.msg)
-      }
-      else {
-        if (res.data.code == 3) {
-          if (currentUserId == videoUserId)
-            relation.nofollow = false
+  if(currentUserId != null) {
+    const p = {
+      userid1: currentUserId,
+      userid2: videoUserId,
+    }
+    request
+      .get("/relation/findRelation", { params: p })
+      .then(res => {
+        if (res.data.code == 1 || res.data.code == 2) {
+          console.log(p)
+          console.log(res.data.msg)
         }
         else {
-          const relationdata = res.data.data
-          if (relationdata.relation.kind == 0)
-            relation.nofollow = false
+          if (res.data.code == 3) {
+            if (currentUserId == videoUserId)
+              relation.nofollow = false
+          }
+          else {
+            const relationdata = res.data.data
+            if (relationdata.relation.kind == 0)
+              relation.nofollow = false
+          }
         }
-      }
-    })
-    .catch(err => {
-      console.log(err)
-    })
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }
 }
 
 function addFollow(currentUserId, videoUserId) {
-  let requestData = new FormData();
-  requestData.append('userid1', currentUserId)
-  requestData.append('userid2', videoUserId)
-  requestData.append('kind', 0)
-  request
-    .post("/relation/addRelation", requestData)
-    .then(res => {
-      if (res.data.code == 1)
-        console.log(res.data.msg)
-      else {
-        const relationdata = res.data.data
-        // console.log(relationdata)
-        if (relationdata.relation.kind == 0)
-          relation.nofollow = false
-      }
-    })
-    .catch(err => {
-      console.log(err)
-    })
+  if(currentUserId == null) {
+    alert("请登录！")
+    router.push("/signin")
+  }
+  else {
+    let requestData = new FormData();
+    requestData.append('userid1', currentUserId)
+    requestData.append('userid2', videoUserId)
+    requestData.append('kind', 0)
+    request
+      .post("/relation/addRelation", requestData)
+      .then(res => {
+        if (res.data.code == 1)
+          console.log(res.data.msg)
+        else {
+          const relationdata = res.data.data
+          // console.log(relationdata)
+          if (relationdata.relation.kind == 0)
+            relation.nofollow = false
+        }
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }
+  
 }
 
 const test = reactive({
@@ -1310,13 +1332,13 @@ const changeFold = () => {
 }
 
 async function switchPreVideo(index) {
-  await router.push("/videopage/" + videos[parseInt(index) - 1].videoId + '/' + (index - 1));
+  await router.push("/videopage/" + videos[parseInt(index) - 1].videoId + '/' + (parseInt(index) - 1));
   test.fold = false
   getvideo(route.params.videoid)
 }
 
 async function switchNextVideo(index) {
-  await router.push("/videopage/" + videos[parseInt(index) + 1].videoId + '/' + (index + 1));
+  await router.push("/videopage/" + videos[parseInt(index) + 1].videoId + '/' + (parseInt(index) + 1));
   test.fold = false
   getvideo(route.params.videoid)
 }
@@ -1354,7 +1376,8 @@ function starbuttoncolor(flag) {
 }
 
 async function isStar(userId, videoId) {
-  let starRes = {}
+  if(userId != null) {
+    let starRes = {}
   let requestData = new FormData();
   requestData.append('userId', userId)
   requestData.append('videoId', videoId)
@@ -1369,68 +1392,76 @@ async function isStar(userId, videoId) {
       console.log(err)
     })
   return starRes;
+  }
+  else return null
 }
 
 async function starvideo(userId, videoId) {
   let starRes = await isStar(userId, videoId);
-  // console.log(starRes)
-  let requestData = new FormData();
-  requestData.append('userId', userId)
-  requestData.append('videoId', videoId)
-  // 已收藏，再点击则为取消收藏
-  if (starRes.code == 0) {
-    videoInfo.value.starNum -= 1
-    starbuttoncolor(1)
-    let requestData1 = new FormData();
-    requestData1.append('starId', starRes.data.star.starId)
-    request
-      .post("/star/delete", requestData1)
-      .then(res => {
-        if (res.data.code == 0) {
-          starbuttoncolor(res.data.code != 0 ? 0 : 1)
-          request
-            .post("/video/subStarNum", requestData)
-            .then(res => {
-              if (res.data.code == 0)
-                videoInfo.value.starNum = res.data.data.starNum
-              else
-                console.log(res)
-            })
-            .catch(err => {
-              console.log(err)
-            })
-        }
-      })
-      .catch(err => {
-        console.log(err)
-      })
+  if(starRes == null) {
+    alert("请登录！")
+    router.push("/signin")
   }
-  // 未收藏，再点击则是添加收藏
   else {
-    videoInfo.value.starNum += 1
-    starbuttoncolor(0)
-    request
-      .post("/star/add", requestData)
-      .then(res => {
-        if (res.data.code == 0) {
-          starbuttoncolor(res.data.code)
-          request
-            .post("/video/addStarNum", requestData)
-            .then(res => {
-              if (res.data.code == 0)
-                videoInfo.value.starNum = res.data.data.starNum
-              else
-                console.log(res)
-            })
-            .catch(err => {
-              console.log(err)
-            })
-        }
-      })
-      .catch(err => {
-        console.log(err)
-      })
+    let requestData = new FormData();
+    requestData.append('userId', userId)
+    requestData.append('videoId', videoId)
+    // 已收藏，再点击则为取消收藏
+    if (starRes.code == 0) {
+      videoInfo.value.starNum -= 1
+      starbuttoncolor(1)
+      let requestData1 = new FormData();
+      requestData1.append('starId', starRes.data.star.starId)
+      request
+        .post("/star/delete", requestData1)
+        .then(res => {
+          if (res.data.code == 0) {
+            starbuttoncolor(res.data.code != 0 ? 0 : 1)
+            request
+              .post("/video/subStarNum", requestData)
+              .then(res => {
+                if (res.data.code == 0)
+                  videoInfo.value.starNum = res.data.data.starNum
+                else
+                  console.log(res)
+              })
+              .catch(err => {
+                console.log(err)
+              })
+          }
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    }
+    // 未收藏，再点击则是添加收藏
+    else {
+      videoInfo.value.starNum += 1
+      starbuttoncolor(0)
+      request
+        .post("/star/add", requestData)
+        .then(res => {
+          if (res.data.code == 0) {
+            starbuttoncolor(res.data.code)
+            request
+              .post("/video/addStarNum", requestData)
+              .then(res => {
+                if (res.data.code == 0)
+                  videoInfo.value.starNum = res.data.data.starNum
+                else
+                  console.log(res)
+              })
+              .catch(err => {
+                console.log(err)
+              })
+          }
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    }
   }
+  
 }
 
 function forwardvideo(videoId) {
@@ -1637,6 +1668,43 @@ async function addcomment(userId, videoId) {
 
 const clearinput = () => {
   userinputcomment.value = ''
+}
+
+const whichvideo = reactive({
+  isWater : false,
+  old: videoInfo.value.videoPath,
+  new: ''
+})
+
+function getWaterMarkVideo(videoId) {
+  whichvideo.isWater = !whichvideo.isWater
+  if(whichvideo.new.trim() != '') {
+    if(whichvideo.isWater)
+      videoInfo.value.videoPath = whichvideo.new
+    else
+      videoInfo.value.videoPath = whichvideo.old
+  }
+  else {
+    let requestData = new FormData();
+    requestData.append('videoId', videoId)
+    request
+    .post("/video/getWaterVideoUrl", requestData)
+    .then(res => {
+      console.log("获取成功",res)
+      if(res.data.code == 0) {
+        whichvideo.new = res.data.data
+        videoInfo.value.videoPath = whichvideo.new
+        whichvideo.isWater = true
+      }
+      else
+        whichvideo.isWater = false
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  }
+  
+ 
 }
 
 import Emoji from "@/components/emoji.vue";
