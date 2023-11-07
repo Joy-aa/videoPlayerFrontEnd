@@ -1,3 +1,7 @@
+
+Project DEMO video address: 
+[Click to jump to the project DEMO video](https://emailncueducn-my.sharepoint.com/:f:/g/personal/5904118068_email_ncu_edu_cn/EqshfeoLXHhMoaIsOlkJUUIBQEmRyWRRMSKpgvh4CbYMdQ?e=JoLLxf)
+
 For Chinese README.md,
 you can click https://github.com/Joy-aa/videoPlayerFrontEnd/blob/main/README.md
 
