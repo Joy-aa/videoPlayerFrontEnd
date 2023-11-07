@@ -358,7 +358,7 @@ async function log_out(){
     console.log(err);
     console.log("logout error");
   });
-  Cookies.remove("userTicket")
+  await Cookies.remove("userTicket")
   router.push("/homepage")
   // location.reload()  //刷新当前页面
   // window.location.reload();
