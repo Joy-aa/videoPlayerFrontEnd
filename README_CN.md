@@ -165,7 +165,7 @@
 <!-- 开始 -->
 ## 	:toolbox: 开始
 
-在开始之前，请确保已安装Node.js和NPM。你可以在[Node.js官方网站]上找到它（https://nodejs.org/），下载并安装它们。
+在开始之前，请确保已安装Node.js和NPM。你可以在[Node.js官方网站](https://nodejs.org/)上找到它，下载并安装它们。
 
 克隆项目到本地
 
