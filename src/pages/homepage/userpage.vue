@@ -44,12 +44,12 @@
       <button @click="openModal" class="GIg8IFtS" style="margin-bottom: 10%">修改资料</button>
       <div v-if="showModal" class="edit-modal">
         <div class="modal-content1">
-          <div class = "close-button">
-            <svg width="36" height="36" fill="none" xmlns="http://www.w3.org/2000/svg" class="" viewBox="0 0 36 36" @click="closeModal">
-              <path d="M24.601 24.6a1.362 1.362 0 01-1.927 0L18.5 20.427l-4.174 4.175a1.362 1.362 0 01-1.927-1.927l4.174-4.174-4.174-4.175a1.362 1.362 0 011.927-1.926l4.174 4.174 4.174-4.174a1.362 1.362 0 111.927 1.927L20.427 18.5l4.174 4.174a1.362 1.362 0 010 1.927z" fill="#fff" fill-opacity="0.8"></path>
-            </svg>
-            <!--            <button  @click="closeModal" >x</button>-->
-          </div>
+<!--          <div class = "close-button">-->
+<!--            <svg width="36" height="36" fill="none" xmlns="http://www.w3.org/2000/svg" class="" viewBox="0 0 36 36" @click="closeModal">-->
+<!--              <path d="M24.601 24.6a1.362 1.362 0 01-1.927 0L18.5 20.427l-4.174 4.175a1.362 1.362 0 01-1.927-1.927l4.174-4.174-4.174-4.175a1.362 1.362 0 011.927-1.926l4.174 4.174 4.174-4.174a1.362 1.362 0 111.927 1.927L20.427 18.5l4.174 4.174a1.362 1.362 0 010 1.927z" fill="#fff" fill-opacity="0.8"></path>-->
+<!--            </svg>-->
+<!--            &lt;!&ndash;            <button  @click="closeModal" >x</button>&ndash;&gt;-->
+<!--          </div>-->
 
           <h3  style="color: white; margin-left: 45px;">编辑资料</h3>
           <!--            修改头像-->
@@ -1257,8 +1257,11 @@ async function getuser(userId) {
       .get("/user/findUserUpdatHeadShot", {params: p})
       .then(res => {
         // console.log(res)
-        if(res.data.code != 1)
+        if(res.data.code != 1) {
           userInfo.value = res.data.data
+          store.commit("setHeadshot", userInfo.value.headshot)
+        }
+
       })
       .catch(err => {
         console.log(err)
