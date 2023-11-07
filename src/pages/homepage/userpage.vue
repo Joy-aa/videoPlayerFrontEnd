@@ -883,10 +883,12 @@ h2.OdX5EIvH {
   margin-right: 10px;
 }
 
-.video-cover
-{ width: 100%;
-  height: 0;
-  padding-bottom: 177.77%;
+.video-cover {
+  //width: 100%;
+  //height: 0;
+  //padding-bottom: 177.77%;
+  height: 400px;
+  width: 225px;
   /* 控制封面图片的宽高比例，例如16:9的比例为56.25% */
   position: relative;
   border-radius: 10px;
