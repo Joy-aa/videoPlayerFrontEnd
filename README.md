@@ -1,3 +1,7 @@
+For Chinese README.md,
+you can click https://github.com/Joy-aa/videoPlayerFrontEnd/README_CN.md
+
+
 <div align="center">
 
   <h1>QNY-FrontEnd</h1>
@@ -6,7 +10,6 @@
     An online video website using Qiniu Cloud storage and video framing technology! 
   </p>
 
-
 <!-- Badges -->
 
 </div>
@@ -14,6 +17,7 @@
 <br />
 
 <!-- Table of Contents -->
+
 # :notebook_with_decorative_cover: Table of Contents
 
 - [About the Project](#star2-about-the-project)
