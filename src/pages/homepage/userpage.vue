@@ -219,7 +219,7 @@
                       </g>
                     </svg>
                   </div>
-                  <p style="margin-top: 7px;font-size: 12px;color: grey">{{video.likeNum}}</p>
+                  <p style="font-size: 12px;color: grey">{{video.likeNum}}</p>
                   <div class="commentbutton" style="margin-left: 5px;width: 30px;height: 30px">
                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 100 100" width="99" height="99" preserveAspectRatio="xMidYMid meet" style="width: 100%; height: 100%; transform: translate3d(0px, 0px, 0px); content-visibility: visible;">
                       <g clip-path="url(#__lottie_element_1416)">
@@ -237,7 +237,7 @@
                       </g>
                     </svg>
                   </div>
-                  <p style="margin-top: 7px;font-size: 12px;color: grey">{{video.shareNum}}</p>
+                  <p style="font-size: 12px;color: grey">{{video.shareNum}}</p>
                   <div class="starbutton" style="margin-left: 5px;width: 30px;height: 30px">
                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-2 0 105 105" width="99" height="99" preserveAspectRatio="xMidYMid meet" style="width: 100%; height: 100%; transform: translate3d(0px, 0px, 0px); content-visibility: visible;">
                       <g clip-path="url(#__lottie_element_1421)">
@@ -328,7 +328,7 @@
                       </g>
                     </svg>
                   </div>
-                  <p style="margin-top: 7px;font-size: 12px;color: grey">{{video.starNum}}</p>
+                  <p style="font-size: 12px;color: grey">{{video.starNum}}</p>
                 </el-row>
               </div>
             </div>
@@ -1115,7 +1115,7 @@ h2.OdX5EIvH {
   flex: 0 1 calc(25%); /* 四个一行，每个占 25% 的宽度，16px 是 margin 的值 */
   /*margin: 0px;*/
   border-radius: 10%;
-  margin-top: 10px;
+  //margin-top: 10px;
 }
 
 .video-info {
@@ -1123,7 +1123,7 @@ h2.OdX5EIvH {
   /*top: 20px; !* 调整顶部距离 *!*/
   /*right: 20px; !* 调整右边距离 *!*/
   /*width: 300px; !* 调整矩形的宽度 *!*/
-  height: 450px; /* 调整矩形的高度 */
+  height: 400px; /* 调整矩形的高度 */
   background-color: #475669; /* 背景颜色 */
   border-radius: 15px; /* 圆角半径 */
   /*padding: 10px; !* 内边距，用于放置文本 *!*/
@@ -1327,6 +1327,7 @@ async function getuserhistotyvideos(userId){
 const resetVideoInfo = () =>{
   videoInfo.value = null;
 };
+getusersvideos(userId);
 async function handleMenuSelect(index) {
   console.log(index);
 
