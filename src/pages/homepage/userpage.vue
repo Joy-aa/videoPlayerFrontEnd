@@ -1219,30 +1219,41 @@ const handleFileChange = (event) => {
   isHeadImageChosed.value = true;
   // console.log(event.target);
 };
-
+let isover = ref(false)
 const observer = {
-  next(res){
-    // ...
+  next(res) {
+    console.log(res)
+    // if(JSON.parse(res).total.percent > 90)
+    //   isover.value = true
   },
-  error(err){
-    // ...
+  error(err) {
+    // handle error
   },
-  complete(res){
-    // ...
-  }
+  complete(res) {
+    console.log(res)
+    if(res != null)
+      isover.value = true
+  },
+};
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
 }
 // 上传头像到七牛云服务器中，其中头像以 userid命名。
 async function uploadVideo(newheadshot,fileName){
   let token = ''
   await request.post("/video/getHeadShotToken").then(res => {token = res.data})
-
-
   var key = fileName;
   console.log(key);
   const observable = qiniu.upload(newheadshot,key,token)
   const subscription = observable.subscribe(observer)
-  console.log(subscription)
+  while(!isover.value) {
+    console.log(isover.value)
+    observer.next()
+    observer.complete()
+    await sleep(1000); // 等待1秒钟（1000毫秒）
 
+  }
+  console.log("out!!!!!")
 }
 // 开始写js
 
