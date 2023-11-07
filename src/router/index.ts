@@ -55,7 +55,7 @@ const routes = [
     },
     {
         path: '/userpage/:userid',
-        component: userpage
+        component: userpage,
     },
     {
         path: '/notloginpage/',

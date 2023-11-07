@@ -262,9 +262,14 @@ async function searchbuttonclick() {
   router.push("/searchpage")
 }
 
-function clickuserinfo() {
+async function clickuserinfo() {
   isOptionsVisible.value = false
-  router.push("/userpage/" + localStorage.getItem("currentUserId"))
+  store.commit("setSearchId", localStorage.getItem("currentUserId"))
+  console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaa")
+  console.log(store.state.searchId)
+  await router.push("/userpage/" + localStorage.getItem("currentUserId"))
+  // getuser(store.state.searchId)
+  // location.reload(true)
 }
 
 function click_avatar() {
